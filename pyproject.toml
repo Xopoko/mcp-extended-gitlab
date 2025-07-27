@@ -1,0 +1,38 @@
+[project]
+name = "mcp-extended-gitlab"
+version = "0.1.0"
+description = "Comprehensive MCP server for GitLab REST API"
+authors = [
+    {name = "MCP Extended GitLab", email = "example@example.com"}
+]
+dependencies = [
+    "fastmcp>=0.1.0",
+    "httpx>=0.25.0",
+    "pydantic>=2.0.0",
+    "python-dotenv>=1.0.0",
+]
+requires-python = ">=3.9"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+select = ["E", "F", "W", "I", "N", "UP", "B", "A", "C4", "SIM"]
+
+[project.scripts]
+mcp-extended-gitlab = "mcp_extended_gitlab.server:main"
