@@ -35,8 +35,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def list_wiki_pages(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        with_content: Optional[bool] = Field(default=False, description="Include page content in response")
-    ) -> Dict[str, Any]:
+        with_content: Optional[bool] = Field(default=False, description="Include page content in response")) -> Dict[str, Any]:
         """List all wiki pages."""
         client = await get_gitlab_client()
         params = {}
@@ -49,8 +48,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         slug: str = Field(description="URL-encoded slug (a unique string) of the wiki page"),
         version: Optional[str] = Field(default=None, description="Wiki page version sha"),
-        render_html: Optional[bool] = Field(default=False, description="Return the rendered HTML of the wiki page")
-    ) -> Dict[str, Any]:
+        render_html: Optional[bool] = Field(default=False, description="Return the rendered HTML of the wiki page")) -> Dict[str, Any]:
         """Get a wiki page."""
         client = await get_gitlab_client()
         params = {}
@@ -67,8 +65,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         title: str = Field(description="The title of a wiki page"),
         content: str = Field(description="The content of a wiki page"),
-        format: Optional[str] = Field(default="markdown", description="The format of the wiki page. Available formats are: markdown (default), rdoc, asciidoc and org")
-    ) -> Dict[str, Any]:
+        format: Optional[str] = Field(default="markdown", description="The format of the wiki page. Available formats are: markdown (default), rdoc, asciidoc and org")) -> Dict[str, Any]:
         """Create a new wiki page."""
         client = await get_gitlab_client()
         data = {
@@ -84,8 +81,7 @@ def register(mcp: FastMCP):
         slug: str = Field(description="URL-encoded slug (a unique string) of the wiki page"),
         title: Optional[str] = Field(default=None, description="The title of a wiki page"),
         content: Optional[str] = Field(default=None, description="The content of a wiki page"),
-        format: Optional[str] = Field(default=None, description="The format of the wiki page")
-    ) -> Dict[str, Any]:
+        format: Optional[str] = Field(default=None, description="The format of the wiki page")) -> Dict[str, Any]:
         """Edit an existing wiki page."""
         client = await get_gitlab_client()
         data = {}
@@ -101,8 +97,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def delete_wiki_page(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        slug: str = Field(description="URL-encoded slug (a unique string) of the wiki page")
-    ) -> Dict[str, Any]:
+        slug: str = Field(description="URL-encoded slug (a unique string) of the wiki page")) -> Dict[str, Any]:
         """Delete a wiki page."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/wikis/{slug}")
@@ -111,8 +106,7 @@ def register(mcp: FastMCP):
     async def upload_attachment_to_wiki_repository(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         file_path: str = Field(description="Path to the file to upload"),
-        branch: Optional[str] = Field(default="master", description="The name of the branch")
-    ) -> Dict[str, Any]:
+        branch: Optional[str] = Field(default="master", description="The name of the branch")) -> Dict[str, Any]:
         """Upload an attachment to the wiki repository."""
         client = await get_gitlab_client()
         data = {}

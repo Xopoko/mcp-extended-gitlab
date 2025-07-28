@@ -36,8 +36,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         search: Optional[str] = Field(default=None, description="Return user lists with a name matching the search term"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List feature flag user lists for a project."""
         client = await get_gitlab_client()
         params = {}
@@ -54,8 +53,7 @@ def register(mcp: FastMCP):
     async def create_feature_flag_user_list(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         name: str = Field(description="The name of the user list"),
-        user_xids: str = Field(description="A comma separated list of user IDs")
-    ) -> Dict[str, Any]:
+        user_xids: str = Field(description="A comma separated list of user IDs")) -> Dict[str, Any]:
         """Create a feature flag user list."""
         client = await get_gitlab_client()
         data = {
@@ -67,8 +65,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_single_feature_flag_user_list(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        iid: str = Field(description="The internal ID of the user list")
-    ) -> Dict[str, Any]:
+        iid: str = Field(description="The internal ID of the user list")) -> Dict[str, Any]:
         """Get a single feature flag user list."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/feature_flags_user_lists/{iid}")
@@ -78,8 +75,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         iid: str = Field(description="The internal ID of the user list"),
         name: Optional[str] = Field(default=None, description="The name of the user list"),
-        user_xids: Optional[str] = Field(default=None, description="A comma separated list of user IDs")
-    ) -> Dict[str, Any]:
+        user_xids: Optional[str] = Field(default=None, description="A comma separated list of user IDs")) -> Dict[str, Any]:
         """Update a feature flag user list."""
         client = await get_gitlab_client()
         data = {}
@@ -94,8 +90,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def delete_feature_flag_user_list(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        iid: str = Field(description="The internal ID of the user list")
-    ) -> Dict[str, Any]:
+        iid: str = Field(description="The internal ID of the user list")) -> Dict[str, Any]:
         """Delete a feature flag user list."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/feature_flags_user_lists/{iid}")

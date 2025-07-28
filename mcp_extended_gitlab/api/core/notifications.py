@@ -59,8 +59,7 @@ def register(mcp: FastMCP):
         success_pipeline: Optional[bool] = Field(default=None, description="Enable/disable this notification"),
         moved_project: Optional[bool] = Field(default=None, description="Enable/disable this notification"),
         merge_when_pipeline_succeeds: Optional[bool] = Field(default=None, description="Enable/disable this notification"),
-        new_epic: Optional[bool] = Field(default=None, description="Enable/disable this notification")
-    ) -> Dict[str, Any]:
+        new_epic: Optional[bool] = Field(default=None, description="Enable/disable this notification")) -> Dict[str, Any]:
         """Update global notification settings."""
         client = await get_gitlab_client()
         data = {}
@@ -92,16 +91,14 @@ def register(mcp: FastMCP):
 
     @mcp.tool()
     async def get_group_notification_settings(
-        group_id: str = Field(description="The group ID or URL-encoded path")
-    ) -> Dict[str, Any]:
+        group_id: str = Field(description="The group ID or URL-encoded path")) -> Dict[str, Any]:
         """Get group notification settings."""
         client = await get_gitlab_client()
         return await client.get(f"/groups/{group_id}/notification_settings")
 
     @mcp.tool()
     async def get_project_notification_settings(
-        project_id: str = Field(description="The project ID or URL-encoded path")
-    ) -> Dict[str, Any]:
+        project_id: str = Field(description="The project ID or URL-encoded path")) -> Dict[str, Any]:
         """Get project notification settings."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/notification_settings")

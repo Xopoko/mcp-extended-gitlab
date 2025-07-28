@@ -14,16 +14,49 @@ MCP Extended GitLab enables AI agents to interact with GitLab programmatically t
 
 - **🔧 478 MCP Tools**: Complete implementation of GitLab's REST API endpoints
 - **🏗️ Built with FastMCP**: Leverages the powerful FastMCP framework for robust MCP server development
+- **🎛️ Tool Filtering**: Reduce context usage by enabling only the tools you need
 - **🔐 Secure Authentication**: Support for GitLab private tokens with configurable scopes
 - **⚡ Async Operations**: High-performance async HTTP client for efficient API calls
 - **🛡️ Error Handling**: Comprehensive error handling with detailed error messages
 - **📝 Type Safety**: Full Pydantic models for request/response validation
-- **🎯 Domain-Driven Architecture**: Tools organized into 43 focused modules across 8 logical domains
+- **🎯 Domain-Driven Architecture**: Tools organized into focused modules across 8 logical domains
 - **📦 Modular Design**: Easy to maintain, extend, and understand codebase structure
 
 ## 📦 Installation
 
-> **Note for Existing Users**: The project structure has been refactored for better organization. The API remains unchanged - all 478 tools work exactly as before. The only internal change is how modules are organized.
+
+### Using Docker (Recommended)
+
+#### Quick Install with Claude Code CLI
+
+```bash
+# One-liner installation
+claude mcp add gitlab-extended -- docker run -i --rm -e GITLAB_PRIVATE_TOKEN ghcr.io/yourusername/mcp-extended-gitlab
+
+# Set your GitLab token
+claude mcp update gitlab-extended -e GITLAB_PRIVATE_TOKEN=your_gitlab_token
+```
+
+#### Using Docker Compose
+
+For production deployments or development:
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/mcp-extended-gitlab.git
+cd mcp-extended-gitlab
+
+# Copy and configure environment variables
+cp .env.example .env
+# Edit .env and add your GITLAB_PRIVATE_TOKEN
+
+# Start the server
+docker-compose up -d
+```
+
+For detailed Docker setup instructions, see [DOCKER_SETUP.md](./DOCKER_SETUP.md).
+
+For installation in Claude applications (Claude Code CLI, Claude Desktop), see [INSTALLATION.md](./INSTALLATION.md).
 
 ### From Source
 
@@ -51,6 +84,39 @@ export GITLAB_PRIVATE_TOKEN="your_gitlab_private_token"
 
 # Optional: GitLab instance URL (defaults to gitlab.com)
 export GITLAB_BASE_URL="https://gitlab.com/api/v4"
+
+# Optional: Tool filtering to reduce context usage (478 tools can overwhelm Claude's context)
+export GITLAB_ENABLED_TOOLS="minimal"  # Use preset: minimal, core, ci_cd, devops, admin
+# Or specify tools explicitly:
+export GITLAB_ENABLED_TOOLS="list_projects,get_project,list_issues,create_issue"
+```
+
+### Tool Filtering (Recommended)
+
+With 478+ tools available, enabling all tools can consume significant context in Claude. Use tool filtering to enable only the tools you need:
+
+#### Available Presets
+
+- **`minimal`** (~15 tools): Essential operations only - projects, issues, merge requests
+- **`core`** (~80 tools): All core GitLab features - complete project management
+- **`ci_cd`** (~40 tools): Pipeline, job, runner, and CI/CD variable management
+- **`devops`** (~35 tools): Environments, deployments, feature flags, packages
+- **`admin`** (~25 tools): Administrative functions, system hooks, licenses
+
+#### Examples
+
+```bash
+# Use minimal preset for basic operations
+export GITLAB_ENABLED_TOOLS="minimal"
+
+# Use CI/CD preset for pipeline management
+export GITLAB_ENABLED_TOOLS="ci_cd"
+
+# Enable specific tools
+export GITLAB_ENABLED_TOOLS="list_projects,get_project,list_pipelines,get_pipeline"
+
+# Use JSON array format
+export GITLAB_ENABLED_TOOLS='["list_projects","create_issue","list_merge_requests"]'
 ```
 
 ### Generating a GitLab Token
@@ -220,7 +286,7 @@ deployment = await mcp_client.call_tool("create_deployment", {
 
 ### Project Structure
 
-The project has been refactored with a clean, domain-driven architecture that organizes 478+ tools into logical API modules:
+The project follows a clean, domain-driven architecture that organizes 478+ tools into logical API modules:
 
 ```
 mcp-extended-gitlab/
@@ -228,8 +294,9 @@ mcp-extended-gitlab/
 │   ├── __init__.py
 │   ├── server.py              # Main MCP server registration
 │   ├── client.py              # GitLab API client wrapper
+│   ├── filtered_mcp.py        # Tool filtering wrapper
+│   ├── tool_registry.py       # Tool presets and mappings
 │   └── api/                   # Organized API modules
-│       ├── README.md          # API structure documentation
 │       ├── core/              # Core GitLab functionality
 │       │   ├── __init__.py
 │       │   ├── projects.py    # Project management (30+ tools)
@@ -298,9 +365,10 @@ mcp-extended-gitlab/
 ### Key Components
 
 1. **GitLabClient**: Async HTTP client with authentication and error handling
-2. **Domain-Driven Modules**: 43 focused modules organized by functionality
+2. **Domain-Driven Modules**: Focused modules organized by functionality
 3. **FastMCP Integration**: Consistent tool registration pattern across all modules
 4. **Pydantic Models**: Type-safe parameter validation for all tools
+5. **FilteredMCP**: Dynamic tool filtering based on environment configuration
 
 ### Architecture Benefits
 
@@ -309,6 +377,7 @@ mcp-extended-gitlab/
 - **🔧 Consistent Pattern**: All modules follow the same structure
 - **📈 Scalable**: Easy to add new features in appropriate domains
 - **🧪 Maintainable**: Focused modules are easier to test and update
+- **⚡ Performance**: Tool filtering reduces context usage for better performance
 
 ## 🧪 Development
 
@@ -396,7 +465,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ### Recently Completed ✅
 
-- [x] **Architecture Refactoring**: Migrated from flat structure to domain-driven design with 43 focused modules
+- [x] **Architecture Refactoring**: Migrated from flat structure to domain-driven design with focused modules
+- [x] **Tool Filtering**: Added support for enabling only needed tools to reduce context usage
 - [x] **Improved Organization**: Tools now grouped into 8 logical domains for better discoverability
 - [x] **Consistent Patterns**: All modules follow the same structure and registration pattern
 

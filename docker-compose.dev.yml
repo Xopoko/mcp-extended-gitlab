@@ -1,0 +1,62 @@
+# Development Docker Compose for MCP Extended GitLab
+# 
+# NOTE: MCP servers run in stdio mode and cannot be used with docker-compose directly.
+# This file is for building and testing the Docker image only.
+# 
+# To use with Claude, follow the instructions in CLAUDE_SETUP.md
+
+services:
+  # Build and test the MCP server image
+  mcp-gitlab-test:
+    build: .
+    container_name: mcp-extended-gitlab-test
+    environment:
+      - GITLAB_BASE_URL=${GITLAB_BASE_URL:-https://gitlab.com/api/v4}
+      - GITLAB_PRIVATE_TOKEN=${GITLAB_PRIVATE_TOKEN:-test_token}
+      - GITLAB_ENABLED_TOOLS=${GITLAB_ENABLED_TOOLS:-minimal}
+    # Keep container running for testing
+    command: |
+      sh -c "
+        echo '🚀 MCP Extended GitLab - Docker Image Test';
+        echo '==========================================';
+        echo '';
+        echo '✅ Image built successfully!';
+        echo '';
+        echo 'To use with Claude Desktop, add to claude_desktop_config.json:';
+        echo '';
+        echo '{';
+        echo '  \"mcpServers\": {';
+        echo '    \"gitlab-extended\": {';
+        echo '      \"command\": \"docker\",';
+        echo '      \"args\": [';
+        echo '        \"run\", \"-i\", \"--rm\",';
+        echo '        \"-e\", \"GITLAB_PRIVATE_TOKEN\",';
+        echo '        \"-e\", \"GITLAB_BASE_URL\",';
+        echo '        \"-e\", \"GITLAB_ENABLED_TOOLS\",';
+        echo '        \"mcp-extended-gitlab:latest\"';
+        echo '      ],';
+        echo '      \"env\": {';
+        echo '        \"GITLAB_PRIVATE_TOKEN\": \"your_token\",';
+        echo '        \"GITLAB_BASE_URL\": \"https://gitlab.com/api/v4\",';
+        echo '        \"GITLAB_ENABLED_TOOLS\": \"core\"';
+        echo '      }';
+        echo '    }';
+        echo '  }';
+        echo '}';
+        echo '';
+        echo 'Container will exit in 10 seconds...';
+        sleep 10
+      "
+    
+  # Optional: Test the MCP server directly (will exit immediately in normal operation)
+  mcp-gitlab-stdio-test:
+    build: .
+    container_name: mcp-extended-gitlab-stdio
+    environment:
+      - GITLAB_BASE_URL=${GITLAB_BASE_URL:-https://gitlab.com/api/v4}
+      - GITLAB_PRIVATE_TOKEN=${GITLAB_PRIVATE_TOKEN}
+      - GITLAB_ENABLED_TOOLS=${GITLAB_ENABLED_TOOLS:-minimal}
+    profiles:
+      - stdio-test
+    stdin_open: true
+    tty: true

@@ -2,12 +2,14 @@
 
 import asyncio
 import os
-from typing import Any, Dict, List, Optional
+import json
+from typing import Any, Dict, List, Optional, Set
 
 from fastmcp import FastMCP
 from pydantic import Field
 
 from .client import GitLabClient, GitLabConfig
+from .filtered_mcp import FilteredMCP
 from .api.core.projects import register as register_projects_tools
 from .api.core.groups import register as register_groups_tools
 from .api.core.users import register as register_users_tools
@@ -54,8 +56,8 @@ from .api.devops.dependency_proxy import register as register_dependency_proxy_t
 from .api.devops.freeze_periods import register as register_freeze_periods_tools
 
 
-# Initialize MCP server
-mcp = FastMCP("GitLab Extended API")
+# Initialize MCP server with filtering support
+mcp = FilteredMCP("GitLab Extended API")
 
 # Global GitLab client
 _gitlab_client: Optional[GitLabClient] = None
@@ -677,34 +679,7 @@ async def delete_merged_branches(
     return await client.delete(f"/projects/{project_id}/repository/merged_branches")
 
 
-@mcp.tool()
-async def protect_repository_branch(
-    project_id: str = Field(description="The ID or URL-encoded path of the project"),
-    branch_name: str = Field(description="The name of the branch"),
-    developers_can_push: Optional[bool] = Field(default=False, description="Flag if developers can push to the branch"),
-    developers_can_merge: Optional[bool] = Field(default=False, description="Flag if developers can merge to the branch"),
-    unprotect_access_level: Optional[int] = Field(default=None, description="Access level required to unprotect (default: 40, maintainer level)")
-) -> Dict[str, Any]:
-    """Protect a repository branch."""
-    client = await get_gitlab_client()
-    data = {}
-    if developers_can_push is not None:
-        data["developers_can_push"] = developers_can_push
-    if developers_can_merge is not None:
-        data["developers_can_merge"] = developers_can_merge
-    if unprotect_access_level is not None:
-        data["unprotect_access_level"] = unprotect_access_level
-    return await client.put(f"/projects/{project_id}/repository/branches/{branch_name}/protect", json_data=data)
-
-
-@mcp.tool()
-async def unprotect_repository_branch(
-    project_id: str = Field(description="The ID or URL-encoded path of the project"),
-    branch_name: str = Field(description="The name of the branch")
-) -> Dict[str, Any]:
-    """Unprotect a repository branch."""
-    client = await get_gitlab_client()
-    return await client.put(f"/projects/{project_id}/repository/branches/{branch_name}/unprotect")
+# Note: protect_repository_branch and unprotect_repository_branch are now in protected_branches.py
 
 
 # Broadcast Messages Tools
@@ -1083,7 +1058,7 @@ async def mark_migration_as_successful(
     return await client.post(f"/admin/migrations/{timestamp}/mark")
 
 
-# Register extended tools
+# Register all tools - filtering is handled by FilteredMCP
 register_projects_tools(mcp)
 register_groups_tools(mcp)
 register_users_tools(mcp)
@@ -1131,9 +1106,24 @@ register_freeze_periods_tools(mcp)
 
 
 def main():
-    """Run the MCP server."""
-    import uvicorn
-    uvicorn.run(mcp.create_app(), host="127.0.0.1", port=8000)
+    """Run the MCP server in stdio mode for Claude integration."""
+    import os
+    import sys
+    import logging
+    
+    # Suppress all logging for clean stdio communication
+    logging.getLogger().setLevel(logging.CRITICAL)
+    logging.getLogger("fastmcp").setLevel(logging.CRITICAL)
+    
+    # Redirect stderr to devnull to suppress FastMCP banner
+    with open(os.devnull, 'w') as devnull:
+        stderr_backup = sys.stderr
+        sys.stderr = devnull
+        try:
+            # Run in stdio mode by default for Claude Desktop/Code CLI compatibility
+            mcp.run(transport="stdio")
+        finally:
+            sys.stderr = stderr_backup
 
 
 if __name__ == "__main__":

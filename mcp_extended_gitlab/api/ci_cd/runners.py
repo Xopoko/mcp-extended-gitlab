@@ -37,8 +37,7 @@ def register(mcp: FastMCP):
         type: Optional[str] = Field(default=None, description="The type of runners to return"),
         status: Optional[str] = Field(default=None, description="The status of runners to return"),
         paused: Optional[bool] = Field(default=None, description="Whether to include only runners that are accepting or ignoring new jobs"),
-        tag_list: Optional[List[str]] = Field(default=None, description="List of the runner's tags")
-    ) -> Dict[str, Any]:
+        tag_list: Optional[List[str]] = Field(default=None, description="List of the runner's tags")) -> Dict[str, Any]:
         """List owned runners."""
         client = await get_gitlab_client()
         params = {}
@@ -58,8 +57,7 @@ def register(mcp: FastMCP):
         type: Optional[str] = Field(default=None, description="The type of runners to return"),
         status: Optional[str] = Field(default=None, description="The status of runners to return"),
         paused: Optional[bool] = Field(default=None, description="Whether to include only runners that are accepting or ignoring new jobs"),
-        tag_list: Optional[List[str]] = Field(default=None, description="List of the runner's tags")
-    ) -> Dict[str, Any]:
+        tag_list: Optional[List[str]] = Field(default=None, description="List of the runner's tags")) -> Dict[str, Any]:
         """List all runners (specific runners are listed if the user has admin privileges)."""
         client = await get_gitlab_client()
         params = {}
@@ -76,8 +74,7 @@ def register(mcp: FastMCP):
 
     @mcp.tool()
     async def get_runner_details(
-        runner_id: str = Field(description="The ID of a runner")
-    ) -> Dict[str, Any]:
+        runner_id: str = Field(description="The ID of a runner")) -> Dict[str, Any]:
         """Get runner's details."""
         client = await get_gitlab_client()
         return await client.get(f"/runners/{runner_id}")
@@ -92,8 +89,7 @@ def register(mcp: FastMCP):
         run_untagged: Optional[bool] = Field(default=None, description="Flag indicating the runner can execute untagged jobs"),
         locked: Optional[bool] = Field(default=None, description="Flag indicating the runner is locked"),
         access_level: Optional[str] = Field(default=None, description="The access_level of the runner"),
-        maximum_timeout: Optional[int] = Field(default=None, description="Maximum timeout set when this runner handles the job")
-    ) -> Dict[str, Any]:
+        maximum_timeout: Optional[int] = Field(default=None, description="Maximum timeout set when this runner handles the job")) -> Dict[str, Any]:
         """Update runner's details."""
         client = await get_gitlab_client()
         data = {}
@@ -113,8 +109,7 @@ def register(mcp: FastMCP):
 
     @mcp.tool()
     async def delete_runner(
-        runner_id: str = Field(description="The ID of a runner")
-    ) -> Dict[str, Any]:
+        runner_id: str = Field(description="The ID of a runner")) -> Dict[str, Any]:
         """Delete a runner."""
         client = await get_gitlab_client()
         return await client.delete(f"/runners/{runner_id}")
@@ -124,8 +119,7 @@ def register(mcp: FastMCP):
         runner_id: str = Field(description="The ID of a runner"),
         status: Optional[str] = Field(default=None, description="Status of the job"),
         order_by: Optional[str] = Field(default="id", description="Order jobs by field"),
-        sort: Optional[str] = Field(default="desc", description="Sort jobs in asc or desc order")
-    ) -> Dict[str, Any]:
+        sort: Optional[str] = Field(default="desc", description="Sort jobs in asc or desc order")) -> Dict[str, Any]:
         """List runner's jobs."""
         client = await get_gitlab_client()
         params = {}
@@ -145,8 +139,7 @@ def register(mcp: FastMCP):
         type: Optional[str] = Field(default=None, description="The type of runners to return"),
         status: Optional[str] = Field(default=None, description="The status of runners to return"),
         paused: Optional[bool] = Field(default=None, description="Whether to include only runners that are accepting or ignoring new jobs"),
-        tag_list: Optional[List[str]] = Field(default=None, description="List of the runner's tags")
-    ) -> Dict[str, Any]:
+        tag_list: Optional[List[str]] = Field(default=None, description="List of the runner's tags")) -> Dict[str, Any]:
         """List project's runners."""
         client = await get_gitlab_client()
         params = {}
@@ -164,8 +157,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def enable_runner_in_project(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        runner_id: str = Field(description="The ID of a runner")
-    ) -> Dict[str, Any]:
+        runner_id: str = Field(description="The ID of a runner")) -> Dict[str, Any]:
         """Enable a runner in project."""
         client = await get_gitlab_client()
         data = {"runner_id": runner_id}
@@ -174,8 +166,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def disable_runner_from_project(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        runner_id: str = Field(description="The ID of a runner")
-    ) -> Dict[str, Any]:
+        runner_id: str = Field(description="The ID of a runner")) -> Dict[str, Any]:
         """Disable a runner from project."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/runners/{runner_id}")
@@ -186,8 +177,7 @@ def register(mcp: FastMCP):
         type: Optional[str] = Field(default=None, description="The type of runners to return"),
         status: Optional[str] = Field(default=None, description="The status of runners to return"),
         paused: Optional[bool] = Field(default=None, description="Whether to include only runners that are accepting or ignoring new jobs"),
-        tag_list: Optional[List[str]] = Field(default=None, description="List of the runner's tags")
-    ) -> Dict[str, Any]:
+        tag_list: Optional[List[str]] = Field(default=None, description="List of the runner's tags")) -> Dict[str, Any]:
         """List group's runners."""
         client = await get_gitlab_client()
         params = {}

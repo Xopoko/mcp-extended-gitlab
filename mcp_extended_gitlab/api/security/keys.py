@@ -33,8 +33,7 @@ def register(mcp: FastMCP):
     
     @mcp.tool()
     async def get_ssh_key_fingerprint(
-        ssh_key: str = Field(description="SSH key content")
-    ) -> Dict[str, Any]:
+        ssh_key: str = Field(description="SSH key content")) -> Dict[str, Any]:
         """Get SSH key fingerprint."""
         client = await get_gitlab_client()
         data = {"key": ssh_key}
@@ -42,8 +41,7 @@ def register(mcp: FastMCP):
 
     @mcp.tool()
     async def get_ssh_key_details(
-        fingerprint: str = Field(description="SSH key fingerprint (either MD5 or SHA256)")
-    ) -> Dict[str, Any]:
+        fingerprint: str = Field(description="SSH key fingerprint (either MD5 or SHA256)")) -> Dict[str, Any]:
         """Get SSH key details by fingerprint."""
         client = await get_gitlab_client()
         return await client.get(f"/keys/{fingerprint}")

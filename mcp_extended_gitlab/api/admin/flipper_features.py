@@ -45,8 +45,7 @@ def register(mcp: FastMCP):
         feature_group: Optional[str] = Field(default=None, description="A feature group name"),
         user: Optional[str] = Field(default=None, description="A GitLab username or email"),
         project: Optional[str] = Field(default=None, description="A projects path, for example 'gitlab-org/gitlab-ce'"),
-        group: Optional[str] = Field(default=None, description="A group's path, for example 'gitlab-org'")
-    ) -> Dict[str, Any]:
+        group: Optional[str] = Field(default=None, description="A group's path, for example 'gitlab-org'")) -> Dict[str, Any]:
         """Set or create a feature."""
         client = await get_gitlab_client()
         data = {}
@@ -63,8 +62,7 @@ def register(mcp: FastMCP):
 
     @mcp.tool()
     async def delete_feature(
-        name: str = Field(description="Name of the feature")
-    ) -> Dict[str, Any]:
+        name: str = Field(description="Name of the feature")) -> Dict[str, Any]:
         """Delete a feature."""
         client = await get_gitlab_client()
         return await client.delete(f"/features/{name}")

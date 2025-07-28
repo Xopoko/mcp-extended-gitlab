@@ -34,8 +34,7 @@ def register(mcp: FastMCP):
     
     @mcp.tool()
     async def list_project_variables(
-        project_id: str = Field(description="The ID or URL-encoded path of the project")
-    ) -> Dict[str, Any]:
+        project_id: str = Field(description="The ID or URL-encoded path of the project")) -> Dict[str, Any]:
         """List project variables."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/variables")
@@ -63,8 +62,7 @@ def register(mcp: FastMCP):
         masked: Optional[bool] = Field(default=False, description="Whether the variable is masked"),
         raw: Optional[bool] = Field(default=False, description="Whether the variable is treated as a raw string"),
         environment_scope: Optional[str] = Field(default="*", description="The environment_scope of the variable"),
-        description: Optional[str] = Field(default=None, description="The description of the variable")
-    ) -> Dict[str, Any]:
+        description: Optional[str] = Field(default=None, description="The description of the variable")) -> Dict[str, Any]:
         """Create project variable."""
         client = await get_gitlab_client()
         data = {
@@ -84,14 +82,14 @@ def register(mcp: FastMCP):
     async def update_project_variable(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         key: str = Field(description="The key of a variable"),
+        filter: Optional[Dict[str, str]] = Field(default=None, description="Hash of attributes to narrow the search"),
         value: Optional[str] = Field(default=None, description="The value of a variable"),
         variable_type: Optional[str] = Field(default=None, description="The type of a variable"),
         protected: Optional[bool] = Field(default=None, description="Whether the variable is protected"),
         masked: Optional[bool] = Field(default=None, description="Whether the variable is masked"),
         raw: Optional[bool] = Field(default=None, description="Whether the variable is treated as a raw string"),
         environment_scope: Optional[str] = Field(default=None, description="The environment_scope of the variable"),
-        description: Optional[str] = Field(default=None, description="The description of the variable"),
-        filter: Optional[Dict[str, str]] = Field(default=None, description="Hash of attributes to narrow the search")
+        description: Optional[str] = Field(default=None, description="The description of the variable")
     ) -> Dict[str, Any]:
         """Update project variable."""
         client = await get_gitlab_client()
@@ -115,8 +113,8 @@ def register(mcp: FastMCP):
     async def delete_project_variable(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         key: str = Field(description="The key of a variable"),
-        filter: Optional[Dict[str, str]] = Field(default=None, description="Hash of attributes to narrow the search")
-    ) -> Dict[str, Any]:
+        filter: Optional[Dict[str,
+        str]] = Field(default=None, description="Hash of attributes to narrow the search")) -> Dict[str, Any]:
         """Delete project variable."""
         client = await get_gitlab_client()
         params = {}
@@ -126,8 +124,7 @@ def register(mcp: FastMCP):
 
     @mcp.tool()
     async def list_group_variables(
-        group_id: str = Field(description="The ID or URL-encoded path of the group")
-    ) -> Dict[str, Any]:
+        group_id: str = Field(description="The ID or URL-encoded path of the group")) -> Dict[str, Any]:
         """List group variables."""
         client = await get_gitlab_client()
         return await client.get(f"/groups/{group_id}/variables")
@@ -135,8 +132,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_group_variable(
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
-        key: str = Field(description="The key of a variable")
-    ) -> Dict[str, Any]:
+        key: str = Field(description="The key of a variable")) -> Dict[str, Any]:
         """Get group variable."""
         client = await get_gitlab_client()
         return await client.get(f"/groups/{group_id}/variables/{key}")
@@ -151,8 +147,7 @@ def register(mcp: FastMCP):
         masked: Optional[bool] = Field(default=False, description="Whether the variable is masked"),
         raw: Optional[bool] = Field(default=False, description="Whether the variable is treated as a raw string"),
         environment_scope: Optional[str] = Field(default="*", description="The environment_scope of the variable"),
-        description: Optional[str] = Field(default=None, description="The description of the variable")
-    ) -> Dict[str, Any]:
+        description: Optional[str] = Field(default=None, description="The description of the variable")) -> Dict[str, Any]:
         """Create group variable."""
         client = await get_gitlab_client()
         data = {
@@ -178,8 +173,7 @@ def register(mcp: FastMCP):
         masked: Optional[bool] = Field(default=None, description="Whether the variable is masked"),
         raw: Optional[bool] = Field(default=None, description="Whether the variable is treated as a raw string"),
         environment_scope: Optional[str] = Field(default=None, description="The environment_scope of the variable"),
-        description: Optional[str] = Field(default=None, description="The description of the variable")
-    ) -> Dict[str, Any]:
+        description: Optional[str] = Field(default=None, description="The description of the variable")) -> Dict[str, Any]:
         """Update group variable."""
         client = await get_gitlab_client()
         data = {}
@@ -199,8 +193,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def delete_group_variable(
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
-        key: str = Field(description="The key of a variable")
-    ) -> Dict[str, Any]:
+        key: str = Field(description="The key of a variable")) -> Dict[str, Any]:
         """Delete group variable."""
         client = await get_gitlab_client()
         return await client.delete(f"/groups/{group_id}/variables/{key}")

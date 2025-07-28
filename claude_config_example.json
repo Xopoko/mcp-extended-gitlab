@@ -1,0 +1,24 @@
+{
+  "mcpServers": {
+    "gitlab-extended": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "GITLAB_PRIVATE_TOKEN",
+        "-e",
+        "GITLAB_BASE_URL",
+        "-e",
+        "GITLAB_ENABLED_TOOLS",
+        "mcp-extended-gitlab:latest"
+      ],
+      "env": {
+        "GITLAB_PRIVATE_TOKEN": "glpat-XXXXXXXXXXXXXXXXXXXXX",
+        "GITLAB_BASE_URL": "https://gitlab.com/api/v4",
+        "GITLAB_ENABLED_TOOLS": "core"
+      }
+    }
+  }
+}

@@ -42,8 +42,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def list_project_deploy_tokens(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        active: Optional[bool] = Field(default=None, description="Limit by active status")
-    ) -> Dict[str, Any]:
+        active: Optional[bool] = Field(default=None, description="Limit by active status")) -> Dict[str, Any]:
         """List project deploy tokens."""
         client = await get_gitlab_client()
         params = {}
@@ -54,8 +53,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_single_project_deploy_token(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        token_id: str = Field(description="The ID of the deploy token")
-    ) -> Dict[str, Any]:
+        token_id: str = Field(description="The ID of the deploy token")) -> Dict[str, Any]:
         """Get a single project deploy token."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/deploy_tokens/{token_id}")
@@ -66,8 +64,7 @@ def register(mcp: FastMCP):
         name: str = Field(description="The name of the deploy token"),
         scopes: List[str] = Field(description="Indicates the deploy token scopes"),
         expires_at: Optional[str] = Field(default=None, description="Expiration date of the deploy token (ISO 8601)"),
-        username: Optional[str] = Field(default=None, description="A username for the deploy token")
-    ) -> Dict[str, Any]:
+        username: Optional[str] = Field(default=None, description="A username for the deploy token")) -> Dict[str, Any]:
         """Create a project deploy token."""
         client = await get_gitlab_client()
         data = {
@@ -85,8 +82,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def delete_project_deploy_token(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        token_id: str = Field(description="The ID of the deploy token")
-    ) -> Dict[str, Any]:
+        token_id: str = Field(description="The ID of the deploy token")) -> Dict[str, Any]:
         """Delete a project deploy token."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/deploy_tokens/{token_id}")
@@ -95,8 +91,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def list_group_deploy_tokens(
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
-        active: Optional[bool] = Field(default=None, description="Limit by active status")
-    ) -> Dict[str, Any]:
+        active: Optional[bool] = Field(default=None, description="Limit by active status")) -> Dict[str, Any]:
         """List group deploy tokens."""
         client = await get_gitlab_client()
         params = {}
@@ -107,8 +102,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_single_group_deploy_token(
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
-        token_id: str = Field(description="The ID of the deploy token")
-    ) -> Dict[str, Any]:
+        token_id: str = Field(description="The ID of the deploy token")) -> Dict[str, Any]:
         """Get a single group deploy token."""
         client = await get_gitlab_client()
         return await client.get(f"/groups/{group_id}/deploy_tokens/{token_id}")
@@ -119,8 +113,7 @@ def register(mcp: FastMCP):
         name: str = Field(description="The name of the deploy token"),
         scopes: List[str] = Field(description="Indicates the deploy token scopes"),
         expires_at: Optional[str] = Field(default=None, description="Expiration date of the deploy token (ISO 8601)"),
-        username: Optional[str] = Field(default=None, description="A username for the deploy token")
-    ) -> Dict[str, Any]:
+        username: Optional[str] = Field(default=None, description="A username for the deploy token")) -> Dict[str, Any]:
         """Create a group deploy token."""
         client = await get_gitlab_client()
         data = {
@@ -138,8 +131,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def delete_group_deploy_token(
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
-        token_id: str = Field(description="The ID of the deploy token")
-    ) -> Dict[str, Any]:
+        token_id: str = Field(description="The ID of the deploy token")) -> Dict[str, Any]:
         """Delete a group deploy token."""
         client = await get_gitlab_client()
         return await client.delete(f"/groups/{group_id}/deploy_tokens/{token_id}")

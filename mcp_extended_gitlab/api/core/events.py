@@ -40,8 +40,7 @@ def register(mcp: FastMCP):
         after: Optional[str] = Field(default=None, description="Include only events created after a particular date"),
         sort: Optional[str] = Field(default="desc", description="Sort events in asc or desc order by created_at"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List currently authenticated user's events."""
         client = await get_gitlab_client()
         params = {}
@@ -67,8 +66,7 @@ def register(mcp: FastMCP):
         after: Optional[str] = Field(default=None, description="Include only events created after a particular date"),
         sort: Optional[str] = Field(default="desc", description="Sort events in asc or desc order by created_at"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """Get user contribution events."""
         client = await get_gitlab_client()
         params = {}
@@ -94,8 +92,7 @@ def register(mcp: FastMCP):
         after: Optional[str] = Field(default=None, description="Include only events created after a particular date"),
         sort: Optional[str] = Field(default="desc", description="Sort events in asc or desc order by created_at"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List project events."""
         client = await get_gitlab_client()
         params = {}

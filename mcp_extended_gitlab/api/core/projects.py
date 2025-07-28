@@ -62,8 +62,7 @@ def register(mcp: FastMCP):
         repository_storage: Optional[str] = Field(default=None, description="Limit results to projects stored on repository_storage"),
         topic: Optional[str] = Field(default=None, description="Limit results to projects with the assigned topic"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List all visible projects across GitLab for the authenticated user."""
         client = await get_gitlab_client()
         params = {}
@@ -108,8 +107,7 @@ def register(mcp: FastMCP):
         search: Optional[str] = Field(default=None, description="Return list of projects matching the search criteria"),
         simple: Optional[bool] = Field(default=None, description="Return only limited fields for each project"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List projects for a specific user."""
         client = await get_gitlab_client()
         params = {}
@@ -137,8 +135,7 @@ def register(mcp: FastMCP):
         search: Optional[str] = Field(default=None, description="Return list of projects matching the search criteria"),
         simple: Optional[bool] = Field(default=None, description="Return only limited fields for each project"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List projects starred by a user."""
         client = await get_gitlab_client()
         params = {}
@@ -161,8 +158,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         statistics: Optional[bool] = Field(default=None, description="Include project statistics"),
         license: Optional[bool] = Field(default=None, description="Include project license data"),
-        with_custom_attributes: Optional[bool] = Field(default=None, description="Include custom attributes in response")
-    ) -> Dict[str, Any]:
+        with_custom_attributes: Optional[bool] = Field(default=None, description="Include custom attributes in response")) -> Dict[str, Any]:
         """Get a specific project."""
         client = await get_gitlab_client()
         params = {}
@@ -200,8 +196,7 @@ def register(mcp: FastMCP):
         autoclose_referenced_issues: Optional[bool] = Field(default=None, description="Set whether auto-closing referenced issues on default branch"),
         build_timeout: Optional[int] = Field(default=None, description="The maximum amount of time in minutes that a job is able run"),
         default_branch: Optional[str] = Field(default=None, description="The default branch"),
-        tags: Optional[List[str]] = Field(default=None, description="The list of tags for a project")
-    ) -> Dict[str, Any]:
+        tags: Optional[List[str]] = Field(default=None, description="The list of tags for a project")) -> Dict[str, Any]:
         """Create a new project."""
         client = await get_gitlab_client()
         data = {"name": name}
@@ -258,8 +253,7 @@ def register(mcp: FastMCP):
         autoclose_referenced_issues: Optional[bool] = Field(default=None, description="Set whether auto-closing referenced issues on default branch"),
         build_timeout: Optional[int] = Field(default=None, description="The maximum amount of time in minutes that a job is able run"),
         default_branch: Optional[str] = Field(default=None, description="The default branch"),
-        tags: Optional[List[str]] = Field(default=None, description="The list of tags for a project")
-    ) -> Dict[str, Any]:
+        tags: Optional[List[str]] = Field(default=None, description="The list of tags for a project")) -> Dict[str, Any]:
         """Update a project."""
         client = await get_gitlab_client()
         data = {}
@@ -300,8 +294,7 @@ def register(mcp: FastMCP):
         path: Optional[str] = Field(default=None, description="The path that is assigned to the resultant project after forking"),
         name: Optional[str] = Field(default=None, description="The name that is assigned to the resultant project after forking"),
         description: Optional[str] = Field(default=None, description="The description assigned to the resultant project after forking"),
-        visibility: Optional[str] = Field(default=None, description="The visibility level assigned to the resultant project after forking")
-    ) -> Dict[str, Any]:
+        visibility: Optional[str] = Field(default=None, description="The visibility level assigned to the resultant project after forking")) -> Dict[str, Any]:
         """Fork a project."""
         client = await get_gitlab_client()
         data = {}
@@ -336,8 +329,7 @@ def register(mcp: FastMCP):
         with_merge_requests_enabled: Optional[bool] = Field(default=None, description="Limit by enabled merge requests feature"),
         min_access_level: Optional[int] = Field(default=None, description="Limit by current user minimal access level"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List forks of a project."""
         client = await get_gitlab_client()
         params = {}
@@ -365,16 +357,14 @@ def register(mcp: FastMCP):
 
     @mcp.tool()
     async def star_project(
-        project_id: str = Field(description="The ID or URL-encoded path of the project")
-    ) -> Dict[str, Any]:
+        project_id: str = Field(description="The ID or URL-encoded path of the project")) -> Dict[str, Any]:
         """Star a project."""
         client = await get_gitlab_client()
         return await client.post(f"/projects/{project_id}/star")
 
     @mcp.tool()
     async def unstar_project(
-        project_id: str = Field(description="The ID or URL-encoded path of the project")
-    ) -> Dict[str, Any]:
+        project_id: str = Field(description="The ID or URL-encoded path of the project")) -> Dict[str, Any]:
         """Unstar a project."""
         client = await get_gitlab_client()
         return await client.post(f"/projects/{project_id}/unstar")
@@ -384,8 +374,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         search: Optional[str] = Field(default=None, description="Search for starrers by name or username"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List the users who starred a project."""
         client = await get_gitlab_client()
         params = {}
@@ -400,16 +389,14 @@ def register(mcp: FastMCP):
 
     @mcp.tool()
     async def archive_project(
-        project_id: str = Field(description="The ID or URL-encoded path of the project")
-    ) -> Dict[str, Any]:
+        project_id: str = Field(description="The ID or URL-encoded path of the project")) -> Dict[str, Any]:
         """Archive a project."""
         client = await get_gitlab_client()
         return await client.post(f"/projects/{project_id}/archive")
 
     @mcp.tool()
     async def unarchive_project(
-        project_id: str = Field(description="The ID or URL-encoded path of the project")
-    ) -> Dict[str, Any]:
+        project_id: str = Field(description="The ID or URL-encoded path of the project")) -> Dict[str, Any]:
         """Unarchive a project."""
         client = await get_gitlab_client()
         return await client.post(f"/projects/{project_id}/unarchive")
@@ -417,8 +404,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def delete_project(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        permanently_remove: Optional[bool] = Field(default=None, description="Permanently remove project instead of soft-delete")
-    ) -> Dict[str, Any]:
+        permanently_remove: Optional[bool] = Field(default=None, description="Permanently remove project instead of soft-delete")) -> Dict[str, Any]:
         """Delete a project."""
         client = await get_gitlab_client()
         params = {}
@@ -428,8 +414,7 @@ def register(mcp: FastMCP):
 
     @mcp.tool()
     async def restore_project(
-        project_id: str = Field(description="The ID or URL-encoded path of the project")
-    ) -> Dict[str, Any]:
+        project_id: str = Field(description="The ID or URL-encoded path of the project")) -> Dict[str, Any]:
         """Restore project marked for deletion."""
         client = await get_gitlab_client()
         return await client.post(f"/projects/{project_id}/restore")
@@ -438,8 +423,7 @@ def register(mcp: FastMCP):
     async def upload_file(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         file_content: str = Field(description="File content to upload"),
-        file_name: str = Field(description="Name of the file")
-    ) -> Dict[str, Any]:
+        file_name: str = Field(description="Name of the file")) -> Dict[str, Any]:
         """Upload a file to the project."""
         client = await get_gitlab_client()
         # Note: In real implementation, this would need multipart form data
@@ -451,8 +435,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         group_id: int = Field(description="The ID of the group to share with"),
         group_access: int = Field(description="The access level to grant"),
-        expires_at: Optional[str] = Field(default=None, description="Share expiration date in ISO 8601 format")
-    ) -> Dict[str, Any]:
+        expires_at: Optional[str] = Field(default=None, description="Share expiration date in ISO 8601 format")) -> Dict[str, Any]:
         """Share project with a group."""
         client = await get_gitlab_client()
         data = {
@@ -466,16 +449,14 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def delete_shared_project_link(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        group_id: int = Field(description="The ID of the group")
-    ) -> Dict[str, Any]:
+        group_id: int = Field(description="The ID of the group")) -> Dict[str, Any]:
         """Delete a shared project link within a group."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/share/{group_id}")
 
     @mcp.tool()
     async def project_housekeeping(
-        project_id: str = Field(description="The ID or URL-encoded path of the project")
-    ) -> Dict[str, Any]:
+        project_id: str = Field(description="The ID or URL-encoded path of the project")) -> Dict[str, Any]:
         """Start the housekeeping task for a project."""
         client = await get_gitlab_client()
         return await client.post(f"/projects/{project_id}/housekeeping")
@@ -483,8 +464,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def transfer_project(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        namespace: str = Field(description="The ID or path of the namespace to transfer to")
-    ) -> Dict[str, Any]:
+        namespace: str = Field(description="The ID or path of the namespace to transfer to")) -> Dict[str, Any]:
         """Transfer a project to a new namespace."""
         client = await get_gitlab_client()
         data = {"namespace": namespace}
@@ -492,8 +472,7 @@ def register(mcp: FastMCP):
 
     @mcp.tool()
     async def get_project_push_rules(
-        project_id: str = Field(description="The ID or URL-encoded path of the project")
-    ) -> Dict[str, Any]:
+        project_id: str = Field(description="The ID or URL-encoded path of the project")) -> Dict[str, Any]:
         """Get project push rules."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/push_rule")
@@ -511,8 +490,7 @@ def register(mcp: FastMCP):
         file_name_regex: Optional[str] = Field(default=None, description="All committed filenames must not match this regex"),
         max_file_size: Optional[int] = Field(default=None, description="Maximum file size (MB)"),
         commit_committer_check: Optional[bool] = Field(default=None, description="Users can only push commits to this repository that were committed with one of their own verified emails"),
-        reject_unsigned_commits: Optional[bool] = Field(default=None, description="Reject commit when it is not signed through GPG")
-    ) -> Dict[str, Any]:
+        reject_unsigned_commits: Optional[bool] = Field(default=None, description="Reject commit when it is not signed through GPG")) -> Dict[str, Any]:
         """Add project push rule."""
         client = await get_gitlab_client()
         data = {}
@@ -539,8 +517,7 @@ def register(mcp: FastMCP):
         query: Optional[str] = Field(default=None, description="A query string to search for members"),
         user_ids: Optional[List[int]] = Field(default=None, description="Filter the results on the given user IDs"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """Gets a list of project members viewable by the authenticated user."""
         client = await get_gitlab_client()
         params = {}
@@ -560,8 +537,7 @@ def register(mcp: FastMCP):
         query: Optional[str] = Field(default=None, description="A query string to search for members"),
         user_ids: Optional[List[int]] = Field(default=None, description="Filter the results on the given user IDs"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """Gets a list of project members viewable by the authenticated user, including inherited members."""
         client = await get_gitlab_client()
         params = {}
@@ -578,8 +554,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_project_member(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        user_id: str = Field(description="The user ID of the member")
-    ) -> Dict[str, Any]:
+        user_id: str = Field(description="The user ID of the member")) -> Dict[str, Any]:
         """Gets a member of a project."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/members/{user_id}")
@@ -589,8 +564,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         user_id: str = Field(description="The user ID of the new member"),
         access_level: int = Field(description="A valid access level"),
-        expires_at: Optional[str] = Field(default=None, description="A date string in the format YEAR-MONTH-DAY")
-    ) -> Dict[str, Any]:
+        expires_at: Optional[str] = Field(default=None, description="A date string in the format YEAR-MONTH-DAY")) -> Dict[str, Any]:
         """Adds a member to a project."""
         client = await get_gitlab_client()
         data = {
@@ -606,8 +580,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         user_id: str = Field(description="The user ID of the member"),
         access_level: int = Field(description="A valid access level"),
-        expires_at: Optional[str] = Field(default=None, description="A date string in the format YEAR-MONTH-DAY")
-    ) -> Dict[str, Any]:
+        expires_at: Optional[str] = Field(default=None, description="A date string in the format YEAR-MONTH-DAY")) -> Dict[str, Any]:
         """Updates a member of a project."""
         client = await get_gitlab_client()
         data = {"access_level": access_level}
@@ -619,8 +592,7 @@ def register(mcp: FastMCP):
     async def remove_project_member(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         user_id: str = Field(description="The user ID of the member"),
-        unassign_issuables: Optional[bool] = Field(default=None, description="Whether to unassign the user from issues and merge requests")
-    ) -> Dict[str, Any]:
+        unassign_issuables: Optional[bool] = Field(default=None, description="Whether to unassign the user from issues and merge requests")) -> Dict[str, Any]:
         """Removes a user from a project."""
         client = await get_gitlab_client()
         params = {}
@@ -630,8 +602,7 @@ def register(mcp: FastMCP):
 
     @mcp.tool()
     async def project_languages(
-        project_id: str = Field(description="The ID or URL-encoded path of the project")
-    ) -> Dict[str, Any]:
+        project_id: str = Field(description="The ID or URL-encoded path of the project")) -> Dict[str, Any]:
         """Get languages used in a project with percentage value."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/languages")

@@ -37,8 +37,7 @@ def register(mcp: FastMCP):
         include_merged_yaml: Optional[bool] = Field(default=False, description="If the expanded CI configuration should be included in the response"),
         include_jobs: Optional[bool] = Field(default=False, description="If the list of jobs should be included in the response"),
         ref: Optional[str] = Field(default=None, description="When specified, the CI/CD configuration is fetched from this reference"),
-        dry_run: Optional[bool] = Field(default=False, description="Run validation only")
-    ) -> Dict[str, Any]:
+        dry_run: Optional[bool] = Field(default=False, description="Run validation only")) -> Dict[str, Any]:
         """Lint CI/CD configuration."""
         client = await get_gitlab_client()
         data = {"content": content}

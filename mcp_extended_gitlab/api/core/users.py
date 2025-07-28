@@ -56,8 +56,7 @@ def register(mcp: FastMCP):
         created_after: Optional[str] = Field(default=None, description="Return users created after the specified date"),
         with_custom_attributes: Optional[bool] = Field(default=None, description="Include custom attributes in response"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List users."""
         client = await get_gitlab_client()
         params = {}
@@ -90,8 +89,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_user(
         user_id: str = Field(description="The ID or username of the user"),
-        with_custom_attributes: Optional[bool] = Field(default=None, description="Include custom attributes in response")
-    ) -> Dict[str, Any]:
+        with_custom_attributes: Optional[bool] = Field(default=None, description="Include custom attributes in response")) -> Dict[str, Any]:
         """Get a single user."""
         client = await get_gitlab_client()
         params = {}
@@ -125,8 +123,7 @@ def register(mcp: FastMCP):
         theme_id: Optional[int] = Field(default=None, description="GitLab theme for the user"),
         note: Optional[str] = Field(default=None, description="Admin notes for this user"),
         shared_runners_minutes_limit: Optional[int] = Field(default=None, description="Pipeline minutes quota for this user"),
-        extra_shared_runners_minutes_limit: Optional[int] = Field(default=None, description="Extra pipeline minutes quota for this user")
-    ) -> Dict[str, Any]:
+        extra_shared_runners_minutes_limit: Optional[int] = Field(default=None, description="Extra pipeline minutes quota for this user")) -> Dict[str, Any]:
         """Create a new user."""
         client = await get_gitlab_client()
         data = {
@@ -190,8 +187,7 @@ def register(mcp: FastMCP):
         note: Optional[str] = Field(default=None, description="Admin notes for this user"),
         shared_runners_minutes_limit: Optional[int] = Field(default=None, description="Pipeline minutes quota for this user"),
         extra_shared_runners_minutes_limit: Optional[int] = Field(default=None, description="Extra pipeline minutes quota for this user"),
-        commit_email: Optional[str] = Field(default=None, description="Default email for commits")
-    ) -> Dict[str, Any]:
+        commit_email: Optional[str] = Field(default=None, description="Default email for commits")) -> Dict[str, Any]:
         """Update an existing user."""
         client = await get_gitlab_client()
         data = {}
@@ -230,8 +226,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def delete_user(
         user_id: str = Field(description="The ID or username of the user"),
-        hard_delete: Optional[bool] = Field(default=False, description="If true, contributions that would usually be moved to the ghost user will be deleted instead, as well as groups owned solely by this user")
-    ) -> Dict[str, Any]:
+        hard_delete: Optional[bool] = Field(default=False, description="If true, contributions that would usually be moved to the ghost user will be deleted instead, as well as groups owned solely by this user")) -> Dict[str, Any]:
         """Delete a user."""
         client = await get_gitlab_client()
         params = {}
@@ -253,16 +248,14 @@ def register(mcp: FastMCP):
 
     @mcp.tool()
     async def list_user_ssh_keys(
-        user_id: str = Field(description="The ID or username of the user")
-    ) -> Dict[str, Any]:
+        user_id: str = Field(description="The ID or username of the user")) -> Dict[str, Any]:
         """List SSH keys for a user."""
         client = await get_gitlab_client()
         return await client.get(f"/users/{user_id}/keys")
 
     @mcp.tool()
     async def get_user_ssh_key(
-        key_id: str = Field(description="The ID of the SSH key")
-    ) -> Dict[str, Any]:
+        key_id: str = Field(description="The ID of the SSH key")) -> Dict[str, Any]:
         """Get a single SSH key."""
         client = await get_gitlab_client()
         return await client.get(f"/user/keys/{key_id}")
@@ -271,8 +264,7 @@ def register(mcp: FastMCP):
     async def add_ssh_key_for_current_user(
         title: str = Field(description="The title of the SSH key"),
         key: str = Field(description="The SSH key"),
-        expires_at: Optional[str] = Field(default=None, description="The expiration date of the SSH key in ISO 8601 format")
-    ) -> Dict[str, Any]:
+        expires_at: Optional[str] = Field(default=None, description="The expiration date of the SSH key in ISO 8601 format")) -> Dict[str, Any]:
         """Add SSH key for current user."""
         client = await get_gitlab_client()
         data = {
@@ -288,8 +280,7 @@ def register(mcp: FastMCP):
         user_id: str = Field(description="The ID or username of the user"),
         title: str = Field(description="The title of the SSH key"),
         key: str = Field(description="The SSH key"),
-        expires_at: Optional[str] = Field(default=None, description="The expiration date of the SSH key in ISO 8601 format")
-    ) -> Dict[str, Any]:
+        expires_at: Optional[str] = Field(default=None, description="The expiration date of the SSH key in ISO 8601 format")) -> Dict[str, Any]:
         """Add SSH key for a user."""
         client = await get_gitlab_client()
         data = {
@@ -302,8 +293,7 @@ def register(mcp: FastMCP):
 
     @mcp.tool()
     async def delete_ssh_key_for_current_user(
-        key_id: str = Field(description="The ID of the SSH key")
-    ) -> Dict[str, Any]:
+        key_id: str = Field(description="The ID of the SSH key")) -> Dict[str, Any]:
         """Delete SSH key for current user."""
         client = await get_gitlab_client()
         return await client.delete(f"/user/keys/{key_id}")
@@ -311,40 +301,35 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def delete_ssh_key_for_user(
         user_id: str = Field(description="The ID or username of the user"),
-        key_id: str = Field(description="The ID of the SSH key")
-    ) -> Dict[str, Any]:
+        key_id: str = Field(description="The ID of the SSH key")) -> Dict[str, Any]:
         """Delete SSH key for a user."""
         client = await get_gitlab_client()
         return await client.delete(f"/users/{user_id}/keys/{key_id}")
 
     @mcp.tool()
     async def block_user(
-        user_id: str = Field(description="The ID or username of the user")
-    ) -> Dict[str, Any]:
+        user_id: str = Field(description="The ID or username of the user")) -> Dict[str, Any]:
         """Block a user."""
         client = await get_gitlab_client()
         return await client.post(f"/users/{user_id}/block")
 
     @mcp.tool()
     async def unblock_user(
-        user_id: str = Field(description="The ID or username of the user")
-    ) -> Dict[str, Any]:
+        user_id: str = Field(description="The ID or username of the user")) -> Dict[str, Any]:
         """Unblock a user."""
         client = await get_gitlab_client()
         return await client.post(f"/users/{user_id}/unblock")
 
     @mcp.tool()
     async def deactivate_user(
-        user_id: str = Field(description="The ID or username of the user")
-    ) -> Dict[str, Any]:
+        user_id: str = Field(description="The ID or username of the user")) -> Dict[str, Any]:
         """Deactivate a user."""
         client = await get_gitlab_client()
         return await client.post(f"/users/{user_id}/deactivate")
 
     @mcp.tool()
     async def activate_user(
-        user_id: str = Field(description="The ID or username of the user")
-    ) -> Dict[str, Any]:
+        user_id: str = Field(description="The ID or username of the user")) -> Dict[str, Any]:
         """Activate a user."""
         client = await get_gitlab_client()
         return await client.post(f"/users/{user_id}/activate")
@@ -354,8 +339,7 @@ def register(mcp: FastMCP):
         user_id: str = Field(description="The ID or username of the user"),
         type: Optional[str] = Field(default=None, description="Filter memberships by type (Project or Namespace)"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """Get user memberships."""
         client = await get_gitlab_client()
         params = {}
@@ -375,8 +359,7 @@ def register(mcp: FastMCP):
         sort: Optional[str] = Field(default=None, description="Return projects sorted in asc or desc order"),
         simple: Optional[bool] = Field(default=None, description="Return only limited fields for each project"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List projects a user has contributed to."""
         client = await get_gitlab_client()
         params = {}
@@ -401,8 +384,7 @@ def register(mcp: FastMCP):
         search: Optional[str] = Field(default=None, description="Return list of projects matching the search criteria"),
         simple: Optional[bool] = Field(default=None, description="Return only limited fields for each project"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List projects starred by a user."""
         client = await get_gitlab_client()
         params = {}
@@ -422,16 +404,14 @@ def register(mcp: FastMCP):
 
     @mcp.tool()
     async def follow_user(
-        user_id: str = Field(description="The ID or username of the user")
-    ) -> Dict[str, Any]:
+        user_id: str = Field(description="The ID or username of the user")) -> Dict[str, Any]:
         """Follow a user."""
         client = await get_gitlab_client()
         return await client.post(f"/users/{user_id}/follow")
 
     @mcp.tool()
     async def unfollow_user(
-        user_id: str = Field(description="The ID or username of the user")
-    ) -> Dict[str, Any]:
+        user_id: str = Field(description="The ID or username of the user")) -> Dict[str, Any]:
         """Unfollow a user."""
         client = await get_gitlab_client()
         return await client.post(f"/users/{user_id}/unfollow")
@@ -440,8 +420,7 @@ def register(mcp: FastMCP):
     async def list_user_followers(
         user_id: str = Field(description="The ID or username of the user"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List followers of a user."""
         client = await get_gitlab_client()
         params = {}
@@ -457,8 +436,7 @@ def register(mcp: FastMCP):
     async def list_user_following(
         user_id: str = Field(description="The ID or username of the user"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List users followed by a user."""
         client = await get_gitlab_client()
         params = {}

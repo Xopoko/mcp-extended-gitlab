@@ -43,8 +43,7 @@ def register(mcp: FastMCP):
         sort: Optional[str] = Field(default="created_at", description="Sort field"),
         order: Optional[str] = Field(default="desc", description="Sort order"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List registry repositories in a project."""
         client = await get_gitlab_client()
         params = {}
@@ -66,8 +65,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         repository_id: str = Field(description="The ID of registry repository"),
         tags: Optional[bool] = Field(default=False, description="If true, include tag information"),
-        tags_count: Optional[bool] = Field(default=False, description="If true, include tags count")
-    ) -> Dict[str, Any]:
+        tags_count: Optional[bool] = Field(default=False, description="If true, include tags count")) -> Dict[str, Any]:
         """Get details of a registry repository."""
         client = await get_gitlab_client()
         params = {}
@@ -82,8 +80,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def delete_registry_repository(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        repository_id: str = Field(description="The ID of registry repository")
-    ) -> Dict[str, Any]:
+        repository_id: str = Field(description="The ID of registry repository")) -> Dict[str, Any]:
         """Delete a registry repository."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/registry/repositories/{repository_id}")
@@ -96,8 +93,7 @@ def register(mcp: FastMCP):
         sort: Optional[str] = Field(default="name", description="Sort field"),
         order: Optional[str] = Field(default="asc", description="Sort order"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List tags of a registry repository."""
         client = await get_gitlab_client()
         params = {}
@@ -116,8 +112,7 @@ def register(mcp: FastMCP):
     async def get_details_of_registry_repository_tag(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         repository_id: str = Field(description="The ID of registry repository"),
-        tag_name: str = Field(description="The name of tag")
-    ) -> Dict[str, Any]:
+        tag_name: str = Field(description="The name of tag")) -> Dict[str, Any]:
         """Get details of a registry repository tag."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/registry/repositories/{repository_id}/tags/{tag_name}")
@@ -126,8 +121,7 @@ def register(mcp: FastMCP):
     async def delete_registry_repository_tag(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         repository_id: str = Field(description="The ID of registry repository"),
-        tag_name: str = Field(description="The name of tag")
-    ) -> Dict[str, Any]:
+        tag_name: str = Field(description="The name of tag")) -> Dict[str, Any]:
         """Delete a registry repository tag."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/registry/repositories/{repository_id}/tags/{tag_name}")
@@ -139,8 +133,7 @@ def register(mcp: FastMCP):
         name_regex_delete: Optional[str] = Field(default=None, description="The tag name regexp to delete"),
         name_regex_keep: Optional[str] = Field(default=None, description="The tag name regexp to retain"),
         keep_n: Optional[int] = Field(default=None, description="The amount of latest tags to keep"),
-        older_than: Optional[str] = Field(default=None, description="Tags to delete that are older than the given time")
-    ) -> Dict[str, Any]:
+        older_than: Optional[str] = Field(default=None, description="Tags to delete that are older than the given time")) -> Dict[str, Any]:
         """Delete registry repository tags in bulk."""
         client = await get_gitlab_client()
         data = {}
@@ -164,8 +157,7 @@ def register(mcp: FastMCP):
         sort: Optional[str] = Field(default="created_at", description="Sort field"),
         order: Optional[str] = Field(default="desc", description="Sort order"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List registry repositories in a group."""
         client = await get_gitlab_client()
         params = {}
@@ -190,8 +182,7 @@ def register(mcp: FastMCP):
         from_date: Optional[str] = Field(default=None, description="Filter events from this date"),
         to_date: Optional[str] = Field(default=None, description="Filter events to this date"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """Get container registry events."""
         client = await get_gitlab_client()
         params = {}
