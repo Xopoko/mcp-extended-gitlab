@@ -1,79 +1,39 @@
-# MCP Extended GitLab Docker Image
+# Docker Configuration
 
-Official Docker image for the MCP Extended GitLab server, providing 478+ GitLab API tools through the Model Context Protocol.
+This directory contains Docker-related files for building and running MCP Extended GitLab.
 
-## Quick Start
+## Files
 
-### With Claude Code CLI
+- **Dockerfile.simple** - Simplified Dockerfile for basic deployments
+- **docker-entrypoint.sh** - Entrypoint script for the Docker container
+- **docker-compose.dev.yml** - Development Docker Compose configuration
 
-```bash
-# Add the MCP server
-claude mcp add gitlab-extended -- docker run -i --rm -e GITLAB_PRIVATE_TOKEN ghcr.io/yourusername/mcp-extended-gitlab
+## Usage
 
-# Configure your GitLab token
-claude mcp update gitlab-extended -e GITLAB_PRIVATE_TOKEN=your_token_here
-```
+### Building the Docker Image
 
-### With Claude Desktop
-
-Add to your `claude_desktop_config.json`:
-
-```json
-{
-  "mcpServers": {
-    "gitlab-extended": {
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "-e",
-        "GITLAB_PRIVATE_TOKEN",
-        "ghcr.io/yourusername/mcp-extended-gitlab"
-      ],
-      "env": {
-        "GITLAB_PRIVATE_TOKEN": "your_gitlab_token"
-      }
-    }
-  }
-}
-```
-
-## Environment Variables
-
-- `GITLAB_PRIVATE_TOKEN` (required): Your GitLab Personal Access Token
-- `GITLAB_BASE_URL` (optional): GitLab API URL (default: `https://gitlab.com/api/v4`)
-
-## Self-Hosted GitLab
-
-For self-hosted GitLab instances:
+From the project root:
 
 ```bash
-claude mcp update gitlab-extended \
-  -e GITLAB_PRIVATE_TOKEN=your_token \
-  -e GITLAB_BASE_URL=https://gitlab.example.com/api/v4
+# Using the main Dockerfile
+docker build -t mcp-extended-gitlab .
+
+# Using the simple Dockerfile
+docker build -f docker/Dockerfile.simple -t mcp-extended-gitlab:simple .
 ```
 
-## Available Tags
+### Running with Docker Compose
 
-- `latest`: Latest stable release
-- `v1.0.0`, `v1.0`, `v1`: Semantic versioning
-- `main`: Latest development build
+For development:
 
-## Features
+```bash
+docker-compose -f docker/docker-compose.dev.yml up
+```
 
-- 478+ GitLab API tools
-- Full async support
-- Type-safe with Pydantic
-- Supports all GitLab editions
-- Works with self-hosted instances
+For production (using root docker-compose.yml):
 
-## Documentation
+```bash
+docker-compose up -d
+```
 
-- [GitHub Repository](https://github.com/yourusername/mcp-extended-gitlab)
-- [Installation Guide](https://github.com/yourusername/mcp-extended-gitlab/blob/main/INSTALLATION.md)
-- [API Documentation](https://github.com/yourusername/mcp-extended-gitlab/blob/main/README.md)
-
-## License
-
-MIT License - see [LICENSE](https://github.com/yourusername/mcp-extended-gitlab/blob/main/LICENSE) for details.
+See [Docker Setup Guide](../docs/setup/DOCKER_SETUP.md) for detailed instructions.

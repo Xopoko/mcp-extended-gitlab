@@ -38,8 +38,13 @@ make status   # Show container status
 GITLAB_ENABLED_TOOLS=minimal python -m mcp_extended_gitlab
 GITLAB_ENABLED_TOOLS=core docker run -e GITLAB_PRIVATE_TOKEN -e GITLAB_ENABLED_TOOLS mcp-extended-gitlab
 
-# List available presets and tools (for development)
-python -m mcp_extended_gitlab.tool_registry
+# List available tools
+python scripts/list_tools.py
+
+# Development tools via Makefile
+make list-tools    # List all tools
+make list-presets  # Show tool presets
+make stats         # Project statistics
 ```
 
 ### Environment Setup
@@ -127,3 +132,37 @@ Every API module follows this consistent pattern:
 - Many create/update operations use optional parameters with Pydantic Field defaults
 - Tool filtering is applied at registration time, not runtime
 - Filtered tools consume zero context in Claude
+
+## Testing
+
+### Running Tests
+```bash
+# Run all tests
+make test
+
+# Run specific test categories
+pytest -m unit
+pytest -m integration
+
+# Test coverage
+make coverage
+```
+
+### Testing Tools
+```bash
+# Test all tools
+python scripts/test_all_tools.py
+
+# Test specific tools
+python scripts/test_all_tools.py -t list_projects -t get_project
+
+# Test by category
+python scripts/test_all_tools.py -c core --verbose
+
+# Quick test
+scripts/run_tool_tests.sh quick
+```
+
+## Project Structure
+
+See [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) for detailed project organization.

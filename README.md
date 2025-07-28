@@ -2,9 +2,11 @@
 
 A comprehensive Model Context Protocol (MCP) server that provides AI agents with complete access to GitLab's REST API through 478+ specialized tools.
 
-[![MCP](https://img.shields.io/badge/MCP-Model%20Context%20Protocol-blue)](https://github.com/jlowin/fastmcp)
+[![MCP Version](https://img.shields.io/badge/MCP-v1.0-blue)](https://modelcontextprotocol.io/)
 [![GitLab API](https://img.shields.io/badge/GitLab%20API-v4-orange)](https://docs.gitlab.com/ee/api/)
 [![Python](https://img.shields.io/badge/Python-3.9%2B-green)](https://www.python.org/)
+[![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
+[![Docker](https://img.shields.io/badge/Docker-Ready-blue)](https://hub.docker.com/r/mmcardle/mcp-extended-gitlab)
 
 ## 🌟 Overview
 
@@ -21,6 +23,48 @@ MCP Extended GitLab enables AI agents to interact with GitLab programmatically t
 - **📝 Type Safety**: Full Pydantic models for request/response validation
 - **🎯 Domain-Driven Architecture**: Tools organized into focused modules across 8 logical domains
 - **📦 Modular Design**: Easy to maintain, extend, and understand codebase structure
+
+## 🚀 Quick Start
+
+### 1. Get GitLab Token
+1. Go to GitLab → Settings → Access Tokens
+2. Create token with `api` scope
+3. Copy the token (starts with `glpat-`)
+
+### 2. Add to Claude Desktop
+
+**Windows**: Edit `%APPDATA%\Claude\claude_desktop_config.json`
+**macOS**: Edit `~/Library/Application Support/Claude/claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "gitlab-extended": {
+      "command": "docker",
+      "args": [
+        "run", "-i", "--rm",
+        "-e", "GITLAB_PRIVATE_TOKEN=glpat-YOUR_TOKEN_HERE",
+        "ghcr.io/mmcardle/mcp-extended-gitlab:latest"
+      ]
+    }
+  }
+}
+```
+
+### 3. Restart Claude and Test
+- Quit and restart Claude Desktop
+- Look for 🔌 icon showing MCP is connected
+- Try: "List my GitLab projects"
+
+## 📚 Documentation
+
+Comprehensive documentation is available in the [docs](./docs/) directory:
+
+- **[Quick Start Guide](./docs/setup/QUICK_START.md)** - Detailed setup instructions
+- **[Setup Documentation](./docs/setup/)** - Installation and configuration guides
+- **[User Guides](./docs/guides/)** - How-to guides for common tasks
+- **[API Reference](./docs/api/)** - Complete tool reference
+- **[CLAUDE.md](./CLAUDE.md)** - Development guidelines and architecture information
 
 ## 📦 Installation
 
@@ -43,7 +87,7 @@ For production deployments or development:
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/mcp-extended-gitlab.git
+git clone https://github.com/mmcardle/mcp-extended-gitlab.git
 cd mcp-extended-gitlab
 
 # Copy and configure environment variables
@@ -54,14 +98,14 @@ cp .env.example .env
 docker-compose up -d
 ```
 
-For detailed Docker setup instructions, see [DOCKER_SETUP.md](./DOCKER_SETUP.md).
+For detailed Docker setup instructions, see [Docker Setup Guide](./docs/setup/DOCKER_SETUP.md).
 
-For installation in Claude applications (Claude Code CLI, Claude Desktop), see [INSTALLATION.md](./INSTALLATION.md).
+For installation in Claude applications (Claude Code CLI, Claude Desktop), see [Installation Guide](./docs/setup/INSTALLATION.md).
 
 ### From Source
 
 ```bash
-git clone https://github.com/yourusername/mcp-extended-gitlab.git
+git clone https://github.com/mmcardle/mcp-extended-gitlab.git
 cd mcp-extended-gitlab
 pip install -e .
 ```
@@ -141,35 +185,68 @@ mcp-extended-gitlab
 python -m mcp_extended_gitlab.server
 ```
 
-The server will start on `http://127.0.0.1:8000` by default.
+The server runs in stdio mode for MCP compatibility.
 
-### Example MCP Client Usage
+### Example Usage in Claude
 
-```python
-# Example of using the MCP server with an AI agent
-# The AI agent can call any of the 478 available tools
+Once configured in Claude Desktop, you can use natural language:
 
-# List all projects
-projects = await mcp_client.call_tool("list_projects", {
-    "owned": True,
-    "simple": True
-})
+```
+"List my GitLab projects"
+"Show me open issues assigned to me"
+"Create an issue titled 'Bug: Login fails on mobile' in project my-app"
+"What's the status of the latest pipeline in my-project?"
+"List merge requests waiting for my review"
+```
 
-# Create a new issue
-issue = await mcp_client.call_tool("create_issue", {
-    "project_id": "my-project",
-    "title": "Bug: Login fails on mobile",
-    "description": "Users report login failures on iOS devices",
-    "labels": ["bug", "mobile", "high-priority"]
-})
+Or call tools directly:
 
-# Deploy to production
-deployment = await mcp_client.call_tool("create_deployment", {
-    "project_id": "my-project",
-    "environment": "production",
-    "sha": "abc123def456",
-    "ref": "main"
-})
+```
+Use the list_projects tool with owned=true
+Use the create_issue tool with project_id="123", title="Bug fix", description="Details here"
+Use the get_pipeline tool with project_id="my-app", pipeline_id="456"
+```
+
+### Common Use Cases
+
+#### Project Management
+```
+"Create a new project called 'my-awesome-app' with README"
+"List all projects I have access to"
+"Show project statistics for my-app"
+"Archive old-project"
+```
+
+#### Issue Tracking
+```
+"Show all open issues assigned to me"
+"Create a bug report for login issues on mobile"
+"Add label 'urgent' to issue #123 in my-project"
+"Close issue #456 with a comment"
+```
+
+#### Code Review
+```
+"List open merge requests for my-project"
+"Show merge request !789 details"
+"Approve merge request !789"
+"List merge requests I need to review"
+```
+
+#### CI/CD Operations
+```
+"Show latest pipeline status for my-app"
+"Retry failed pipeline #123"
+"List CI/CD variables for my-project"
+"Trigger a new pipeline on main branch"
+```
+
+#### Advanced Features
+```
+"Create a feature flag 'new-ui' in my-app"
+"List deployment environments for my-project"
+"Show container registry images for my-app"
+"Get DORA metrics for the last 30 days"
 ```
 
 ## 📊 API Coverage Overview
@@ -441,7 +518,7 @@ def register(mcp: FastMCP):
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+We welcome contributions! Please see [CLAUDE.md](./CLAUDE.md) for architecture details and development guidelines.
 
 ### How to Contribute
 
@@ -455,20 +532,46 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+## 🔒 Security
+
+### Best Practices
+
+1. **Token Security**
+   - Never commit tokens to version control
+   - Use environment variables for token storage
+   - Create tokens with minimal required scopes
+   - Rotate tokens regularly
+
+2. **Tool Filtering**
+   - Enable only the tools you need to minimize attack surface
+   - Use presets for common workflows
+   - Review enabled tools periodically
+
+3. **Self-Hosted Instances**
+   - Ensure SSL/TLS is properly configured
+   - Use VPN for additional security if needed
+   - Verify certificate validation is enabled
+
+### Reporting Security Issues
+
+Please report security vulnerabilities through GitHub Security Advisories.
+
 ## 🙏 Acknowledgments
 
-- Built with [FastMCP](https://github.com/jlowin/fastmcp) - The awesome MCP framework
-- GitLab API documentation and OpenAPI specification
-- The Model Context Protocol community
+- Built with [FastMCP](https://github.com/jlowin/fastmcp) - The powerful MCP framework by [jlowin](https://github.com/jlowin)
+- Based on [GitLab REST API v4](https://docs.gitlab.com/ee/api/)
+- Inspired by the [Model Context Protocol](https://modelcontextprotocol.io/) specification
 
 ## 🚧 Roadmap
 
-### Recently Completed ✅
+### Version 2.0 Features ✅
 
-- [x] **Architecture Refactoring**: Migrated from flat structure to domain-driven design with focused modules
-- [x] **Tool Filtering**: Added support for enabling only needed tools to reduce context usage
-- [x] **Improved Organization**: Tools now grouped into 8 logical domains for better discoverability
-- [x] **Consistent Patterns**: All modules follow the same structure and registration pattern
+- [x] **Domain-Driven Architecture**: Organized 478+ tools into 8 logical domains
+- [x] **Tool Filtering**: Dynamic tool loading to reduce Claude's context usage
+- [x] **Complete API Coverage**: Full implementation of GitLab REST API v4
+- [x] **Async Performance**: High-performance async operations throughout
+- [x] **Type Safety**: Full Pydantic validation for all tool parameters
+- [x] **Comprehensive Testing**: Test framework for all GitLab API tools
 
 ### Future Enhancements
 
@@ -480,13 +583,17 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [ ] Add comprehensive test coverage for all modules
 - [ ] Create domain-specific client wrappers for common use cases
 
-### Potential API Additions
+### Community
 
-The GitLab API continues to evolve. Future implementations could include:
-- Terraform module registry
-- Advanced package management (NPM, Maven, etc.)
-- Geo replication APIs
-- Advanced analytics and insights
+- **Issues**: [GitHub Issues](https://github.com/mmcardle/mcp-extended-gitlab/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/mmcardle/mcp-extended-gitlab/discussions)
+- **MCP Discord**: [Join the MCP community](https://discord.gg/mcp)
+
+### Related Projects
+
+- [FastMCP](https://github.com/jlowin/fastmcp) - The MCP framework used by this project
+- [MCP Servers](https://github.com/modelcontextprotocol/servers) - Official MCP server examples
+- [Claude Desktop](https://claude.ai/download) - AI assistant with MCP support
 - AI-powered features integration
 
 ## 📞 Support
