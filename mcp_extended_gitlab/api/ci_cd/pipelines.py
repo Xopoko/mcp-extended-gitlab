@@ -49,8 +49,7 @@ def register(mcp: FastMCP):
         order_by: Optional[str] = Field(default="id", description="Order pipelines by id, status, ref, updated_at or user_id"),
         sort: Optional[str] = Field(default="desc", description="Sort pipelines in asc or desc order"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List project pipelines."""
         client = await get_gitlab_client()
         params = {}
@@ -76,8 +75,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_single_pipeline(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        pipeline_id: str = Field(description="The ID of a pipeline")
-    ) -> Dict[str, Any]:
+        pipeline_id: str = Field(description="The ID of a pipeline")) -> Dict[str, Any]:
         """Get a single pipeline."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/pipelines/{pipeline_id}")
@@ -85,8 +83,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_pipeline_variables(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        pipeline_id: str = Field(description="The ID of a pipeline")
-    ) -> Dict[str, Any]:
+        pipeline_id: str = Field(description="The ID of a pipeline")) -> Dict[str, Any]:
         """Get variables of a pipeline."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/pipelines/{pipeline_id}/variables")
@@ -94,8 +91,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_pipeline_test_report(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        pipeline_id: str = Field(description="The ID of a pipeline")
-    ) -> Dict[str, Any]:
+        pipeline_id: str = Field(description="The ID of a pipeline")) -> Dict[str, Any]:
         """Get a pipeline's test report."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/pipelines/{pipeline_id}/test_report")
@@ -103,8 +99,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_pipeline_test_report_summary(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        pipeline_id: str = Field(description="The ID of a pipeline")
-    ) -> Dict[str, Any]:
+        pipeline_id: str = Field(description="The ID of a pipeline")) -> Dict[str, Any]:
         """Get a pipeline's test report summary."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/pipelines/{pipeline_id}/test_report_summary")
@@ -113,8 +108,8 @@ def register(mcp: FastMCP):
     async def create_new_pipeline(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         ref: str = Field(description="The branch or tag to run the pipeline on"),
-        variables: Optional[List[Dict[str, str]]] = Field(default=None, description="An array containing the variables available in the pipeline")
-    ) -> Dict[str, Any]:
+        variables: Optional[List[Dict[str,
+        str]]] = Field(default=None, description="An array containing the variables available in the pipeline")) -> Dict[str, Any]:
         """Create a new pipeline."""
         client = await get_gitlab_client()
         data = {"ref": ref}
@@ -125,8 +120,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def retry_jobs_in_pipeline(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        pipeline_id: str = Field(description="The ID of a pipeline")
-    ) -> Dict[str, Any]:
+        pipeline_id: str = Field(description="The ID of a pipeline")) -> Dict[str, Any]:
         """Retry jobs in a pipeline."""
         client = await get_gitlab_client()
         return await client.post(f"/projects/{project_id}/pipelines/{pipeline_id}/retry")
@@ -134,8 +128,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def cancel_pipeline_jobs(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        pipeline_id: str = Field(description="The ID of a pipeline")
-    ) -> Dict[str, Any]:
+        pipeline_id: str = Field(description="The ID of a pipeline")) -> Dict[str, Any]:
         """Cancel a pipeline's jobs."""
         client = await get_gitlab_client()
         return await client.post(f"/projects/{project_id}/pipelines/{pipeline_id}/cancel")
@@ -143,8 +136,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def delete_pipeline(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        pipeline_id: str = Field(description="The ID of a pipeline")
-    ) -> Dict[str, Any]:
+        pipeline_id: str = Field(description="The ID of a pipeline")) -> Dict[str, Any]:
         """Delete a pipeline."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/pipelines/{pipeline_id}")

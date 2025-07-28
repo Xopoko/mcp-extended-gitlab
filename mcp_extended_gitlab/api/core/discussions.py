@@ -4,7 +4,8 @@ This module provides comprehensive access to GitLab's discussions features,
 enabling management of threaded conversations on issues, merge requests, and other resources.
 """
 
-from typing import Any, Dict, Optional
+import json
+from typing import Any, Dict, Optional, Union
 from fastmcp import FastMCP
 from pydantic import Field
 
@@ -38,8 +39,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         issue_iid: str = Field(description="The IID of an issue"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List issue discussions."""
         client = await get_gitlab_client()
         params = {}
@@ -55,8 +55,7 @@ def register(mcp: FastMCP):
     async def get_single_issue_discussion(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         issue_iid: str = Field(description="The IID of an issue"),
-        discussion_id: str = Field(description="The ID of a discussion")
-    ) -> Dict[str, Any]:
+        discussion_id: str = Field(description="The ID of a discussion")) -> Dict[str, Any]:
         """Get single issue discussion."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/issues/{issue_iid}/discussions/{discussion_id}")
@@ -67,17 +66,21 @@ def register(mcp: FastMCP):
         issue_iid: str = Field(description="The IID of an issue"),
         body: str = Field(description="The content of the thread"),
         created_at: Optional[str] = Field(default=None, description="Date time string, ISO 8601 formatted"),
-        position: Optional[Dict[str, Any]] = Field(default=None, description="Position when creating a diff note")
-    ) -> Dict[str, Any]:
+        position: Optional[str] = Field(default=None, description="Position for diff notes as JSON string (rarely used for issues)")) -> Dict[str, Any]:
         """Create new issue thread."""
         client = await get_gitlab_client()
         data = {"body": body}
-        for key, value in {
-            "created_at": created_at,
-            "position": position
-        }.items():
-            if value is not None:
-                data[key] = value
+        if created_at is not None:
+            data["created_at"] = created_at
+        
+        # Parse position from JSON string if provided
+        if position:
+            try:
+                position_data = json.loads(position)
+                data["position"] = position_data
+            except json.JSONDecodeError:
+                data["position"] = position
+                
         return await client.post(f"/projects/{project_id}/issues/{issue_iid}/discussions", json_data=data)
 
     @mcp.tool()
@@ -87,8 +90,7 @@ def register(mcp: FastMCP):
         discussion_id: str = Field(description="The ID of a thread"),
         note_id: str = Field(description="The ID of a thread note"),
         body: str = Field(description="The content of the note/reply"),
-        created_at: Optional[str] = Field(default=None, description="Date time string, ISO 8601 formatted")
-    ) -> Dict[str, Any]:
+        created_at: Optional[str] = Field(default=None, description="Date time string, ISO 8601 formatted")) -> Dict[str, Any]:
         """Add note to existing issue thread."""
         client = await get_gitlab_client()
         data = {"body": body}
@@ -102,8 +104,7 @@ def register(mcp: FastMCP):
         issue_iid: str = Field(description="The IID of an issue"),
         discussion_id: str = Field(description="The ID of a thread"),
         note_id: str = Field(description="The ID of a thread note"),
-        body: str = Field(description="The content of the note/reply")
-    ) -> Dict[str, Any]:
+        body: str = Field(description="The content of the note/reply")) -> Dict[str, Any]:
         """Modify existing issue thread note."""
         client = await get_gitlab_client()
         data = {"body": body}
@@ -114,8 +115,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         issue_iid: str = Field(description="The IID of an issue"),
         discussion_id: str = Field(description="The ID of a thread"),
-        note_id: str = Field(description="The ID of a thread note")
-    ) -> Dict[str, Any]:
+        note_id: str = Field(description="The ID of a thread note")) -> Dict[str, Any]:
         """Delete issue thread note."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/issues/{issue_iid}/discussions/{discussion_id}/notes/{note_id}")
@@ -125,8 +125,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         merge_request_iid: str = Field(description="The IID of a merge request"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List merge request discussions."""
         client = await get_gitlab_client()
         params = {}
@@ -142,8 +141,7 @@ def register(mcp: FastMCP):
     async def get_single_merge_request_discussion(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         merge_request_iid: str = Field(description="The IID of a merge request"),
-        discussion_id: str = Field(description="The ID of a discussion")
-    ) -> Dict[str, Any]:
+        discussion_id: str = Field(description="The ID of a discussion")) -> Dict[str, Any]:
         """Get single merge request discussion."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/merge_requests/{merge_request_iid}/discussions/{discussion_id}")
@@ -155,7 +153,7 @@ def register(mcp: FastMCP):
         body: str = Field(description="The content of the thread"),
         commit_id: Optional[str] = Field(default=None, description="SHA referencing commit to start this thread on"),
         created_at: Optional[str] = Field(default=None, description="Date time string, ISO 8601 formatted"),
-        position: Optional[Dict[str, Any]] = Field(default=None, description="Position when creating a diff note")
+        position: Optional[str] = Field(default=None, description="Position for diff notes as JSON string. Example: '{\"base_sha\": \"...\", \"start_sha\": \"...\", \"head_sha\": \"...\", \"position_type\": \"text\", \"new_path\": \"file.txt\", \"new_line\": 10}'")
     ) -> Dict[str, Any]:
         """Create new merge request thread."""
         client = await get_gitlab_client()
@@ -163,10 +161,19 @@ def register(mcp: FastMCP):
         for key, value in {
             "commit_id": commit_id,
             "created_at": created_at,
-            "position": position
         }.items():
             if value is not None:
                 data[key] = value
+        
+        # Parse position from JSON string if provided
+        if position:
+            try:
+                position_data = json.loads(position)
+                data["position"] = position_data
+            except json.JSONDecodeError:
+                # If JSON parsing fails, assume it's already a dict (shouldn't happen via MCP)
+                data["position"] = position
+            
         return await client.post(f"/projects/{project_id}/merge_requests/{merge_request_iid}/discussions", json_data=data)
 
     @mcp.tool()
@@ -174,8 +181,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         merge_request_iid: str = Field(description="The IID of a merge request"),
         discussion_id: str = Field(description="The ID of a thread"),
-        resolved: bool = Field(description="Resolve/unresolve the discussion")
-    ) -> Dict[str, Any]:
+        resolved: bool = Field(description="Resolve/unresolve the discussion")) -> Dict[str, Any]:
         """Resolve merge request thread."""
         client = await get_gitlab_client()
         data = {"resolved": resolved}
@@ -188,8 +194,7 @@ def register(mcp: FastMCP):
         discussion_id: str = Field(description="The ID of a thread"),
         note_id: str = Field(description="The ID of a thread note"),
         body: str = Field(description="The content of the note/reply"),
-        created_at: Optional[str] = Field(default=None, description="Date time string, ISO 8601 formatted")
-    ) -> Dict[str, Any]:
+        created_at: Optional[str] = Field(default=None, description="Date time string, ISO 8601 formatted")) -> Dict[str, Any]:
         """Add note to existing merge request thread."""
         client = await get_gitlab_client()
         data = {"body": body}
@@ -204,8 +209,7 @@ def register(mcp: FastMCP):
         discussion_id: str = Field(description="The ID of a thread"),
         note_id: str = Field(description="The ID of a thread note"),
         body: str = Field(description="The content of the note/reply"),
-        resolved: Optional[bool] = Field(default=None, description="Resolve/unresolve the discussion")
-    ) -> Dict[str, Any]:
+        resolved: Optional[bool] = Field(default=None, description="Resolve/unresolve the discussion")) -> Dict[str, Any]:
         """Modify existing merge request thread note."""
         client = await get_gitlab_client()
         data = {"body": body}
@@ -218,8 +222,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         merge_request_iid: str = Field(description="The IID of a merge request"),
         discussion_id: str = Field(description="The ID of a thread"),
-        note_id: str = Field(description="The ID of a thread note")
-    ) -> Dict[str, Any]:
+        note_id: str = Field(description="The ID of a thread note")) -> Dict[str, Any]:
         """Delete merge request thread note."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/merge_requests/{merge_request_iid}/discussions/{discussion_id}/notes/{note_id}")
@@ -229,8 +232,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         commit_id: str = Field(description="The ID of a commit"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List commit discussions."""
         client = await get_gitlab_client()
         params = {}
@@ -246,8 +248,7 @@ def register(mcp: FastMCP):
     async def get_single_commit_discussion(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         commit_id: str = Field(description="The ID of a commit"),
-        discussion_id: str = Field(description="The ID of a discussion")
-    ) -> Dict[str, Any]:
+        discussion_id: str = Field(description="The ID of a discussion")) -> Dict[str, Any]:
         """Get single commit discussion."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/commits/{commit_id}/discussions/{discussion_id}")
@@ -258,17 +259,22 @@ def register(mcp: FastMCP):
         commit_id: str = Field(description="The ID of a commit"),
         body: str = Field(description="The content of the thread"),
         created_at: Optional[str] = Field(default=None, description="Date time string, ISO 8601 formatted"),
-        position: Optional[Dict[str, Any]] = Field(default=None, description="Position when creating a diff note")
+        position: Optional[str] = Field(default=None, description="Position for diff notes as JSON string. Example: '{\"base_sha\": \"...\", \"start_sha\": \"...\", \"head_sha\": \"...\", \"position_type\": \"text\", \"new_path\": \"file.txt\", \"new_line\": 10}'")
     ) -> Dict[str, Any]:
         """Create new commit thread."""
         client = await get_gitlab_client()
         data = {"body": body}
-        for key, value in {
-            "created_at": created_at,
-            "position": position
-        }.items():
-            if value is not None:
-                data[key] = value
+        if created_at is not None:
+            data["created_at"] = created_at
+        
+        # Parse position from JSON string if provided
+        if position:
+            try:
+                position_data = json.loads(position)
+                data["position"] = position_data
+            except json.JSONDecodeError:
+                data["position"] = position
+                
         return await client.post(f"/projects/{project_id}/commits/{commit_id}/discussions", json_data=data)
 
     @mcp.tool()
@@ -278,8 +284,7 @@ def register(mcp: FastMCP):
         discussion_id: str = Field(description="The ID of a thread"),
         note_id: str = Field(description="The ID of a thread note"),
         body: str = Field(description="The content of the note/reply"),
-        created_at: Optional[str] = Field(default=None, description="Date time string, ISO 8601 formatted")
-    ) -> Dict[str, Any]:
+        created_at: Optional[str] = Field(default=None, description="Date time string, ISO 8601 formatted")) -> Dict[str, Any]:
         """Add note to existing commit thread."""
         client = await get_gitlab_client()
         data = {"body": body}
@@ -293,8 +298,7 @@ def register(mcp: FastMCP):
         commit_id: str = Field(description="The ID of a commit"),
         discussion_id: str = Field(description="The ID of a thread"),
         note_id: str = Field(description="The ID of a thread note"),
-        body: str = Field(description="The content of the note/reply")
-    ) -> Dict[str, Any]:
+        body: str = Field(description="The content of the note/reply")) -> Dict[str, Any]:
         """Modify existing commit thread note."""
         client = await get_gitlab_client()
         data = {"body": body}
@@ -305,8 +309,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         commit_id: str = Field(description="The ID of a commit"),
         discussion_id: str = Field(description="The ID of a thread"),
-        note_id: str = Field(description="The ID of a thread note")
-    ) -> Dict[str, Any]:
+        note_id: str = Field(description="The ID of a thread note")) -> Dict[str, Any]:
         """Delete a commit thread note."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/commits/{commit_id}/discussions/{discussion_id}/notes/{note_id}")

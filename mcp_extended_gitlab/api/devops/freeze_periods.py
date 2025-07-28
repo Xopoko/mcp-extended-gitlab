@@ -34,8 +34,7 @@ def register(mcp: FastMCP):
     
     @mcp.tool()
     async def list_freeze_periods(
-        project_id: str = Field(description="The ID or URL-encoded path of the project")
-    ) -> Dict[str, Any]:
+        project_id: str = Field(description="The ID or URL-encoded path of the project")) -> Dict[str, Any]:
         """List freeze periods for a project."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/freeze_periods")
@@ -43,8 +42,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_single_freeze_period(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        freeze_period_id: str = Field(description="The ID of the freeze period")
-    ) -> Dict[str, Any]:
+        freeze_period_id: str = Field(description="The ID of the freeze period")) -> Dict[str, Any]:
         """Get a single freeze period."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/freeze_periods/{freeze_period_id}")
@@ -54,8 +52,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         freeze_start: str = Field(description="Start of the freeze period in cron format"),
         freeze_end: str = Field(description="End of the freeze period in cron format"),
-        cron_timezone: Optional[str] = Field(default=None, description="The timezone for the cron fields")
-    ) -> Dict[str, Any]:
+        cron_timezone: Optional[str] = Field(default=None, description="The timezone for the cron fields")) -> Dict[str, Any]:
         """Create a freeze period."""
         client = await get_gitlab_client()
         data = {
@@ -72,8 +69,7 @@ def register(mcp: FastMCP):
         freeze_period_id: str = Field(description="The ID of the freeze period"),
         freeze_start: Optional[str] = Field(default=None, description="Start of the freeze period in cron format"),
         freeze_end: Optional[str] = Field(default=None, description="End of the freeze period in cron format"),
-        cron_timezone: Optional[str] = Field(default=None, description="The timezone for the cron fields")
-    ) -> Dict[str, Any]:
+        cron_timezone: Optional[str] = Field(default=None, description="The timezone for the cron fields")) -> Dict[str, Any]:
         """Update a freeze period."""
         client = await get_gitlab_client()
         data = {}
@@ -89,8 +85,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def delete_freeze_period(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        freeze_period_id: str = Field(description="The ID of the freeze period")
-    ) -> Dict[str, Any]:
+        freeze_period_id: str = Field(description="The ID of the freeze period")) -> Dict[str, Any]:
         """Delete a freeze period."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/freeze_periods/{freeze_period_id}")

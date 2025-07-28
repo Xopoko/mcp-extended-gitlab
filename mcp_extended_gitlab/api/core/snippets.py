@@ -37,8 +37,7 @@ def register(mcp: FastMCP):
         created_after: Optional[str] = Field(default=None, description="Return snippets created after the specified date"),
         created_before: Optional[str] = Field(default=None, description="Return snippets created before the specified date"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List all public snippets."""
         client = await get_gitlab_client()
         params = {}
@@ -57,8 +56,7 @@ def register(mcp: FastMCP):
         created_after: Optional[str] = Field(default=None, description="Return snippets created after the specified date"),
         created_before: Optional[str] = Field(default=None, description="Return snippets created before the specified date"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List snippets for a user."""
         client = await get_gitlab_client()
         params = {}
@@ -74,16 +72,14 @@ def register(mcp: FastMCP):
 
     @mcp.tool()
     async def get_single_snippet(
-        snippet_id: str = Field(description="The ID of a snippet")
-    ) -> Dict[str, Any]:
+        snippet_id: str = Field(description="The ID of a snippet")) -> Dict[str, Any]:
         """Get a single snippet."""
         client = await get_gitlab_client()
         return await client.get(f"/snippets/{snippet_id}")
 
     @mcp.tool()
     async def single_snippet_content(
-        snippet_id: str = Field(description="The ID of a snippet")
-    ) -> Dict[str, Any]:
+        snippet_id: str = Field(description="The ID of a snippet")) -> Dict[str, Any]:
         """Get single snippet content."""
         client = await get_gitlab_client()
         return await client.get(f"/snippets/{snippet_id}/raw")
@@ -91,10 +87,9 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def create_new_snippet(
         title: str = Field(description="Title of a snippet"),
-        description: Optional[str] = Field(default=None, description="Description of a snippet"),
         visibility: str = Field(description="Snippet's visibility level"),
-        files: List[Dict[str, str]] = Field(description="An array of snippet files")
-    ) -> Dict[str, Any]:
+        files: List[Dict[str, str]] = Field(description="An array of snippet files"),
+        description: Optional[str] = Field(default=None, description="Description of a snippet")) -> Dict[str, Any]:
         """Create new snippet."""
         client = await get_gitlab_client()
         data = {
@@ -112,8 +107,7 @@ def register(mcp: FastMCP):
         title: Optional[str] = Field(default=None, description="Title of a snippet"),
         description: Optional[str] = Field(default=None, description="Description of a snippet"),
         visibility: Optional[str] = Field(default=None, description="Snippet's visibility level"),
-        files: Optional[List[Dict[str, str]]] = Field(default=None, description="An array of snippet files")
-    ) -> Dict[str, Any]:
+        files: Optional[List[Dict[str, str]]] = Field(default=None, description="An array of snippet files")) -> Dict[str, Any]:
         """Update snippet."""
         client = await get_gitlab_client()
         data = {}
@@ -129,8 +123,7 @@ def register(mcp: FastMCP):
 
     @mcp.tool()
     async def delete_snippet(
-        snippet_id: str = Field(description="The ID of a snippet")
-    ) -> Dict[str, Any]:
+        snippet_id: str = Field(description="The ID of a snippet")) -> Dict[str, Any]:
         """Delete snippet."""
         client = await get_gitlab_client()
         return await client.delete(f"/snippets/{snippet_id}")
@@ -139,8 +132,7 @@ def register(mcp: FastMCP):
     async def list_project_snippets(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List project snippets."""
         client = await get_gitlab_client()
         params = {}
@@ -155,8 +147,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_single_project_snippet(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        snippet_id: str = Field(description="The ID of a project's snippet")
-    ) -> Dict[str, Any]:
+        snippet_id: str = Field(description="The ID of a project's snippet")) -> Dict[str, Any]:
         """Get a single project snippet."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/snippets/{snippet_id}")
@@ -165,10 +156,9 @@ def register(mcp: FastMCP):
     async def create_new_project_snippet(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         title: str = Field(description="Title of a snippet"),
-        description: Optional[str] = Field(default=None, description="Description of a snippet"),
         visibility: str = Field(description="Snippet's visibility level"),
-        files: List[Dict[str, str]] = Field(description="An array of snippet files")
-    ) -> Dict[str, Any]:
+        files: List[Dict[str, str]] = Field(description="An array of snippet files"),
+        description: Optional[str] = Field(default=None, description="Description of a snippet")) -> Dict[str, Any]:
         """Create new project snippet."""
         client = await get_gitlab_client()
         data = {
@@ -187,8 +177,7 @@ def register(mcp: FastMCP):
         title: Optional[str] = Field(default=None, description="Title of a snippet"),
         description: Optional[str] = Field(default=None, description="Description of a snippet"),
         visibility: Optional[str] = Field(default=None, description="Snippet's visibility level"),
-        files: Optional[List[Dict[str, str]]] = Field(default=None, description="An array of snippet files")
-    ) -> Dict[str, Any]:
+        files: Optional[List[Dict[str, str]]] = Field(default=None, description="An array of snippet files")) -> Dict[str, Any]:
         """Update project snippet."""
         client = await get_gitlab_client()
         data = {}
@@ -205,8 +194,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def delete_project_snippet(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        snippet_id: str = Field(description="The ID of a project's snippet")
-    ) -> Dict[str, Any]:
+        snippet_id: str = Field(description="The ID of a project's snippet")) -> Dict[str, Any]:
         """Delete project snippet."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/snippets/{snippet_id}")
@@ -216,8 +204,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         snippet_id: str = Field(description="The ID of a project's snippet"),
         ref: str = Field(description="Reference to a tag or branch"),
-        file_path: str = Field(description="URL-encoded path to the file")
-    ) -> Dict[str, Any]:
+        file_path: str = Field(description="URL-encoded path to the file")) -> Dict[str, Any]:
         """Get snippet repository file content."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/snippets/{snippet_id}/repository/files/{file_path}/raw?ref={ref}")

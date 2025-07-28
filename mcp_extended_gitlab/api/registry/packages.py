@@ -43,8 +43,7 @@ def register(mcp: FastMCP):
         include_versionless: Optional[bool] = Field(default=False, description="When set to true, versionless packages are included in the response"),
         status: Optional[str] = Field(default=None, description="Filter the returned packages by status"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List packages within a group."""
         client = await get_gitlab_client()
         params = {}
@@ -73,8 +72,7 @@ def register(mcp: FastMCP):
         include_versionless: Optional[bool] = Field(default=False, description="When set to true, versionless packages are included in the response"),
         status: Optional[str] = Field(default=None, description="Filter the returned packages by status"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List packages within a project."""
         client = await get_gitlab_client()
         params = {}
@@ -95,8 +93,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_project_package(
         project_id: str = Field(description="ID or URL-encoded path of the project"),
-        package_id: str = Field(description="ID of a package")
-    ) -> Dict[str, Any]:
+        package_id: str = Field(description="ID of a package")) -> Dict[str, Any]:
         """Get a project package."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/packages/{package_id}")
@@ -104,8 +101,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def list_package_files(
         project_id: str = Field(description="ID or URL-encoded path of the project"),
-        package_id: str = Field(description="ID of a package")
-    ) -> Dict[str, Any]:
+        package_id: str = Field(description="ID of a package")) -> Dict[str, Any]:
         """List package files."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/packages/{package_id}/package_files")
@@ -113,8 +109,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def delete_project_package(
         project_id: str = Field(description="ID or URL-encoded path of the project"),
-        package_id: str = Field(description="ID of a package")
-    ) -> Dict[str, Any]:
+        package_id: str = Field(description="ID of a package")) -> Dict[str, Any]:
         """Delete a project package."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/packages/{package_id}")
@@ -123,8 +118,7 @@ def register(mcp: FastMCP):
     async def delete_package_file(
         project_id: str = Field(description="ID or URL-encoded path of the project"),
         package_id: str = Field(description="ID of a package"),
-        package_file_id: str = Field(description="ID of a package file")
-    ) -> Dict[str, Any]:
+        package_file_id: str = Field(description="ID of a package file")) -> Dict[str, Any]:
         """Delete a package file."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/packages/{package_id}/package_files/{package_file_id}")

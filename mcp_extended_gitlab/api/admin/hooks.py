@@ -47,8 +47,7 @@ def register(mcp: FastMCP):
         tag_push_events: Optional[bool] = Field(default=True, description="When true, the hook fires on new tags being pushed"),
         merge_requests_events: Optional[bool] = Field(default=True, description="Trigger hook on merge requests events"),
         repository_update_events: Optional[bool] = Field(default=True, description="Trigger hook on repository update events"),
-        enable_ssl_verification: Optional[bool] = Field(default=True, description="Do SSL verification when triggering the hook")
-    ) -> Dict[str, Any]:
+        enable_ssl_verification: Optional[bool] = Field(default=True, description="Do SSL verification when triggering the hook")) -> Dict[str, Any]:
         """Add new system hook."""
         client = await get_gitlab_client()
         data = {"url": url}
@@ -66,16 +65,14 @@ def register(mcp: FastMCP):
 
     @mcp.tool()
     async def test_system_hook(
-        hook_id: str = Field(description="The ID of the hook")
-    ) -> Dict[str, Any]:
+        hook_id: str = Field(description="The ID of the hook")) -> Dict[str, Any]:
         """Test system hook."""
         client = await get_gitlab_client()
         return await client.post(f"/hooks/{hook_id}")
 
     @mcp.tool()
     async def delete_system_hook(
-        hook_id: str = Field(description="The ID of the hook")
-    ) -> Dict[str, Any]:
+        hook_id: str = Field(description="The ID of the hook")) -> Dict[str, Any]:
         """Delete system hook."""
         client = await get_gitlab_client()
         return await client.delete(f"/hooks/{hook_id}")

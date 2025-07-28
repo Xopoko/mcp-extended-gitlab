@@ -34,8 +34,7 @@ def register(mcp: FastMCP):
     
     @mcp.tool()
     async def get_dependency_proxy_settings(
-        group_id: str = Field(description="The ID or URL-encoded path of the group")
-    ) -> Dict[str, Any]:
+        group_id: str = Field(description="The ID or URL-encoded path of the group")) -> Dict[str, Any]:
         """Get dependency proxy settings for a group."""
         client = await get_gitlab_client()
         return await client.get(f"/groups/{group_id}/dependency_proxy")
@@ -45,8 +44,7 @@ def register(mcp: FastMCP):
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
         enabled: Optional[bool] = Field(default=None, description="Enable or disable the dependency proxy"),
         ttl_policy: Optional[str] = Field(default=None, description="The TTL policy for dependency proxy"),
-        keep_n_most_recent_files: Optional[int] = Field(default=None, description="The number of files to keep")
-    ) -> Dict[str, Any]:
+        keep_n_most_recent_files: Optional[int] = Field(default=None, description="The number of files to keep")) -> Dict[str, Any]:
         """Update dependency proxy settings for a group."""
         client = await get_gitlab_client()
         data = {}
@@ -61,8 +59,7 @@ def register(mcp: FastMCP):
 
     @mcp.tool()
     async def purge_dependency_proxy_cache(
-        group_id: str = Field(description="The ID or URL-encoded path of the group")
-    ) -> Dict[str, Any]:
+        group_id: str = Field(description="The ID or URL-encoded path of the group")) -> Dict[str, Any]:
         """Purge the dependency proxy cache for a group."""
         client = await get_gitlab_client()
         return await client.delete(f"/groups/{group_id}/dependency_proxy/cache")
@@ -73,8 +70,7 @@ def register(mcp: FastMCP):
         order_by: Optional[str] = Field(default="created_at", description="Return images ordered by created_at or updated_at fields"),
         sort: Optional[str] = Field(default="desc", description="Return images sorted in asc or desc order"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List dependency proxy for a group."""
         client = await get_gitlab_client()
         params = {}
@@ -91,8 +87,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def delete_dependency_proxy_blob(
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
-        blob_id: str = Field(description="The ID of the dependency proxy blob")
-    ) -> Dict[str, Any]:
+        blob_id: str = Field(description="The ID of the dependency proxy blob")) -> Dict[str, Any]:
         """Delete a dependency proxy blob."""
         client = await get_gitlab_client()
         return await client.delete(f"/groups/{group_id}/dependency_proxy/blobs/{blob_id}")
@@ -103,8 +98,7 @@ def register(mcp: FastMCP):
         order_by: Optional[str] = Field(default="created_at", description="Return manifests ordered by created_at or updated_at fields"),
         sort: Optional[str] = Field(default="desc", description="Return manifests sorted in asc or desc order"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List dependency proxy manifests for a group."""
         client = await get_gitlab_client()
         params = {}
@@ -121,8 +115,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def delete_dependency_proxy_manifest(
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
-        manifest_id: str = Field(description="The ID of the dependency proxy manifest")
-    ) -> Dict[str, Any]:
+        manifest_id: str = Field(description="The ID of the dependency proxy manifest")) -> Dict[str, Any]:
         """Delete a dependency proxy manifest."""
         client = await get_gitlab_client()
         return await client.delete(f"/groups/{group_id}/dependency_proxy/manifests/{manifest_id}")

@@ -48,8 +48,7 @@ def register(mcp: FastMCP):
         min_access_level: Optional[int] = Field(default=None, description="Limit to groups where current user has at least this access level"),
         top_level_only: Optional[bool] = Field(default=None, description="Limit to top level groups, excluding all subgroups"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List groups."""
         client = await get_gitlab_client()
         params = {}
@@ -84,8 +83,7 @@ def register(mcp: FastMCP):
         owned: Optional[bool] = Field(default=None, description="Limit to groups explicitly owned by the current user"),
         min_access_level: Optional[int] = Field(default=None, description="Limit to groups where current user has at least this access level"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List subgroups of a group."""
         client = await get_gitlab_client()
         params = {}
@@ -125,8 +123,7 @@ def register(mcp: FastMCP):
         with_custom_attributes: Optional[bool] = Field(default=None, description="Include custom attributes in response"),
         with_security_reports: Optional[bool] = Field(default=None, description="Return only projects that have security reports artifacts present"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List group projects."""
         client = await get_gitlab_client()
         params = {}
@@ -157,8 +154,7 @@ def register(mcp: FastMCP):
     async def get_group(
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
         with_custom_attributes: Optional[bool] = Field(default=None, description="Include custom attributes in response"),
-        with_projects: Optional[bool] = Field(default=True, description="Include details from projects that belong to the specified group")
-    ) -> Dict[str, Any]:
+        with_projects: Optional[bool] = Field(default=True, description="Include details from projects that belong to the specified group")) -> Dict[str, Any]:
         """Get group details."""
         client = await get_gitlab_client()
         params = {}
@@ -191,8 +187,7 @@ def register(mcp: FastMCP):
         parent_id: Optional[int] = Field(default=None, description="The parent group ID for creating nested group"),
         default_branch_protection: Optional[int] = Field(default=None, description="Determine if developers can push to the default branch"),
         shared_runners_minutes_limit: Optional[int] = Field(default=None, description="Pipeline minutes quota for this group"),
-        extra_shared_runners_minutes_limit: Optional[int] = Field(default=None, description="Extra pipeline minutes quota for this group")
-    ) -> Dict[str, Any]:
+        extra_shared_runners_minutes_limit: Optional[int] = Field(default=None, description="Extra pipeline minutes quota for this group")) -> Dict[str, Any]:
         """Create a new group."""
         client = await get_gitlab_client()
         data = {
@@ -246,8 +241,7 @@ def register(mcp: FastMCP):
         file_template_project_id: Optional[int] = Field(default=None, description="The ID of a project to load custom file templates from"),
         shared_runners_minutes_limit: Optional[int] = Field(default=None, description="Pipeline minutes quota for this group"),
         extra_shared_runners_minutes_limit: Optional[int] = Field(default=None, description="Extra pipeline minutes quota for this group"),
-        prevent_forking_outside_group: Optional[bool] = Field(default=None, description="When enabled, users can not fork projects from this group to external namespaces")
-    ) -> Dict[str, Any]:
+        prevent_forking_outside_group: Optional[bool] = Field(default=None, description="When enabled, users can not fork projects from this group to external namespaces")) -> Dict[str, Any]:
         """Update a group."""
         client = await get_gitlab_client()
         data = {}
@@ -282,8 +276,7 @@ def register(mcp: FastMCP):
     async def delete_group(
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
         permanently_remove: Optional[bool] = Field(default=False, description="Immediately deletes a group marked for deletion"),
-        full_path: Optional[str] = Field(default=None, description="Full path of the group")
-    ) -> Dict[str, Any]:
+        full_path: Optional[str] = Field(default=None, description="Full path of the group")) -> Dict[str, Any]:
         """Delete a group."""
         client = await get_gitlab_client()
         params = {}
@@ -297,8 +290,7 @@ def register(mcp: FastMCP):
 
     @mcp.tool()
     async def restore_group(
-        group_id: str = Field(description="The ID or URL-encoded path of the group")
-    ) -> Dict[str, Any]:
+        group_id: str = Field(description="The ID or URL-encoded path of the group")) -> Dict[str, Any]:
         """Restore a group marked for deletion."""
         client = await get_gitlab_client()
         return await client.post(f"/groups/{group_id}/restore")
@@ -311,8 +303,7 @@ def register(mcp: FastMCP):
         skip_users: Optional[List[int]] = Field(default=None, description="Filter the results to exclude the given user IDs"),
         show_seat_info: Optional[bool] = Field(default=None, description="Show seat information for members"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List group members."""
         client = await get_gitlab_client()
         params = {}
@@ -336,8 +327,7 @@ def register(mcp: FastMCP):
         skip_users: Optional[List[int]] = Field(default=None, description="Filter the results to exclude the given user IDs"),
         show_seat_info: Optional[bool] = Field(default=None, description="Show seat information for members"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List all group members including inherited members."""
         client = await get_gitlab_client()
         params = {}
@@ -356,8 +346,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_group_member(
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
-        user_id: str = Field(description="The user ID or username of the member")
-    ) -> Dict[str, Any]:
+        user_id: str = Field(description="The user ID or username of the member")) -> Dict[str, Any]:
         """Get a group member."""
         client = await get_gitlab_client()
         return await client.get(f"/groups/{group_id}/members/{user_id}")
@@ -367,8 +356,7 @@ def register(mcp: FastMCP):
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
         user_id: str = Field(description="The user ID to add"),
         access_level: int = Field(description="A valid access level"),
-        expires_at: Optional[str] = Field(default=None, description="A date string in the format YYYY-MM-DD")
-    ) -> Dict[str, Any]:
+        expires_at: Optional[str] = Field(default=None, description="A date string in the format YYYY-MM-DD")) -> Dict[str, Any]:
         """Add a member to a group."""
         client = await get_gitlab_client()
         data = {
@@ -384,8 +372,7 @@ def register(mcp: FastMCP):
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
         user_id: str = Field(description="The user ID or username of the member"),
         access_level: Optional[int] = Field(default=None, description="A valid access level"),
-        expires_at: Optional[str] = Field(default=None, description="A date string in the format YYYY-MM-DD")
-    ) -> Dict[str, Any]:
+        expires_at: Optional[str] = Field(default=None, description="A date string in the format YYYY-MM-DD")) -> Dict[str, Any]:
         """Update a group member."""
         client = await get_gitlab_client()
         data = {}
@@ -402,8 +389,7 @@ def register(mcp: FastMCP):
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
         user_id: str = Field(description="The user ID or username of the member"),
         skip_subresources: Optional[bool] = Field(default=False, description="Whether the deletion of direct memberships of the removed member in subgroups and projects should be skipped"),
-        unassign_issuables: Optional[bool] = Field(default=False, description="Whether the removed member should be unassigned from any issues or merge requests inside a given group or project")
-    ) -> Dict[str, Any]:
+        unassign_issuables: Optional[bool] = Field(default=False, description="Whether the removed member should be unassigned from any issues or merge requests inside a given group or project")) -> Dict[str, Any]:
         """Remove a member from a group."""
         client = await get_gitlab_client()
         params = {}
@@ -420,8 +406,7 @@ def register(mcp: FastMCP):
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
         group_id_to_share: int = Field(description="The ID of the group to share with"),
         group_access: int = Field(description="The access level to grant"),
-        expires_at: Optional[str] = Field(default=None, description="Share expiration date in ISO 8601 format")
-    ) -> Dict[str, Any]:
+        expires_at: Optional[str] = Field(default=None, description="Share expiration date in ISO 8601 format")) -> Dict[str, Any]:
         """Share group with another group."""
         client = await get_gitlab_client()
         data = {
@@ -435,8 +420,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def unshare_group_with_group(
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
-        group_id_to_unshare: int = Field(description="The ID of the group to unshare with")
-    ) -> Dict[str, Any]:
+        group_id_to_unshare: int = Field(description="The ID of the group to unshare with")) -> Dict[str, Any]:
         """Unshare group with another group."""
         client = await get_gitlab_client()
         return await client.delete(f"/groups/{group_id}/share/{group_id_to_unshare}")
@@ -454,8 +438,7 @@ def register(mcp: FastMCP):
         owned: Optional[bool] = Field(default=None, description="Limit to groups explicitly owned by the current user"),
         min_access_level: Optional[int] = Field(default=None, description="Limit to groups where current user has at least this access level"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List group descendants."""
         client = await get_gitlab_client()
         params = {}
@@ -479,8 +462,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def transfer_group(
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
-        group_id_to_transfer_to: int = Field(description="The ID of the group to transfer to")
-    ) -> Dict[str, Any]:
+        group_id_to_transfer_to: int = Field(description="The ID of the group to transfer to")) -> Dict[str, Any]:
         """Transfer a group to a new parent group."""
         client = await get_gitlab_client()
         data = {"group_id": group_id_to_transfer_to}

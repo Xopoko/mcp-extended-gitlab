@@ -37,8 +37,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         name: Optional[str] = Field(default=None, description="Return the environment with this name"),
         search: Optional[str] = Field(default=None, description="Return list of environments matching the search criteria"),
-        states: Optional[str] = Field(default=None, description="List all environments that match a specific state")
-    ) -> Dict[str, Any]:
+        states: Optional[str] = Field(default=None, description="List all environments that match a specific state")) -> Dict[str, Any]:
         """List environments."""
         client = await get_gitlab_client()
         params = {}
@@ -56,8 +55,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         name: str = Field(description="The name of the environment"),
         external_url: Optional[str] = Field(default=None, description="Place to link to for this environment"),
-        tier: Optional[str] = Field(default=None, description="The tier of the new environment")
-    ) -> Dict[str, Any]:
+        tier: Optional[str] = Field(default=None, description="The tier of the new environment")) -> Dict[str, Any]:
         """Create a new environment."""
         client = await get_gitlab_client()
         data = {"name": name}
@@ -75,8 +73,7 @@ def register(mcp: FastMCP):
         environment_id: str = Field(description="The ID of the environment"),
         name: Optional[str] = Field(default=None, description="The new name of the environment"),
         external_url: Optional[str] = Field(default=None, description="The new external_url"),
-        tier: Optional[str] = Field(default=None, description="The new tier of the environment")
-    ) -> Dict[str, Any]:
+        tier: Optional[str] = Field(default=None, description="The new tier of the environment")) -> Dict[str, Any]:
         """Edit an existing environment."""
         client = await get_gitlab_client()
         data = {}
@@ -92,8 +89,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def delete_environment(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        environment_id: str = Field(description="The ID of the environment")
-    ) -> Dict[str, Any]:
+        environment_id: str = Field(description="The ID of the environment")) -> Dict[str, Any]:
         """Delete an environment."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/environments/{environment_id}")
@@ -101,8 +97,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def stop_environment(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        environment_id: str = Field(description="The ID of the environment")
-    ) -> Dict[str, Any]:
+        environment_id: str = Field(description="The ID of the environment")) -> Dict[str, Any]:
         """Stop an environment."""
         client = await get_gitlab_client()
         return await client.post(f"/projects/{project_id}/environments/{environment_id}/stop")
@@ -110,8 +105,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_single_environment(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        environment_id: str = Field(description="The ID of the environment")
-    ) -> Dict[str, Any]:
+        environment_id: str = Field(description="The ID of the environment")) -> Dict[str, Any]:
         """Get a specific environment."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/environments/{environment_id}")

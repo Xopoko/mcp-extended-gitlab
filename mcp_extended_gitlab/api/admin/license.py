@@ -40,8 +40,7 @@ def register(mcp: FastMCP):
 
     @mcp.tool()
     async def add_new_license(
-        license: str = Field(description="The license string")
-    ) -> Dict[str, Any]:
+        license: str = Field(description="The license string")) -> Dict[str, Any]:
         """Add a new license."""
         client = await get_gitlab_client()
         data = {"license": license}

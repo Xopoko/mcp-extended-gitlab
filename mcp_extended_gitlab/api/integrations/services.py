@@ -4,7 +4,8 @@ This module provides access to GitLab's integrations features,
 enabling management of external service integrations.
 """
 
-from typing import Any, Dict
+import json
+from typing import Any, Dict, Optional
 from fastmcp import FastMCP
 from pydantic import Field
 
@@ -34,8 +35,7 @@ def register(mcp: FastMCP):
     
     @mcp.tool()
     async def list_project_integrations(
-        project_id: str = Field(description="The ID or URL-encoded path of the project")
-    ) -> Dict[str, Any]:
+        project_id: str = Field(description="The ID or URL-encoded path of the project")) -> Dict[str, Any]:
         """List project integrations."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/integrations")
@@ -43,8 +43,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_project_integration(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        integration: str = Field(description="The name of the integration")
-    ) -> Dict[str, Any]:
+        integration: str = Field(description="The name of the integration")) -> Dict[str, Any]:
         """Get project integration."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/integrations/{integration}")
@@ -53,17 +52,23 @@ def register(mcp: FastMCP):
     async def activate_integration(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         integration: str = Field(description="The name of the integration"),
-        **kwargs
+        config: Optional[str] = Field(default=None, description="Integration configuration parameters as JSON string. Example: '{\"token\": \"...\", \"url\": \"...\"}'")
     ) -> Dict[str, Any]:
         """Activate a project integration."""
         client = await get_gitlab_client()
-        return await client.put(f"/projects/{project_id}/integrations/{integration}", json_data=kwargs)
+        json_data = {}
+        if config:
+            try:
+                json_data = json.loads(config)
+            except json.JSONDecodeError:
+                # Fallback to empty dict if parsing fails
+                pass
+        return await client.put(f"/projects/{project_id}/integrations/{integration}", json_data=json_data)
 
     @mcp.tool()
     async def disable_integration(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        integration: str = Field(description="The name of the integration")
-    ) -> Dict[str, Any]:
+        integration: str = Field(description="The name of the integration")) -> Dict[str, Any]:
         """Disable a project integration."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/integrations/{integration}")

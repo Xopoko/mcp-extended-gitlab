@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  mcp-gitlab:
+    build: .
+    container_name: mcp-extended-gitlab
+    ports:
+      - "8001:8000"
+    environment:
+      - GITLAB_BASE_URL=${GITLAB_BASE_URL:-https://gitlab.com/api/v4}
+      - GITLAB_PRIVATE_TOKEN=${GITLAB_PRIVATE_TOKEN}
+      # Optional: Enable tool filtering to reduce context usage
+      # Use presets: minimal, core, ci_cd, devops, admin
+      # - GITLAB_ENABLED_TOOLS=${GITLAB_ENABLED_TOOLS:-core}
+      # Or specify tools explicitly:
+      # - GITLAB_ENABLED_TOOLS=list_projects,get_project,list_issues,create_issue
+    restart: unless-stopped
+    volumes:
+      # Optional: Mount a local .env file
+      - ./.env:/app/.env:ro
+    networks:
+      - mcp-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: Add a reverse proxy for better security
+  nginx:
+    image: nginx:alpine
+    container_name: mcp-gitlab-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - mcp-gitlab
+    networks:
+      - mcp-network
+    profiles:
+      - with-proxy
+
+networks:
+  mcp-network:
+    driver: bridge

@@ -40,8 +40,7 @@ def register(mcp: FastMCP):
         state: Optional[str] = Field(default=None, description="The state of the todo"),
         type: Optional[str] = Field(default=None, description="The type of a todo"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """Get a list of todos."""
         client = await get_gitlab_client()
         params = {}
@@ -61,8 +60,7 @@ def register(mcp: FastMCP):
 
     @mcp.tool()
     async def mark_todo_as_done(
-        todo_id: str = Field(description="The ID of a todo")
-    ) -> Dict[str, Any]:
+        todo_id: str = Field(description="The ID of a todo")) -> Dict[str, Any]:
         """Mark a todo as done."""
         client = await get_gitlab_client()
         return await client.post(f"/todos/{todo_id}/mark_as_done")
@@ -75,8 +73,7 @@ def register(mcp: FastMCP):
 
     @mcp.tool()
     async def get_single_todo(
-        todo_id: str = Field(description="The ID of a todo")
-    ) -> Dict[str, Any]:
+        todo_id: str = Field(description="The ID of a todo")) -> Dict[str, Any]:
         """Get a single todo."""
         client = await get_gitlab_client()
         return await client.get(f"/todos/{todo_id}")

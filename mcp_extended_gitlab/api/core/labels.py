@@ -40,8 +40,7 @@ def register(mcp: FastMCP):
         include_ancestor_groups: Optional[bool] = Field(default=True, description="Include ancestor groups"),
         search: Optional[str] = Field(default=None, description="Keyword to filter labels by name"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List project labels."""
         client = await get_gitlab_client()
         params = {}
@@ -60,8 +59,7 @@ def register(mcp: FastMCP):
     async def get_single_project_label(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         label_id: str = Field(description="The ID or title of a project's label"),
-        include_ancestor_groups: Optional[bool] = Field(default=True, description="Include ancestor groups")
-    ) -> Dict[str, Any]:
+        include_ancestor_groups: Optional[bool] = Field(default=True, description="Include ancestor groups")) -> Dict[str, Any]:
         """Get a single project label."""
         client = await get_gitlab_client()
         params = {}
@@ -75,8 +73,7 @@ def register(mcp: FastMCP):
         name: str = Field(description="The name of the label"),
         color: str = Field(description="The color of the label given in 6-digit hex notation with leading '#' sign"),
         description: Optional[str] = Field(default=None, description="The description of the label"),
-        priority: Optional[int] = Field(default=None, description="The priority of the label")
-    ) -> Dict[str, Any]:
+        priority: Optional[int] = Field(default=None, description="The priority of the label")) -> Dict[str, Any]:
         """Create a new label."""
         client = await get_gitlab_client()
         data = {
@@ -94,8 +91,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def delete_label(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        label_id: str = Field(description="The ID or title of a project's label")
-    ) -> Dict[str, Any]:
+        label_id: str = Field(description="The ID or title of a project's label")) -> Dict[str, Any]:
         """Delete a label."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/labels/{label_id}")
@@ -107,8 +103,7 @@ def register(mcp: FastMCP):
         new_name: Optional[str] = Field(default=None, description="The new name of the label"),
         color: Optional[str] = Field(default=None, description="The color of the label given in 6-digit hex notation"),
         description: Optional[str] = Field(default=None, description="The new description of the label"),
-        priority: Optional[int] = Field(default=None, description="The new priority of the label")
-    ) -> Dict[str, Any]:
+        priority: Optional[int] = Field(default=None, description="The new priority of the label")) -> Dict[str, Any]:
         """Edit an existing label."""
         client = await get_gitlab_client()
         data = {}
@@ -125,8 +120,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def promote_project_label_to_group_label(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        label_id: str = Field(description="The ID or title of a project's label")
-    ) -> Dict[str, Any]:
+        label_id: str = Field(description="The ID or title of a project's label")) -> Dict[str, Any]:
         """Promote a project label to group label."""
         client = await get_gitlab_client()
         return await client.put(f"/projects/{project_id}/labels/{label_id}/promote")
@@ -134,8 +128,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def subscribe_to_label(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        label_id: str = Field(description="The ID or title of a project's label")
-    ) -> Dict[str, Any]:
+        label_id: str = Field(description="The ID or title of a project's label")) -> Dict[str, Any]:
         """Subscribe to a label."""
         client = await get_gitlab_client()
         return await client.post(f"/projects/{project_id}/labels/{label_id}/subscribe")
@@ -143,8 +136,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def unsubscribe_from_label(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        label_id: str = Field(description="The ID or title of a project's label")
-    ) -> Dict[str, Any]:
+        label_id: str = Field(description="The ID or title of a project's label")) -> Dict[str, Any]:
         """Unsubscribe from a label."""
         client = await get_gitlab_client()
         return await client.post(f"/projects/{project_id}/labels/{label_id}/unsubscribe")
@@ -158,8 +150,7 @@ def register(mcp: FastMCP):
         only_group_labels: Optional[bool] = Field(default=False, description="Toggle to include only group labels or also project labels"),
         search: Optional[str] = Field(default=None, description="Keyword to filter labels by name"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List group labels."""
         client = await get_gitlab_client()
         params = {}
@@ -181,8 +172,7 @@ def register(mcp: FastMCP):
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
         label_id: str = Field(description="The ID or title of a group's label"),
         include_ancestor_groups: Optional[bool] = Field(default=True, description="Include ancestor groups"),
-        include_descendant_groups: Optional[bool] = Field(default=False, description="Include descendant groups")
-    ) -> Dict[str, Any]:
+        include_descendant_groups: Optional[bool] = Field(default=False, description="Include descendant groups")) -> Dict[str, Any]:
         """Get a single group label."""
         client = await get_gitlab_client()
         params = {}
@@ -199,8 +189,7 @@ def register(mcp: FastMCP):
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
         name: str = Field(description="The name of the label"),
         color: str = Field(description="The color of the label given in 6-digit hex notation with leading '#' sign"),
-        description: Optional[str] = Field(default=None, description="The description of the label")
-    ) -> Dict[str, Any]:
+        description: Optional[str] = Field(default=None, description="The description of the label")) -> Dict[str, Any]:
         """Create a new group label."""
         client = await get_gitlab_client()
         data = {
@@ -217,8 +206,7 @@ def register(mcp: FastMCP):
         label_id: str = Field(description="The ID or title of a group's label"),
         new_name: Optional[str] = Field(default=None, description="The new name of the label"),
         color: Optional[str] = Field(default=None, description="The color of the label given in 6-digit hex notation"),
-        description: Optional[str] = Field(default=None, description="The new description of the label")
-    ) -> Dict[str, Any]:
+        description: Optional[str] = Field(default=None, description="The new description of the label")) -> Dict[str, Any]:
         """Update a group label."""
         client = await get_gitlab_client()
         data = {}
@@ -234,8 +222,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def delete_group_label(
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
-        label_id: str = Field(description="The ID or title of a group's label")
-    ) -> Dict[str, Any]:
+        label_id: str = Field(description="The ID or title of a group's label")) -> Dict[str, Any]:
         """Delete a group label."""
         client = await get_gitlab_client()
         return await client.delete(f"/groups/{group_id}/labels/{label_id}")
@@ -243,8 +230,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def subscribe_to_group_label(
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
-        label_id: str = Field(description="The ID or title of a group's label")
-    ) -> Dict[str, Any]:
+        label_id: str = Field(description="The ID or title of a group's label")) -> Dict[str, Any]:
         """Subscribe to a group label."""
         client = await get_gitlab_client()
         return await client.post(f"/groups/{group_id}/labels/{label_id}/subscribe")
@@ -252,8 +238,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def unsubscribe_from_group_label(
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
-        label_id: str = Field(description="The ID or title of a group's label")
-    ) -> Dict[str, Any]:
+        label_id: str = Field(description="The ID or title of a group's label")) -> Dict[str, Any]:
         """Unsubscribe from a group label."""
         client = await get_gitlab_client()
         return await client.post(f"/groups/{group_id}/labels/{label_id}/unsubscribe")

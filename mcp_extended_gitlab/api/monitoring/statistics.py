@@ -40,16 +40,14 @@ def register(mcp: FastMCP):
 
     @mcp.tool()
     async def get_project_statistics(
-        project_id: str = Field(description="The ID or URL-encoded path of the project")
-    ) -> Dict[str, Any]:
+        project_id: str = Field(description="The ID or URL-encoded path of the project")) -> Dict[str, Any]:
         """Get project statistics."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/statistics")
 
     @mcp.tool()
     async def get_group_statistics(
-        group_id: str = Field(description="The ID or URL-encoded path of the group")
-    ) -> Dict[str, Any]:
+        group_id: str = Field(description="The ID or URL-encoded path of the group")) -> Dict[str, Any]:
         """Get group statistics."""
         client = await get_gitlab_client()
         return await client.get(f"/groups/{group_id}/statistics")

@@ -37,8 +37,7 @@ def register(mcp: FastMCP):
         scope: str = Field(description="The scope to search in"),
         search: str = Field(description="The search query"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """Search globally across GitLab."""
         client = await get_gitlab_client()
         params = {
@@ -59,8 +58,7 @@ def register(mcp: FastMCP):
         scope: str = Field(description="The scope to search in"),
         search: str = Field(description="The search query"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """Search within a specific group."""
         client = await get_gitlab_client()
         params = {
@@ -82,8 +80,7 @@ def register(mcp: FastMCP):
         search: str = Field(description="The search query"),
         ref: Optional[str] = Field(default=None, description="The name of a repository branch or tag to search on"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """Search within a specific project."""
         client = await get_gitlab_client()
         params = {

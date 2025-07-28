@@ -62,8 +62,7 @@ def register(mcp: FastMCP):
         not_assignee_id: Optional[int] = Field(default=None, description="Return issues not assigned to the given user id"),
         not_assignee_username: Optional[str] = Field(default=None, description="Return issues not assigned to the given username"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List all issues the authenticated user has access to."""
         client = await get_gitlab_client()
         params = {}
@@ -120,8 +119,7 @@ def register(mcp: FastMCP):
         updated_before: Optional[str] = Field(default=None, description="Return issues updated on or before the given time"),
         confidential: Optional[bool] = Field(default=None, description="Filter confidential or public issues"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """Get a list of group issues."""
         client = await get_gitlab_client()
         params = {}
@@ -170,8 +168,7 @@ def register(mcp: FastMCP):
         updated_before: Optional[str] = Field(default=None, description="Return issues updated on or before the given time"),
         confidential: Optional[bool] = Field(default=None, description="Filter confidential or public issues"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """Get a list of project issues."""
         client = await get_gitlab_client()
         params = {}
@@ -202,8 +199,7 @@ def register(mcp: FastMCP):
 
     @mcp.tool()
     async def get_single_issue(
-        issue_iid: str = Field(description="The internal ID of a project's issue")
-    ) -> Dict[str, Any]:
+        issue_iid: str = Field(description="The internal ID of a project's issue")) -> Dict[str, Any]:
         """Get a single issue."""
         client = await get_gitlab_client()
         return await client.get(f"/issues/{issue_iid}")
@@ -211,8 +207,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_single_project_issue(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        issue_iid: str = Field(description="The internal ID of a project's issue")
-    ) -> Dict[str, Any]:
+        issue_iid: str = Field(description="The internal ID of a project's issue")) -> Dict[str, Any]:
         """Get a single project issue."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/issues/{issue_iid}")
@@ -231,8 +226,7 @@ def register(mcp: FastMCP):
         merge_request_to_resolve_discussions_of: Optional[int] = Field(default=None, description="The IID of a merge request in which to resolve all issues"),
         discussion_to_resolve: Optional[str] = Field(default=None, description="The ID of a discussion to resolve"),
         weight: Optional[int] = Field(default=None, description="The weight of the issue"),
-        epic_id: Optional[int] = Field(default=None, description="ID of the epic to add the issue to")
-    ) -> Dict[str, Any]:
+        epic_id: Optional[int] = Field(default=None, description="ID of the epic to add the issue to")) -> Dict[str, Any]:
         """Create a new issue."""
         client = await get_gitlab_client()
         data = {"title": title}
@@ -269,8 +263,7 @@ def register(mcp: FastMCP):
         updated_at: Optional[str] = Field(default=None, description="Date time string, ISO 8601 formatted"),
         due_date: Optional[str] = Field(default=None, description="Date time string in the format YYYY-MM-DD"),
         weight: Optional[int] = Field(default=None, description="The weight of the issue"),
-        discussion_locked: Optional[bool] = Field(default=None, description="Flag indicating if the issue's discussion is locked")
-    ) -> Dict[str, Any]:
+        discussion_locked: Optional[bool] = Field(default=None, description="Flag indicating if the issue's discussion is locked")) -> Dict[str, Any]:
         """Update an issue."""
         client = await get_gitlab_client()
         data = {}
@@ -296,8 +289,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def delete_issue(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        issue_iid: str = Field(description="The internal ID of a project's issue")
-    ) -> Dict[str, Any]:
+        issue_iid: str = Field(description="The internal ID of a project's issue")) -> Dict[str, Any]:
         """Delete an issue."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/issues/{issue_iid}")
@@ -307,8 +299,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         issue_iid: str = Field(description="The internal ID of a project's issue"),
         move_after_id: Optional[int] = Field(default=None, description="The ID of a project's issue to move this issue after"),
-        move_before_id: Optional[int] = Field(default=None, description="The ID of a project's issue to move this issue before")
-    ) -> Dict[str, Any]:
+        move_before_id: Optional[int] = Field(default=None, description="The ID of a project's issue to move this issue before")) -> Dict[str, Any]:
         """Reorder an issue."""
         client = await get_gitlab_client()
         data = {}
@@ -322,8 +313,7 @@ def register(mcp: FastMCP):
     async def move_issue(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         issue_iid: str = Field(description="The internal ID of a project's issue"),
-        to_project_id: str = Field(description="The ID or URL-encoded path of the project to move the issue to")
-    ) -> Dict[str, Any]:
+        to_project_id: str = Field(description="The ID or URL-encoded path of the project to move the issue to")) -> Dict[str, Any]:
         """Move an issue."""
         client = await get_gitlab_client()
         data = {"to_project_id": to_project_id}
@@ -332,8 +322,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def subscribe_to_issue(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        issue_iid: str = Field(description="The internal ID of a project's issue")
-    ) -> Dict[str, Any]:
+        issue_iid: str = Field(description="The internal ID of a project's issue")) -> Dict[str, Any]:
         """Subscribe to an issue."""
         client = await get_gitlab_client()
         return await client.post(f"/projects/{project_id}/issues/{issue_iid}/subscribe")
@@ -341,8 +330,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def unsubscribe_from_issue(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        issue_iid: str = Field(description="The internal ID of a project's issue")
-    ) -> Dict[str, Any]:
+        issue_iid: str = Field(description="The internal ID of a project's issue")) -> Dict[str, Any]:
         """Unsubscribe from an issue."""
         client = await get_gitlab_client()
         return await client.post(f"/projects/{project_id}/issues/{issue_iid}/unsubscribe")
@@ -350,8 +338,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def create_todo_for_issue(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        issue_iid: str = Field(description="The internal ID of a project's issue")
-    ) -> Dict[str, Any]:
+        issue_iid: str = Field(description="The internal ID of a project's issue")) -> Dict[str, Any]:
         """Create a todo for the current user on an issue."""
         client = await get_gitlab_client()
         return await client.post(f"/projects/{project_id}/issues/{issue_iid}/todo")
@@ -359,8 +346,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_issue_user_agent_details(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        issue_iid: str = Field(description="The internal ID of a project's issue")
-    ) -> Dict[str, Any]:
+        issue_iid: str = Field(description="The internal ID of a project's issue")) -> Dict[str, Any]:
         """Get user agent details for an issue."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/issues/{issue_iid}/user_agent_detail")
@@ -368,8 +354,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def list_issue_participants(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        issue_iid: str = Field(description="The internal ID of a project's issue")
-    ) -> Dict[str, Any]:
+        issue_iid: str = Field(description="The internal ID of a project's issue")) -> Dict[str, Any]:
         """List participants on an issue."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/issues/{issue_iid}/participants")
@@ -377,8 +362,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def list_issue_links(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        issue_iid: str = Field(description="The internal ID of a project's issue")
-    ) -> Dict[str, Any]:
+        issue_iid: str = Field(description="The internal ID of a project's issue")) -> Dict[str, Any]:
         """List links for an issue."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/issues/{issue_iid}/links")
@@ -389,8 +373,7 @@ def register(mcp: FastMCP):
         issue_iid: str = Field(description="The internal ID of a project's issue"),
         target_project_id: str = Field(description="The ID or URL-encoded path of the project of a target issue"),
         target_issue_iid: str = Field(description="The internal ID of a target project's issue"),
-        link_type: Optional[str] = Field(default=None, description="The type of the link (relates_to, blocks, is_blocked_by)")
-    ) -> Dict[str, Any]:
+        link_type: Optional[str] = Field(default=None, description="The type of the link (relates_to, blocks, is_blocked_by)")) -> Dict[str, Any]:
         """Create an issue link."""
         client = await get_gitlab_client()
         data = {
@@ -405,8 +388,7 @@ def register(mcp: FastMCP):
     async def delete_issue_link(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         issue_iid: str = Field(description="The internal ID of a project's issue"),
-        issue_link_id: str = Field(description="The ID of an issue link")
-    ) -> Dict[str, Any]:
+        issue_link_id: str = Field(description="The ID of an issue link")) -> Dict[str, Any]:
         """Delete an issue link."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/issues/{issue_iid}/links/{issue_link_id}")
@@ -414,8 +396,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def list_related_issues(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        issue_iid: str = Field(description="The internal ID of a project's issue")
-    ) -> Dict[str, Any]:
+        issue_iid: str = Field(description="The internal ID of a project's issue")) -> Dict[str, Any]:
         """List related issues of an issue."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/issues/{issue_iid}/related_issues")
@@ -424,8 +405,7 @@ def register(mcp: FastMCP):
     async def set_issue_time_estimate(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         issue_iid: str = Field(description="The internal ID of a project's issue"),
-        duration: str = Field(description="The duration in human format. e.g: 3h30m")
-    ) -> Dict[str, Any]:
+        duration: str = Field(description="The duration in human format. e.g: 3h30m")) -> Dict[str, Any]:
         """Set a time estimate for an issue."""
         client = await get_gitlab_client()
         data = {"duration": duration}
@@ -434,8 +414,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def reset_issue_time_estimate(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        issue_iid: str = Field(description="The internal ID of a project's issue")
-    ) -> Dict[str, Any]:
+        issue_iid: str = Field(description="The internal ID of a project's issue")) -> Dict[str, Any]:
         """Reset the time estimate for an issue."""
         client = await get_gitlab_client()
         return await client.post(f"/projects/{project_id}/issues/{issue_iid}/reset_time_estimate")
@@ -444,8 +423,7 @@ def register(mcp: FastMCP):
     async def add_issue_spent_time(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         issue_iid: str = Field(description="The internal ID of a project's issue"),
-        duration: str = Field(description="The duration in human format. e.g: 3h30m")
-    ) -> Dict[str, Any]:
+        duration: str = Field(description="The duration in human format. e.g: 3h30m")) -> Dict[str, Any]:
         """Add spent time for an issue."""
         client = await get_gitlab_client()
         data = {"duration": duration}
@@ -454,8 +432,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def reset_issue_spent_time(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        issue_iid: str = Field(description="The internal ID of a project's issue")
-    ) -> Dict[str, Any]:
+        issue_iid: str = Field(description="The internal ID of a project's issue")) -> Dict[str, Any]:
         """Reset spent time for an issue."""
         client = await get_gitlab_client()
         return await client.post(f"/projects/{project_id}/issues/{issue_iid}/reset_spent_time")
@@ -463,8 +440,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_issue_time_stats(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        issue_iid: str = Field(description="The internal ID of a project's issue")
-    ) -> Dict[str, Any]:
+        issue_iid: str = Field(description="The internal ID of a project's issue")) -> Dict[str, Any]:
         """Get time tracking stats for an issue."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/issues/{issue_iid}/time_stats")
@@ -472,8 +448,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def list_issue_closed_by(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        issue_iid: str = Field(description="The internal ID of a project's issue")
-    ) -> Dict[str, Any]:
+        issue_iid: str = Field(description="The internal ID of a project's issue")) -> Dict[str, Any]:
         """List merge requests that will close issue on merge."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/issues/{issue_iid}/closed_by")

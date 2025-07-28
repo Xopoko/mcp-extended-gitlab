@@ -41,8 +41,7 @@ def register(mcp: FastMCP):
         ref: Optional[str] = Field(default=None, description="The name of a repository branch or tag or if not given the default branch"),
         recursive: Optional[bool] = Field(default=False, description="Boolean value used to get a recursive tree (false by default)"),
         per_page: Optional[int] = Field(default=None, description="Number of results to show"),
-        page: Optional[int] = Field(default=None, description="Page number")
-    ) -> Dict[str, Any]:
+        page: Optional[int] = Field(default=None, description="Page number")) -> Dict[str, Any]:
         """Get a list of repository files and directories in a project."""
         client = await get_gitlab_client()
         params = {}
@@ -61,8 +60,7 @@ def register(mcp: FastMCP):
     async def get_raw_file(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         file_path: str = Field(description="URL-encoded full path to new file"),
-        ref: Optional[str] = Field(default=None, description="The name of branch, tag or commit")
-    ) -> Dict[str, Any]:
+        ref: Optional[str] = Field(default=None, description="The name of branch, tag or commit")) -> Dict[str, Any]:
         """Get raw file from repository."""
         client = await get_gitlab_client()
         params = {}
@@ -74,8 +72,7 @@ def register(mcp: FastMCP):
     async def get_file_from_repository(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         file_path: str = Field(description="URL-encoded full path to new file"),
-        ref: str = Field(description="The name of branch, tag or commit")
-    ) -> Dict[str, Any]:
+        ref: str = Field(description="The name of branch, tag or commit")) -> Dict[str, Any]:
         """Get file from repository."""
         client = await get_gitlab_client()
         params = {"ref": ref}
@@ -87,8 +84,7 @@ def register(mcp: FastMCP):
         file_path: str = Field(description="URL-encoded full path to new file"),
         ref: str = Field(description="The name of branch, tag or commit"),
         range_start: Optional[int] = Field(default=None, description="The first line of the range to blame"),
-        range_end: Optional[int] = Field(default=None, description="The last line of the range to blame")
-    ) -> Dict[str, Any]:
+        range_end: Optional[int] = Field(default=None, description="The last line of the range to blame")) -> Dict[str, Any]:
         """Get file blame from repository."""
         client = await get_gitlab_client()
         params = {"ref": ref}
@@ -103,14 +99,13 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         file_path: str = Field(description="URL-encoded full path to new file"),
         branch: str = Field(description="Name of the new branch to create"),
+        content: str = Field(description="File content"),
+        commit_message: str = Field(description="Commit message"),
         start_branch: Optional[str] = Field(default=None, description="Name of the base branch to create the new branch from"),
         encoding: Optional[str] = Field(default="text", description="Change encoding to base64. Default is text"),
         author_email: Optional[str] = Field(default=None, description="Specify the commit author's email address"),
         author_name: Optional[str] = Field(default=None, description="Specify the commit author's name"),
-        content: str = Field(description="File content"),
-        commit_message: str = Field(description="Commit message"),
-        execute_filemode: Optional[bool] = Field(default=False, description="Enables or disables the execute flag on the file")
-    ) -> Dict[str, Any]:
+        execute_filemode: Optional[bool] = Field(default=False, description="Enables or disables the execute flag on the file")) -> Dict[str, Any]:
         """Create new file in repository."""
         client = await get_gitlab_client()
         data = {
@@ -134,15 +129,14 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         file_path: str = Field(description="URL-encoded full path to new file"),
         branch: str = Field(description="Name of the new branch to create"),
+        content: str = Field(description="File content"),
+        commit_message: str = Field(description="Commit message"),
         start_branch: Optional[str] = Field(default=None, description="Name of the base branch to create the new branch from"),
         encoding: Optional[str] = Field(default="text", description="Change encoding to base64. Default is text"),
         author_email: Optional[str] = Field(default=None, description="Specify the commit author's email address"),
         author_name: Optional[str] = Field(default=None, description="Specify the commit author's name"),
-        content: str = Field(description="File content"),
-        commit_message: str = Field(description="Commit message"),
         last_commit_id: Optional[str] = Field(default=None, description="Last known file commit ID"),
-        execute_filemode: Optional[bool] = Field(default=None, description="Enables or disables the execute flag on the file")
-    ) -> Dict[str, Any]:
+        execute_filemode: Optional[bool] = Field(default=None, description="Enables or disables the execute flag on the file")) -> Dict[str, Any]:
         """Update existing file in repository."""
         client = await get_gitlab_client()
         data = {
@@ -167,12 +161,11 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         file_path: str = Field(description="URL-encoded full path to new file"),
         branch: str = Field(description="Name of the new branch to create"),
+        commit_message: str = Field(description="Commit message"),
         start_branch: Optional[str] = Field(default=None, description="Name of the base branch to create the new branch from"),
         author_email: Optional[str] = Field(default=None, description="Specify the commit author's email address"),
         author_name: Optional[str] = Field(default=None, description="Specify the commit author's name"),
-        commit_message: str = Field(description="Commit message"),
-        last_commit_id: Optional[str] = Field(default=None, description="Last known file commit ID")
-    ) -> Dict[str, Any]:
+        last_commit_id: Optional[str] = Field(default=None, description="Last known file commit ID")) -> Dict[str, Any]:
         """Delete existing file in repository."""
         client = await get_gitlab_client()
         data = {
@@ -193,8 +186,7 @@ def register(mcp: FastMCP):
     async def list_repository_contributors(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         order_by: Optional[str] = Field(default=None, description="Return contributors ordered by name, email, or commits fields"),
-        sort: Optional[str] = Field(default=None, description="Return contributors sorted in asc or desc order")
-    ) -> Dict[str, Any]:
+        sort: Optional[str] = Field(default=None, description="Return contributors sorted in asc or desc order")) -> Dict[str, Any]:
         """Get repository contributors list."""
         client = await get_gitlab_client()
         params = {}
@@ -210,8 +202,7 @@ def register(mcp: FastMCP):
     async def get_repository_archive(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         sha: Optional[str] = Field(default=None, description="The commit SHA to download. A tag, branch reference, or SHA can be used"),
-        format: Optional[str] = Field(default="tar.gz", description="The archive format. Default is tar.gz")
-    ) -> Dict[str, Any]:
+        format: Optional[str] = Field(default="tar.gz", description="The archive format. Default is tar.gz")) -> Dict[str, Any]:
         """Get an archive of the repository."""
         client = await get_gitlab_client()
         params = {}
@@ -228,8 +219,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         from_ref: str = Field(description="The commit SHA or branch name"),
         to_ref: str = Field(description="The commit SHA or branch name"),
-        straight: Optional[bool] = Field(default=False, description="Comparison method, true for direct comparison between from and to (from..to), false to compare using merge base (from...to)")
-    ) -> Dict[str, Any]:
+        straight: Optional[bool] = Field(default=False, description="Comparison method, true for direct comparison between from and to (from..to), false to compare using merge base (from...to)")) -> Dict[str, Any]:
         """Compare branches, tags or commits."""
         client = await get_gitlab_client()
         params = {
@@ -243,8 +233,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def list_repository_submodules(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        ref: Optional[str] = Field(default=None, description="The commit SHA or branch name")
-    ) -> Dict[str, Any]:
+        ref: Optional[str] = Field(default=None, description="The commit SHA or branch name")) -> Dict[str, Any]:
         """List repository submodules."""
         client = await get_gitlab_client()
         params = {}
@@ -258,8 +247,7 @@ def register(mcp: FastMCP):
         version: str = Field(description="The version to generate changelog for"),
         from_ref: Optional[str] = Field(default=None, description="The SHA or branch name to start from"),
         to_ref: Optional[str] = Field(default=None, description="The SHA or branch name to end at"),
-        date: Optional[str] = Field(default=None, description="The date and time of the release")
-    ) -> Dict[str, Any]:
+        date: Optional[str] = Field(default=None, description="The date and time of the release")) -> Dict[str, Any]:
         """Generate changelog data for a repository."""
         client = await get_gitlab_client()
         params = {"version": version}
@@ -283,8 +271,7 @@ def register(mcp: FastMCP):
         from_ref: Optional[str] = Field(default=None, description="The SHA or branch name to start from"),
         message: Optional[str] = Field(default=None, description="The commit message to use when committing the changelog"),
         to_ref: Optional[str] = Field(default=None, description="The SHA or branch name to end at"),
-        trailer: Optional[str] = Field(default=None, description="The Git trailer to use for including commits")
-    ) -> Dict[str, Any]:
+        trailer: Optional[str] = Field(default=None, description="The Git trailer to use for including commits")) -> Dict[str, Any]:
         """Generate changelog data for a repository and commit it."""
         client = await get_gitlab_client()
         data = {"version": version}

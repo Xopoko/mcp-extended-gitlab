@@ -40,8 +40,7 @@ def register(mcp: FastMCP):
 
     @mcp.tool()
     async def list_project_deploy_keys(
-        project_id: str = Field(description="The ID or URL-encoded path of the project")
-    ) -> Dict[str, Any]:
+        project_id: str = Field(description="The ID or URL-encoded path of the project")) -> Dict[str, Any]:
         """List project deploy keys."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/deploy_keys")
@@ -49,8 +48,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_single_deploy_key(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        key_id: str = Field(description="The ID of the deploy key")
-    ) -> Dict[str, Any]:
+        key_id: str = Field(description="The ID of the deploy key")) -> Dict[str, Any]:
         """Get a single deploy key."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/deploy_keys/{key_id}")
@@ -60,8 +58,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         title: str = Field(description="New deploy key's title"),
         key: str = Field(description="New deploy key"),
-        can_push: Optional[bool] = Field(default=False, description="Can deploy key push to the project's repository")
-    ) -> Dict[str, Any]:
+        can_push: Optional[bool] = Field(default=False, description="Can deploy key push to the project's repository")) -> Dict[str, Any]:
         """Add a deploy key."""
         client = await get_gitlab_client()
         data = {
@@ -76,8 +73,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         key_id: str = Field(description="The ID of the deploy key"),
         title: Optional[str] = Field(default=None, description="New deploy key's title"),
-        can_push: Optional[bool] = Field(default=None, description="Can deploy key push to the project's repository")
-    ) -> Dict[str, Any]:
+        can_push: Optional[bool] = Field(default=None, description="Can deploy key push to the project's repository")) -> Dict[str, Any]:
         """Update a deploy key."""
         client = await get_gitlab_client()
         data = {}
@@ -92,8 +88,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def delete_deploy_key(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        key_id: str = Field(description="The ID of the deploy key")
-    ) -> Dict[str, Any]:
+        key_id: str = Field(description="The ID of the deploy key")) -> Dict[str, Any]:
         """Delete a deploy key."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/deploy_keys/{key_id}")
@@ -101,8 +96,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def enable_deploy_key(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        key_id: str = Field(description="The ID of the deploy key")
-    ) -> Dict[str, Any]:
+        key_id: str = Field(description="The ID of the deploy key")) -> Dict[str, Any]:
         """Enable a deploy key."""
         client = await get_gitlab_client()
         return await client.post(f"/projects/{project_id}/deploy_keys/{key_id}/enable")
@@ -110,8 +104,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def disable_deploy_key(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        key_id: str = Field(description="The ID of the deploy key")
-    ) -> Dict[str, Any]:
+        key_id: str = Field(description="The ID of the deploy key")) -> Dict[str, Any]:
         """Disable a deploy key."""
         client = await get_gitlab_client()
         return await client.post(f"/projects/{project_id}/deploy_keys/{key_id}/disable")

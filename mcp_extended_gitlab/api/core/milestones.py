@@ -44,8 +44,7 @@ def register(mcp: FastMCP):
         updated_before: Optional[str] = Field(default=None, description="Return only milestones updated before the given datetime"),
         updated_after: Optional[str] = Field(default=None, description="Return only milestones updated after the given datetime"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List project milestones."""
         client = await get_gitlab_client()
         params = {}
@@ -67,8 +66,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_single_milestone(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        milestone_id: str = Field(description="The ID of the project milestone")
-    ) -> Dict[str, Any]:
+        milestone_id: str = Field(description="The ID of the project milestone")) -> Dict[str, Any]:
         """Get single milestone."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/milestones/{milestone_id}")
@@ -79,8 +77,7 @@ def register(mcp: FastMCP):
         title: str = Field(description="The title of a milestone"),
         description: Optional[str] = Field(default=None, description="The description of the milestone"),
         due_date: Optional[str] = Field(default=None, description="The due date of the milestone"),
-        start_date: Optional[str] = Field(default=None, description="The start date of the milestone")
-    ) -> Dict[str, Any]:
+        start_date: Optional[str] = Field(default=None, description="The start date of the milestone")) -> Dict[str, Any]:
         """Create a new milestone."""
         client = await get_gitlab_client()
         data = {"title": title}
@@ -101,8 +98,7 @@ def register(mcp: FastMCP):
         description: Optional[str] = Field(default=None, description="The description of the milestone"),
         due_date: Optional[str] = Field(default=None, description="The due date of the milestone"),
         start_date: Optional[str] = Field(default=None, description="The start date of the milestone"),
-        state_event: Optional[str] = Field(default=None, description="The state event of the milestone")
-    ) -> Dict[str, Any]:
+        state_event: Optional[str] = Field(default=None, description="The state event of the milestone")) -> Dict[str, Any]:
         """Edit milestone."""
         client = await get_gitlab_client()
         data = {}
@@ -120,8 +116,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def delete_milestone(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        milestone_id: str = Field(description="The ID of the project milestone")
-    ) -> Dict[str, Any]:
+        milestone_id: str = Field(description="The ID of the project milestone")) -> Dict[str, Any]:
         """Delete milestone."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/milestones/{milestone_id}")
@@ -129,8 +124,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_all_issues_assigned_to_milestone(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        milestone_id: str = Field(description="The ID of the project milestone")
-    ) -> Dict[str, Any]:
+        milestone_id: str = Field(description="The ID of the project milestone")) -> Dict[str, Any]:
         """Get all issues assigned to a single milestone."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/milestones/{milestone_id}/issues")
@@ -138,8 +132,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_all_merge_requests_assigned_to_milestone(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        milestone_id: str = Field(description="The ID of the project milestone")
-    ) -> Dict[str, Any]:
+        milestone_id: str = Field(description="The ID of the project milestone")) -> Dict[str, Any]:
         """Get all merge requests assigned to a single milestone."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/milestones/{milestone_id}/merge_requests")
@@ -147,8 +140,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def promote_project_milestone_to_group_milestone(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        milestone_id: str = Field(description="The ID of the project milestone")
-    ) -> Dict[str, Any]:
+        milestone_id: str = Field(description="The ID of the project milestone")) -> Dict[str, Any]:
         """Promote project milestone to group milestone."""
         client = await get_gitlab_client()
         return await client.post(f"/projects/{project_id}/milestones/{milestone_id}/promote")
@@ -164,8 +156,7 @@ def register(mcp: FastMCP):
         updated_before: Optional[str] = Field(default=None, description="Return only milestones updated before the given datetime"),
         updated_after: Optional[str] = Field(default=None, description="Return only milestones updated after the given datetime"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List group milestones."""
         client = await get_gitlab_client()
         params = {}
@@ -187,8 +178,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_single_group_milestone(
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
-        milestone_id: str = Field(description="The ID of the group milestone")
-    ) -> Dict[str, Any]:
+        milestone_id: str = Field(description="The ID of the group milestone")) -> Dict[str, Any]:
         """Get single group milestone."""
         client = await get_gitlab_client()
         return await client.get(f"/groups/{group_id}/milestones/{milestone_id}")
@@ -199,8 +189,7 @@ def register(mcp: FastMCP):
         title: str = Field(description="The title of a milestone"),
         description: Optional[str] = Field(default=None, description="The description of the milestone"),
         due_date: Optional[str] = Field(default=None, description="The due date of the milestone"),
-        start_date: Optional[str] = Field(default=None, description="The start date of the milestone")
-    ) -> Dict[str, Any]:
+        start_date: Optional[str] = Field(default=None, description="The start date of the milestone")) -> Dict[str, Any]:
         """Create a new group milestone."""
         client = await get_gitlab_client()
         data = {"title": title}
@@ -221,8 +210,7 @@ def register(mcp: FastMCP):
         description: Optional[str] = Field(default=None, description="The description of the milestone"),
         due_date: Optional[str] = Field(default=None, description="The due date of the milestone"),
         start_date: Optional[str] = Field(default=None, description="The start date of the milestone"),
-        state_event: Optional[str] = Field(default=None, description="The state event of the milestone")
-    ) -> Dict[str, Any]:
+        state_event: Optional[str] = Field(default=None, description="The state event of the milestone")) -> Dict[str, Any]:
         """Edit group milestone."""
         client = await get_gitlab_client()
         data = {}
@@ -240,8 +228,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def delete_group_milestone(
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
-        milestone_id: str = Field(description="The ID of the group milestone")
-    ) -> Dict[str, Any]:
+        milestone_id: str = Field(description="The ID of the group milestone")) -> Dict[str, Any]:
         """Delete group milestone."""
         client = await get_gitlab_client()
         return await client.delete(f"/groups/{group_id}/milestones/{milestone_id}")
@@ -249,8 +236,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_all_issues_assigned_to_group_milestone(
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
-        milestone_id: str = Field(description="The ID of the group milestone")
-    ) -> Dict[str, Any]:
+        milestone_id: str = Field(description="The ID of the group milestone")) -> Dict[str, Any]:
         """Get all issues assigned to a single group milestone."""
         client = await get_gitlab_client()
         return await client.get(f"/groups/{group_id}/milestones/{milestone_id}/issues")
@@ -258,8 +244,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_all_merge_requests_assigned_to_group_milestone(
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
-        milestone_id: str = Field(description="The ID of the group milestone")
-    ) -> Dict[str, Any]:
+        milestone_id: str = Field(description="The ID of the group milestone")) -> Dict[str, Any]:
         """Get all merge requests assigned to a single group milestone."""
         client = await get_gitlab_client()
         return await client.get(f"/groups/{group_id}/milestones/{milestone_id}/merge_requests")

@@ -47,8 +47,7 @@ def register(mcp: FastMCP):
         setup_for_company: Optional[bool] = Field(default=None, description="Indicates the purpose for which this account is being used"),
         render_whitespace_in_code: Optional[bool] = Field(default=None, description="Render whitespace characters in the Web IDE"),
         use_legacy_web_ide: Optional[bool] = Field(default=None, description="Use the legacy Web IDE"),
-        keyboard_shortcuts_enabled: Optional[bool] = Field(default=None, description="Enable keyboard shortcuts")
-    ) -> Dict[str, Any]:
+        keyboard_shortcuts_enabled: Optional[bool] = Field(default=None, description="Enable keyboard shortcuts")) -> Dict[str, Any]:
         """Update current user settings."""
         client = await get_gitlab_client()
         data = {}

@@ -72,8 +72,7 @@ def register(mcp: FastMCP):
         not_my_reaction_emoji: Optional[str] = Field(default=None, description="Return merge requests not reacted by the authenticated user"),
         deployment_status: Optional[str] = Field(default=None, description="Return merge requests with the given deployment status"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List all merge requests the authenticated user has access to."""
         client = await get_gitlab_client()
         params = {}
@@ -146,8 +145,7 @@ def register(mcp: FastMCP):
         search: Optional[str] = Field(default=None, description="Search merge requests against their title and description"),
         wip: Optional[str] = Field(default=None, description="Filter merge requests against their wip status"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """Get all merge requests for this project."""
         client = await get_gitlab_client()
         params = {}
@@ -202,8 +200,7 @@ def register(mcp: FastMCP):
         target_branch: Optional[str] = Field(default=None, description="Return merge requests with the given target branch"),
         search: Optional[str] = Field(default=None, description="Search merge requests against their title and description"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """Get all merge requests for this group."""
         client = await get_gitlab_client()
         params = {}
@@ -238,8 +235,7 @@ def register(mcp: FastMCP):
         merge_request_iid: str = Field(description="The internal ID of the merge request"),
         render_html: Optional[bool] = Field(default=None, description="If true response includes rendered HTML for title and description"),
         include_diverged_commits_count: Optional[bool] = Field(default=None, description="If true response includes the commits behind the target branch"),
-        include_rebase_in_progress: Optional[bool] = Field(default=None, description="If true response includes whether a rebase operation is in progress")
-    ) -> Dict[str, Any]:
+        include_rebase_in_progress: Optional[bool] = Field(default=None, description="If true response includes whether a rebase operation is in progress")) -> Dict[str, Any]:
         """Shows information about a single merge request."""
         client = await get_gitlab_client()
         params = {}
@@ -255,8 +251,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_single_mr_participants(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        merge_request_iid: str = Field(description="The internal ID of the merge request")
-    ) -> Dict[str, Any]:
+        merge_request_iid: str = Field(description="The internal ID of the merge request")) -> Dict[str, Any]:
         """Get list of merge request participants."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/merge_requests/{merge_request_iid}/participants")
@@ -264,8 +259,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_single_mr_commits(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        merge_request_iid: str = Field(description="The internal ID of the merge request")
-    ) -> Dict[str, Any]:
+        merge_request_iid: str = Field(description="The internal ID of the merge request")) -> Dict[str, Any]:
         """Get list of merge request commits."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/merge_requests/{merge_request_iid}/commits")
@@ -273,8 +267,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_single_mr_reviewers(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        merge_request_iid: str = Field(description="The internal ID of the merge request")
-    ) -> Dict[str, Any]:
+        merge_request_iid: str = Field(description="The internal ID of the merge request")) -> Dict[str, Any]:
         """Get list of merge request reviewers."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/merge_requests/{merge_request_iid}/reviewers")
@@ -283,8 +276,7 @@ def register(mcp: FastMCP):
     async def get_single_mr_changes(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         merge_request_iid: str = Field(description="The internal ID of the merge request"),
-        access_raw_diffs: Optional[bool] = Field(default=None, description="Retrieve change diffs via Gitaly")
-    ) -> Dict[str, Any]:
+        access_raw_diffs: Optional[bool] = Field(default=None, description="Retrieve change diffs via Gitaly")) -> Dict[str, Any]:
         """Shows information about the merge request including its files and changes."""
         client = await get_gitlab_client()
         params = {}
@@ -295,8 +287,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def list_mr_pipelines(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        merge_request_iid: str = Field(description="The internal ID of the merge request")
-    ) -> Dict[str, Any]:
+        merge_request_iid: str = Field(description="The internal ID of the merge request")) -> Dict[str, Any]:
         """Get a list of merge request pipelines."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/merge_requests/{merge_request_iid}/pipelines")
@@ -304,8 +295,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def create_mr_pipeline(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        merge_request_iid: str = Field(description="The internal ID of the merge request")
-    ) -> Dict[str, Any]:
+        merge_request_iid: str = Field(description="The internal ID of the merge request")) -> Dict[str, Any]:
         """Create MR pipeline."""
         client = await get_gitlab_client()
         return await client.post(f"/projects/{project_id}/merge_requests/{merge_request_iid}/pipelines")
@@ -326,8 +316,7 @@ def register(mcp: FastMCP):
         remove_source_branch: Optional[bool] = Field(default=None, description="Flag indicating if a merge request should remove the source branch when merging"),
         allow_collaboration: Optional[bool] = Field(default=None, description="Allow commits from members who can merge to the target branch"),
         allow_maintainer_to_push: Optional[bool] = Field(default=None, description="Deprecated, use allow_collaboration"),
-        squash: Optional[bool] = Field(default=None, description="Squash commits into a single commit when merging")
-    ) -> Dict[str, Any]:
+        squash: Optional[bool] = Field(default=None, description="Squash commits into a single commit when merging")) -> Dict[str, Any]:
         """Creates a new merge request."""
         client = await get_gitlab_client()
         data = {
@@ -371,8 +360,7 @@ def register(mcp: FastMCP):
         squash: Optional[bool] = Field(default=None, description="Squash commits into a single commit when merging"),
         discussion_locked: Optional[bool] = Field(default=None, description="Flag indicating if the merge request's discussion is locked"),
         allow_collaboration: Optional[bool] = Field(default=None, description="Allow commits from members who can merge to the target branch"),
-        allow_maintainer_to_push: Optional[bool] = Field(default=None, description="Deprecated, use allow_collaboration")
-    ) -> Dict[str, Any]:
+        allow_maintainer_to_push: Optional[bool] = Field(default=None, description="Deprecated, use allow_collaboration")) -> Dict[str, Any]:
         """Updates an existing merge request."""
         client = await get_gitlab_client()
         data = {}
@@ -401,8 +389,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def delete_merge_request(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        merge_request_iid: str = Field(description="The internal ID of the merge request")
-    ) -> Dict[str, Any]:
+        merge_request_iid: str = Field(description="The internal ID of the merge request")) -> Dict[str, Any]:
         """Only for admins and project owners. Deletes the merge request in question."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/merge_requests/{merge_request_iid}")
@@ -416,8 +403,7 @@ def register(mcp: FastMCP):
         squash: Optional[bool] = Field(default=None, description="if true the commits are squashed into a single commit on merge"),
         should_remove_source_branch: Optional[bool] = Field(default=None, description="if true removes the source branch"),
         merge_when_pipeline_succeeds: Optional[bool] = Field(default=None, description="if true the MR is merged when the pipeline succeeds"),
-        sha: Optional[str] = Field(default=None, description="if present, then this SHA must match the HEAD of the source branch, otherwise the merge fails")
-    ) -> Dict[str, Any]:
+        sha: Optional[str] = Field(default=None, description="if present, then this SHA must match the HEAD of the source branch, otherwise the merge fails")) -> Dict[str, Any]:
         """Accept and merge changes submitted with merge request using this API."""
         client = await get_gitlab_client()
         data = {}
@@ -436,8 +422,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def merge_ref(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        merge_request_iid: str = Field(description="The internal ID of the merge request")
-    ) -> Dict[str, Any]:
+        merge_request_iid: str = Field(description="The internal ID of the merge request")) -> Dict[str, Any]:
         """Merge the changes between the merge request source and target branches into refs/merge-requests/:iid/merge ref."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/merge_requests/{merge_request_iid}/merge_ref")
@@ -445,8 +430,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def cancel_merge_when_pipeline_succeeds(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        merge_request_iid: str = Field(description="The internal ID of the merge request")
-    ) -> Dict[str, Any]:
+        merge_request_iid: str = Field(description="The internal ID of the merge request")) -> Dict[str, Any]:
         """Cancel Merge When Pipeline Succeeds."""
         client = await get_gitlab_client()
         return await client.post(f"/projects/{project_id}/merge_requests/{merge_request_iid}/cancel_merge_when_pipeline_succeeds")
@@ -455,8 +439,7 @@ def register(mcp: FastMCP):
     async def rebase_merge_request(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         merge_request_iid: str = Field(description="The internal ID of the merge request"),
-        skip_ci: Optional[bool] = Field(default=None, description="Set to true to skip creating a CI pipeline")
-    ) -> Dict[str, Any]:
+        skip_ci: Optional[bool] = Field(default=None, description="Set to true to skip creating a CI pipeline")) -> Dict[str, Any]:
         """Automatically rebase the source_branch of the merge request against its target_branch."""
         client = await get_gitlab_client()
         data = {}
@@ -467,8 +450,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_merge_request_diff_versions(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        merge_request_iid: str = Field(description="The internal ID of the merge request")
-    ) -> Dict[str, Any]:
+        merge_request_iid: str = Field(description="The internal ID of the merge request")) -> Dict[str, Any]:
         """Get a list of merge request diff versions."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/merge_requests/{merge_request_iid}/versions")
@@ -477,8 +459,7 @@ def register(mcp: FastMCP):
     async def get_single_mr_diff_version(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         merge_request_iid: str = Field(description="The internal ID of the merge request"),
-        version_id: str = Field(description="The ID of the merge request diff version")
-    ) -> Dict[str, Any]:
+        version_id: str = Field(description="The ID of the merge request diff version")) -> Dict[str, Any]:
         """Get a single merge request diff version."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/merge_requests/{merge_request_iid}/versions/{version_id}")
@@ -487,8 +468,7 @@ def register(mcp: FastMCP):
     async def set_mr_time_estimate(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         merge_request_iid: str = Field(description="The internal ID of the merge request"),
-        duration: str = Field(description="The duration in human format. e.g: 3h30m")
-    ) -> Dict[str, Any]:
+        duration: str = Field(description="The duration in human format. e.g: 3h30m")) -> Dict[str, Any]:
         """Sets an estimated time of work for this merge request."""
         client = await get_gitlab_client()
         data = {"duration": duration}
@@ -497,8 +477,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def reset_mr_time_estimate(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        merge_request_iid: str = Field(description="The internal ID of the merge request")
-    ) -> Dict[str, Any]:
+        merge_request_iid: str = Field(description="The internal ID of the merge request")) -> Dict[str, Any]:
         """Resets the estimated time for this merge request to 0 seconds."""
         client = await get_gitlab_client()
         return await client.post(f"/projects/{project_id}/merge_requests/{merge_request_iid}/reset_time_estimate")
@@ -507,8 +486,7 @@ def register(mcp: FastMCP):
     async def add_mr_spent_time(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         merge_request_iid: str = Field(description="The internal ID of the merge request"),
-        duration: str = Field(description="The duration in human format. e.g: 3h30m")
-    ) -> Dict[str, Any]:
+        duration: str = Field(description="The duration in human format. e.g: 3h30m")) -> Dict[str, Any]:
         """Adds spent time for this merge request."""
         client = await get_gitlab_client()
         data = {"duration": duration}
@@ -517,8 +495,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def reset_mr_spent_time(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        merge_request_iid: str = Field(description="The internal ID of the merge request")
-    ) -> Dict[str, Any]:
+        merge_request_iid: str = Field(description="The internal ID of the merge request")) -> Dict[str, Any]:
         """Resets the total spent time for this merge request to 0 seconds."""
         client = await get_gitlab_client()
         return await client.post(f"/projects/{project_id}/merge_requests/{merge_request_iid}/reset_spent_time")
@@ -526,8 +503,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_mr_time_stats(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        merge_request_iid: str = Field(description="The internal ID of the merge request")
-    ) -> Dict[str, Any]:
+        merge_request_iid: str = Field(description="The internal ID of the merge request")) -> Dict[str, Any]:
         """Show time stats for a merge request."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/merge_requests/{merge_request_iid}/time_stats")
@@ -535,8 +511,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def subscribe_to_mr(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        merge_request_iid: str = Field(description="The internal ID of the merge request")
-    ) -> Dict[str, Any]:
+        merge_request_iid: str = Field(description="The internal ID of the merge request")) -> Dict[str, Any]:
         """Subscribes the authenticated user to a merge request to receive notifications."""
         client = await get_gitlab_client()
         return await client.post(f"/projects/{project_id}/merge_requests/{merge_request_iid}/subscribe")
@@ -544,8 +519,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def unsubscribe_from_mr(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        merge_request_iid: str = Field(description="The internal ID of the merge request")
-    ) -> Dict[str, Any]:
+        merge_request_iid: str = Field(description="The internal ID of the merge request")) -> Dict[str, Any]:
         """Unsubscribes the authenticated user from a merge request to not receive notifications."""
         client = await get_gitlab_client()
         return await client.post(f"/projects/{project_id}/merge_requests/{merge_request_iid}/unsubscribe")
@@ -553,8 +527,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def create_mr_todo(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        merge_request_iid: str = Field(description="The internal ID of the merge request")
-    ) -> Dict[str, Any]:
+        merge_request_iid: str = Field(description="The internal ID of the merge request")) -> Dict[str, Any]:
         """Manually creates a todo for the current user on a merge request."""
         client = await get_gitlab_client()
         return await client.post(f"/projects/{project_id}/merge_requests/{merge_request_iid}/todo")
@@ -562,8 +535,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_mr_issues_that_will_close(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        merge_request_iid: str = Field(description="The internal ID of the merge request")
-    ) -> Dict[str, Any]:
+        merge_request_iid: str = Field(description="The internal ID of the merge request")) -> Dict[str, Any]:
         """Get all the issues that would be closed by merging the provided merge request."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/merge_requests/{merge_request_iid}/closes_issues")

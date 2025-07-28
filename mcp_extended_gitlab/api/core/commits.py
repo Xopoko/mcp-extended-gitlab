@@ -49,8 +49,7 @@ def register(mcp: FastMCP):
         order: Optional[str] = Field(default=None, description="List commits in order. Possible values: default, topo"),
         trailers: Optional[bool] = Field(default=None, description="Parse and include Git trailers for each commit"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List repository commits."""
         client = await get_gitlab_client()
         params = {}
@@ -77,15 +76,15 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         branch: str = Field(description="Name of the branch to commit into"),
         commit_message: str = Field(description="Commit message"),
+        actions: List[Dict[str,
+        Any]] = Field(description="An array of action hashes to commit as a batch"),
         start_branch: Optional[str] = Field(default=None, description="Name of the branch to start the new commit from"),
         start_sha: Optional[str] = Field(default=None, description="SHA of the commit to start the new commit from"),
         start_project: Optional[str] = Field(default=None, description="The project ID or URL-encoded path of the project to start the new commit from"),
-        actions: List[Dict[str, Any]] = Field(description="An array of action hashes to commit as a batch"),
         author_email: Optional[str] = Field(default=None, description="Specify the commit author's email address"),
         author_name: Optional[str] = Field(default=None, description="Specify the commit author's name"),
         stats: Optional[bool] = Field(default=True, description="Include commit stats"),
-        force: Optional[bool] = Field(default=False, description="When true overwrites the target branch with a new commit based on the start_branch or start_sha")
-    ) -> Dict[str, Any]:
+        force: Optional[bool] = Field(default=False, description="When true overwrites the target branch with a new commit based on the start_branch or start_sha")) -> Dict[str, Any]:
         """Create a commit with multiple files and actions."""
         client = await get_gitlab_client()
         data = {
@@ -110,8 +109,7 @@ def register(mcp: FastMCP):
     async def get_single_commit(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         sha: str = Field(description="The commit hash or name of a repository branch or tag"),
-        stats: Optional[bool] = Field(default=True, description="Include commit stats")
-    ) -> Dict[str, Any]:
+        stats: Optional[bool] = Field(default=True, description="Include commit stats")) -> Dict[str, Any]:
         """Get a single commit."""
         client = await get_gitlab_client()
         params = {}
@@ -123,8 +121,7 @@ def register(mcp: FastMCP):
     async def get_references_commit_is_pushed_to(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         sha: str = Field(description="The commit hash"),
-        type: Optional[str] = Field(default="all", description="The scope of commits. Possible values branch, tag, all. Default is all.")
-    ) -> Dict[str, Any]:
+        type: Optional[str] = Field(default="all", description="The scope of commits. Possible values branch, tag, all. Default is all.")) -> Dict[str, Any]:
         """Get references a commit is pushed to."""
         client = await get_gitlab_client()
         params = {}
@@ -136,8 +133,7 @@ def register(mcp: FastMCP):
     async def cherry_pick_commit(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         sha: str = Field(description="The commit hash"),
-        branch: str = Field(description="The name of the branch")
-    ) -> Dict[str, Any]:
+        branch: str = Field(description="The name of the branch")) -> Dict[str, Any]:
         """Cherry-pick a commit."""
         client = await get_gitlab_client()
         data = {"branch": branch}
@@ -147,8 +143,7 @@ def register(mcp: FastMCP):
     async def revert_commit(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         sha: str = Field(description="The commit hash"),
-        branch: str = Field(description="The name of the branch")
-    ) -> Dict[str, Any]:
+        branch: str = Field(description="The name of the branch")) -> Dict[str, Any]:
         """Revert a commit."""
         client = await get_gitlab_client()
         data = {"branch": branch}
@@ -157,8 +152,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_diff_of_commit(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        sha: str = Field(description="The commit hash")
-    ) -> Dict[str, Any]:
+        sha: str = Field(description="The commit hash")) -> Dict[str, Any]:
         """Get the diff of a commit."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/repository/commits/{sha}/diff")
@@ -166,8 +160,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_comments_of_commit(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        sha: str = Field(description="The commit hash")
-    ) -> Dict[str, Any]:
+        sha: str = Field(description="The commit hash")) -> Dict[str, Any]:
         """Get the comments of a commit."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/repository/commits/{sha}/comments")
@@ -179,8 +172,7 @@ def register(mcp: FastMCP):
         note: str = Field(description="The text of the comment"),
         path: Optional[str] = Field(default=None, description="The file path relative to the repository"),
         line: Optional[int] = Field(default=None, description="The line number where the comment should be placed"),
-        line_type: Optional[str] = Field(default=None, description="The line type. Takes new or old as arguments")
-    ) -> Dict[str, Any]:
+        line_type: Optional[str] = Field(default=None, description="The line type. Takes new or old as arguments")) -> Dict[str, Any]:
         """Post comment to commit."""
         client = await get_gitlab_client()
         data = {"note": note}
@@ -200,8 +192,7 @@ def register(mcp: FastMCP):
         ref: Optional[str] = Field(default=None, description="The name of a repository branch or tag or, if not given, the default branch"),
         stage: Optional[str] = Field(default=None, description="Filter by build stage"),
         name: Optional[str] = Field(default=None, description="Filter by job name"),
-        all: Optional[bool] = Field(default=None, description="Return all statuses, not only the latest ones")
-    ) -> Dict[str, Any]:
+        all: Optional[bool] = Field(default=None, description="Return all statuses, not only the latest ones")) -> Dict[str, Any]:
         """Get statuses of a commit."""
         client = await get_gitlab_client()
         params = {}
@@ -225,8 +216,7 @@ def register(mcp: FastMCP):
         target_url: Optional[str] = Field(default=None, description="The target URL to associate with this status"),
         description: Optional[str] = Field(default=None, description="The short description of the status"),
         coverage: Optional[float] = Field(default=None, description="The total code coverage"),
-        pipeline_id: Optional[int] = Field(default=None, description="The ID of the pipeline to set status")
-    ) -> Dict[str, Any]:
+        pipeline_id: Optional[int] = Field(default=None, description="The ID of the pipeline to set status")) -> Dict[str, Any]:
         """Post build status to commit."""
         client = await get_gitlab_client()
         data = {"state": state}
@@ -245,8 +235,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def list_merge_requests_associated_with_commit(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        sha: str = Field(description="The commit SHA")
-    ) -> Dict[str, Any]:
+        sha: str = Field(description="The commit SHA")) -> Dict[str, Any]:
         """List merge requests associated with a commit."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/repository/commits/{sha}/merge_requests")
@@ -254,8 +243,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_gpg_signature_of_commit(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        sha: str = Field(description="The commit hash")
-    ) -> Dict[str, Any]:
+        sha: str = Field(description="The commit hash")) -> Dict[str, Any]:
         """Get GPG signature of a commit."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/repository/commits/{sha}/signature")

@@ -35,8 +35,7 @@ def register(mcp: FastMCP):
     
     @mcp.tool()
     async def list_project_hooks(
-        project_id: str = Field(description="The ID or URL-encoded path of the project")
-    ) -> Dict[str, Any]:
+        project_id: str = Field(description="The ID or URL-encoded path of the project")) -> Dict[str, Any]:
         """List project hooks."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/hooks")
@@ -44,8 +43,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_project_hook(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        hook_id: str = Field(description="The ID of a project hook")
-    ) -> Dict[str, Any]:
+        hook_id: str = Field(description="The ID of a project hook")) -> Dict[str, Any]:
         """Get project hook."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/hooks/{hook_id}")
@@ -70,8 +68,7 @@ def register(mcp: FastMCP):
         enable_ssl_verification: Optional[bool] = Field(default=True, description="Do SSL verification when triggering the hook"),
         token: Optional[str] = Field(default=None, description="Secret token to validate received payloads"),
         push_events_branch_filter: Optional[str] = Field(default=None, description="Push events branch filter"),
-        custom_webhook_template: Optional[str] = Field(default=None, description="Custom webhook template")
-    ) -> Dict[str, Any]:
+        custom_webhook_template: Optional[str] = Field(default=None, description="Custom webhook template")) -> Dict[str, Any]:
         """Add project hook."""
         client = await get_gitlab_client()
         data = {"url": url}
@@ -119,8 +116,7 @@ def register(mcp: FastMCP):
         enable_ssl_verification: Optional[bool] = Field(default=None, description="Do SSL verification when triggering the hook"),
         token: Optional[str] = Field(default=None, description="Secret token to validate received payloads"),
         push_events_branch_filter: Optional[str] = Field(default=None, description="Push events branch filter"),
-        custom_webhook_template: Optional[str] = Field(default=None, description="Custom webhook template")
-    ) -> Dict[str, Any]:
+        custom_webhook_template: Optional[str] = Field(default=None, description="Custom webhook template")) -> Dict[str, Any]:
         """Edit project hook."""
         client = await get_gitlab_client()
         data = {"url": url}
@@ -150,8 +146,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def delete_project_hook(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        hook_id: str = Field(description="The ID of the project hook")
-    ) -> Dict[str, Any]:
+        hook_id: str = Field(description="The ID of the project hook")) -> Dict[str, Any]:
         """Delete project hook."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/hooks/{hook_id}")
@@ -159,63 +154,16 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def test_project_hook(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        hook_id: str = Field(description="The ID of the project hook")
-    ) -> Dict[str, Any]:
+        hook_id: str = Field(description="The ID of the project hook")) -> Dict[str, Any]:
         """Test project hook."""
         client = await get_gitlab_client()
         return await client.post(f"/projects/{project_id}/hooks/{hook_id}/test/push_events")
 
-    @mcp.tool()
-    async def list_system_hooks() -> Dict[str, Any]:
-        """List system hooks."""
-        client = await get_gitlab_client()
-        return await client.get("/hooks")
-
-    @mcp.tool()
-    async def add_new_system_hook(
-        url: str = Field(description="The URL to do an HTTP POST request on"),
-        token: Optional[str] = Field(default=None, description="Secret token to validate received payloads"),
-        push_events: Optional[bool] = Field(default=True, description="When true, the hook fires on push events"),
-        tag_push_events: Optional[bool] = Field(default=True, description="When true, the hook fires on new tags being pushed"),
-        merge_requests_events: Optional[bool] = Field(default=True, description="Trigger hook on merge requests events"),
-        repository_update_events: Optional[bool] = Field(default=True, description="Trigger hook on repository update events"),
-        enable_ssl_verification: Optional[bool] = Field(default=True, description="Do SSL verification when triggering the hook")
-    ) -> Dict[str, Any]:
-        """Add new system hook."""
-        client = await get_gitlab_client()
-        data = {"url": url}
-        for key, value in {
-            "token": token,
-            "push_events": push_events,
-            "tag_push_events": tag_push_events,
-            "merge_requests_events": merge_requests_events,
-            "repository_update_events": repository_update_events,
-            "enable_ssl_verification": enable_ssl_verification
-        }.items():
-            if value is not None:
-                data[key] = value
-        return await client.post("/hooks", json_data=data)
-
-    @mcp.tool()
-    async def test_system_hook(
-        hook_id: str = Field(description="The ID of the system hook")
-    ) -> Dict[str, Any]:
-        """Test system hook."""
-        client = await get_gitlab_client()
-        return await client.post(f"/hooks/{hook_id}")
-
-    @mcp.tool()
-    async def delete_system_hook(
-        hook_id: str = Field(description="The ID of the system hook")
-    ) -> Dict[str, Any]:
-        """Delete system hook."""
-        client = await get_gitlab_client()
-        return await client.delete(f"/hooks/{hook_id}")
+    # System hooks are now in admin/hooks.py
 
     @mcp.tool()
     async def list_group_hooks(
-        group_id: str = Field(description="The ID or URL-encoded path of the group")
-    ) -> Dict[str, Any]:
+        group_id: str = Field(description="The ID or URL-encoded path of the group")) -> Dict[str, Any]:
         """List group hooks."""
         client = await get_gitlab_client()
         return await client.get(f"/groups/{group_id}/hooks")
@@ -223,8 +171,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_group_hook(
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
-        hook_id: str = Field(description="The ID of a group hook")
-    ) -> Dict[str, Any]:
+        hook_id: str = Field(description="The ID of a group hook")) -> Dict[str, Any]:
         """Get group hook."""
         client = await get_gitlab_client()
         return await client.get(f"/groups/{group_id}/hooks/{hook_id}")
@@ -248,8 +195,7 @@ def register(mcp: FastMCP):
         enable_ssl_verification: Optional[bool] = Field(default=True, description="Do SSL verification when triggering the hook"),
         token: Optional[str] = Field(default=None, description="Secret token to validate received payloads"),
         push_events_branch_filter: Optional[str] = Field(default=None, description="Push events branch filter"),
-        custom_webhook_template: Optional[str] = Field(default=None, description="Custom webhook template")
-    ) -> Dict[str, Any]:
+        custom_webhook_template: Optional[str] = Field(default=None, description="Custom webhook template")) -> Dict[str, Any]:
         """Add group hook."""
         client = await get_gitlab_client()
         data = {"url": url}
@@ -295,8 +241,7 @@ def register(mcp: FastMCP):
         enable_ssl_verification: Optional[bool] = Field(default=None, description="Do SSL verification when triggering the hook"),
         token: Optional[str] = Field(default=None, description="Secret token to validate received payloads"),
         push_events_branch_filter: Optional[str] = Field(default=None, description="Push events branch filter"),
-        custom_webhook_template: Optional[str] = Field(default=None, description="Custom webhook template")
-    ) -> Dict[str, Any]:
+        custom_webhook_template: Optional[str] = Field(default=None, description="Custom webhook template")) -> Dict[str, Any]:
         """Edit group hook."""
         client = await get_gitlab_client()
         data = {"url": url}
@@ -325,8 +270,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def delete_group_hook(
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
-        hook_id: str = Field(description="The ID of the group hook")
-    ) -> Dict[str, Any]:
+        hook_id: str = Field(description="The ID of the group hook")) -> Dict[str, Any]:
         """Delete group hook."""
         client = await get_gitlab_client()
         return await client.delete(f"/groups/{group_id}/hooks/{hook_id}")
@@ -335,8 +279,7 @@ def register(mcp: FastMCP):
     async def test_group_hook(
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
         hook_id: str = Field(description="The ID of the group hook"),
-        trigger: Optional[str] = Field(default="push_events", description="The trigger event type")
-    ) -> Dict[str, Any]:
+        trigger: Optional[str] = Field(default="push_events", description="The trigger event type")) -> Dict[str, Any]:
         """Test group hook."""
         client = await get_gitlab_client()
         return await client.post(f"/groups/{group_id}/hooks/{hook_id}/test/{trigger}")

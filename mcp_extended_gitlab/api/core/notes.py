@@ -39,8 +39,7 @@ def register(mcp: FastMCP):
         sort: Optional[str] = Field(default=None, description="Return issue notes sorted in asc or desc order"),
         order_by: Optional[str] = Field(default=None, description="Return issue notes ordered by created_at or updated_at fields"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List issue notes."""
         client = await get_gitlab_client()
         params = {}
@@ -58,8 +57,7 @@ def register(mcp: FastMCP):
     async def get_single_issue_note(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         issue_iid: str = Field(description="The IID of an issue"),
-        note_id: str = Field(description="The ID of an issue note")
-    ) -> Dict[str, Any]:
+        note_id: str = Field(description="The ID of an issue note")) -> Dict[str, Any]:
         """Get a single issue note."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/issues/{issue_iid}/notes/{note_id}")
@@ -71,8 +69,7 @@ def register(mcp: FastMCP):
         body: str = Field(description="The content of a note"),
         confidential: Optional[bool] = Field(default=None, description="The confidential flag of a note"),
         internal: Optional[bool] = Field(default=None, description="The internal flag of a note"),
-        created_at: Optional[str] = Field(default=None, description="Date time string, ISO 8601 formatted")
-    ) -> Dict[str, Any]:
+        created_at: Optional[str] = Field(default=None, description="Date time string, ISO 8601 formatted")) -> Dict[str, Any]:
         """Create new issue note."""
         client = await get_gitlab_client()
         data = {"body": body}
@@ -91,8 +88,7 @@ def register(mcp: FastMCP):
         issue_iid: str = Field(description="The IID of an issue"),
         note_id: str = Field(description="The ID of a note"),
         body: str = Field(description="The content of a note"),
-        confidential: Optional[bool] = Field(default=None, description="The confidential flag of a note")
-    ) -> Dict[str, Any]:
+        confidential: Optional[bool] = Field(default=None, description="The confidential flag of a note")) -> Dict[str, Any]:
         """Modify existing issue note."""
         client = await get_gitlab_client()
         data = {"body": body}
@@ -104,8 +100,7 @@ def register(mcp: FastMCP):
     async def delete_issue_note(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         issue_iid: str = Field(description="The IID of an issue"),
-        note_id: str = Field(description="The ID of a note")
-    ) -> Dict[str, Any]:
+        note_id: str = Field(description="The ID of a note")) -> Dict[str, Any]:
         """Delete an issue note."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/issues/{issue_iid}/notes/{note_id}")
@@ -117,8 +112,7 @@ def register(mcp: FastMCP):
         sort: Optional[str] = Field(default=None, description="Return merge request notes sorted in asc or desc order"),
         order_by: Optional[str] = Field(default=None, description="Return merge request notes ordered by created_at or updated_at fields"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List merge request notes."""
         client = await get_gitlab_client()
         params = {}
@@ -136,8 +130,7 @@ def register(mcp: FastMCP):
     async def get_single_merge_request_note(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         merge_request_iid: str = Field(description="The IID of a merge request"),
-        note_id: str = Field(description="The ID of a merge request note")
-    ) -> Dict[str, Any]:
+        note_id: str = Field(description="The ID of a merge request note")) -> Dict[str, Any]:
         """Get a single merge request note."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/merge_requests/{merge_request_iid}/notes/{note_id}")
@@ -148,8 +141,7 @@ def register(mcp: FastMCP):
         merge_request_iid: str = Field(description="The IID of a merge request"),
         body: str = Field(description="The content of a note"),
         internal: Optional[bool] = Field(default=None, description="The internal flag of a note"),
-        created_at: Optional[str] = Field(default=None, description="Date time string, ISO 8601 formatted")
-    ) -> Dict[str, Any]:
+        created_at: Optional[str] = Field(default=None, description="Date time string, ISO 8601 formatted")) -> Dict[str, Any]:
         """Create new merge request note."""
         client = await get_gitlab_client()
         data = {"body": body}
@@ -166,8 +158,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         merge_request_iid: str = Field(description="The IID of a merge request"),
         note_id: str = Field(description="The ID of a note"),
-        body: str = Field(description="The content of a note")
-    ) -> Dict[str, Any]:
+        body: str = Field(description="The content of a note")) -> Dict[str, Any]:
         """Modify existing merge request note."""
         client = await get_gitlab_client()
         data = {"body": body}
@@ -177,8 +168,7 @@ def register(mcp: FastMCP):
     async def delete_merge_request_note(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         merge_request_iid: str = Field(description="The IID of a merge request"),
-        note_id: str = Field(description="The ID of a note")
-    ) -> Dict[str, Any]:
+        note_id: str = Field(description="The ID of a note")) -> Dict[str, Any]:
         """Delete a merge request note."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/merge_requests/{merge_request_iid}/notes/{note_id}")
@@ -190,8 +180,7 @@ def register(mcp: FastMCP):
         sort: Optional[str] = Field(default=None, description="Return snippet notes sorted in asc or desc order"),
         order_by: Optional[str] = Field(default=None, description="Return snippet notes ordered by created_at or updated_at fields"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List snippet notes."""
         client = await get_gitlab_client()
         params = {}
@@ -209,8 +198,7 @@ def register(mcp: FastMCP):
     async def get_single_snippet_note(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         snippet_id: str = Field(description="The ID of a snippet"),
-        note_id: str = Field(description="The ID of a snippet note")
-    ) -> Dict[str, Any]:
+        note_id: str = Field(description="The ID of a snippet note")) -> Dict[str, Any]:
         """Get a single snippet note."""
         client = await get_gitlab_client()
         return await client.get(f"/projects/{project_id}/snippets/{snippet_id}/notes/{note_id}")
@@ -220,8 +208,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         snippet_id: str = Field(description="The ID of a snippet"),
         body: str = Field(description="The content of a note"),
-        created_at: Optional[str] = Field(default=None, description="Date time string, ISO 8601 formatted")
-    ) -> Dict[str, Any]:
+        created_at: Optional[str] = Field(default=None, description="Date time string, ISO 8601 formatted")) -> Dict[str, Any]:
         """Create new snippet note."""
         client = await get_gitlab_client()
         data = {"body": body}
@@ -234,8 +221,7 @@ def register(mcp: FastMCP):
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         snippet_id: str = Field(description="The ID of a snippet"),
         note_id: str = Field(description="The ID of a note"),
-        body: str = Field(description="The content of a note")
-    ) -> Dict[str, Any]:
+        body: str = Field(description="The content of a note")) -> Dict[str, Any]:
         """Modify existing snippet note."""
         client = await get_gitlab_client()
         data = {"body": body}
@@ -245,8 +231,7 @@ def register(mcp: FastMCP):
     async def delete_snippet_note(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         snippet_id: str = Field(description="The ID of a snippet"),
-        note_id: str = Field(description="The ID of a note")
-    ) -> Dict[str, Any]:
+        note_id: str = Field(description="The ID of a note")) -> Dict[str, Any]:
         """Delete a snippet note."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/snippets/{snippet_id}/notes/{note_id}")

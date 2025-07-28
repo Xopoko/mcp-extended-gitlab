@@ -1,0 +1,52 @@
+events {
+    worker_connections 1024;
+}
+
+http {
+    upstream mcp-gitlab {
+        server mcp-gitlab:8000;
+    }
+
+    server {
+        listen 80;
+        server_name localhost;
+
+        # Redirect HTTP to HTTPS (uncomment if using SSL)
+        # return 301 https://$server_name$request_uri;
+
+        location / {
+            proxy_pass http://mcp-gitlab;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            
+            # WebSocket support (if needed)
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+        }
+    }
+
+    # HTTPS configuration (uncomment and configure if using SSL)
+    # server {
+    #     listen 443 ssl;
+    #     server_name localhost;
+    #
+    #     ssl_certificate /etc/nginx/ssl/cert.pem;
+    #     ssl_certificate_key /etc/nginx/ssl/key.pem;
+    #
+    #     location / {
+    #         proxy_pass http://mcp-gitlab;
+    #         proxy_set_header Host $host;
+    #         proxy_set_header X-Real-IP $remote_addr;
+    #         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    #         proxy_set_header X-Forwarded-Proto $scheme;
+    #         
+    #         # WebSocket support (if needed)
+    #         proxy_http_version 1.1;
+    #         proxy_set_header Upgrade $http_upgrade;
+    #         proxy_set_header Connection "upgrade";
+    #     }
+    # }
+}

@@ -4,6 +4,7 @@ This module provides comprehensive access to GitLab's release management feature
 including creating releases, managing release assets, and associating milestones.
 """
 
+import json
 from typing import Any, Dict, List, Optional
 from fastmcp import FastMCP
 from pydantic import Field
@@ -40,8 +41,7 @@ def register(mcp: FastMCP):
         sort: Optional[str] = Field(default="desc", description="The direction of the order. Either desc or asc"),
         include_html_description: Optional[bool] = Field(default=None, description="If true, a response includes HTML rendered markdown of the release description"),
         page: Optional[int] = Field(default=None, description="Page number"),
-        per_page: Optional[int] = Field(default=None, description="Number of items per page")
-    ) -> Dict[str, Any]:
+        per_page: Optional[int] = Field(default=None, description="Number of items per page")) -> Dict[str, Any]:
         """List releases."""
         client = await get_gitlab_client()
         params = {}
@@ -60,8 +60,7 @@ def register(mcp: FastMCP):
     async def get_release_by_tag_name(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         tag_name: str = Field(description="The Git tag the release is associated with"),
-        include_html_description: Optional[bool] = Field(default=None, description="If true, a response includes HTML rendered markdown of the release description")
-    ) -> Dict[str, Any]:
+        include_html_description: Optional[bool] = Field(default=None, description="If true, a response includes HTML rendered markdown of the release description")) -> Dict[str, Any]:
         """Get a release by a tag name."""
         client = await get_gitlab_client()
         params = {}
@@ -77,9 +76,8 @@ def register(mcp: FastMCP):
         description: str = Field(description="The description of the release"),
         ref: Optional[str] = Field(default=None, description="If a tag specified in tag_name doesn't exist, the release is created from ref and tagged with tag_name"),
         milestones: Optional[List[str]] = Field(default=None, description="The title of each milestone the release is associated with"),
-        assets: Optional[Dict[str, Any]] = Field(default=None, description="An assets object"),
-        released_at: Optional[str] = Field(default=None, description="The date when the release is/was ready")
-    ) -> Dict[str, Any]:
+        assets: Optional[str] = Field(default=None, description="An assets object as JSON string. Example: '{\"links\": [{\"name\": \"asset1\", \"url\": \"https://...\"}]}'"),
+        released_at: Optional[str] = Field(default=None, description="The date when the release is/was ready")) -> Dict[str, Any]:
         """Create a release."""
         client = await get_gitlab_client()
         data = {
@@ -90,7 +88,7 @@ def register(mcp: FastMCP):
         for key, value in {
             "ref": ref,
             "milestones": milestones,
-            "assets": assets,
+            "assets": json.loads(assets) if assets else None,
             "released_at": released_at
         }.items():
             if value is not None:
@@ -104,8 +102,7 @@ def register(mcp: FastMCP):
         name: Optional[str] = Field(default=None, description="The release name"),
         description: Optional[str] = Field(default=None, description="The description of the release"),
         milestones: Optional[List[str]] = Field(default=None, description="The title of each milestone to associate with the release"),
-        released_at: Optional[str] = Field(default=None, description="The date when the release is/was ready")
-    ) -> Dict[str, Any]:
+        released_at: Optional[str] = Field(default=None, description="The date when the release is/was ready")) -> Dict[str, Any]:
         """Update a release."""
         client = await get_gitlab_client()
         data = {}
@@ -122,8 +119,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def delete_release(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        tag_name: str = Field(description="The Git tag the release is associated with")
-    ) -> Dict[str, Any]:
+        tag_name: str = Field(description="The Git tag the release is associated with")) -> Dict[str, Any]:
         """Delete a release."""
         client = await get_gitlab_client()
         return await client.delete(f"/projects/{project_id}/releases/{tag_name}")
