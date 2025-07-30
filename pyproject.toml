@@ -2,6 +2,7 @@
 name = "mcp-extended-gitlab"
 version = "0.1.0"
 description = "Comprehensive MCP server for GitLab REST API"
+readme = "README.md"
 authors = [
     {name = "MCP Extended GitLab", email = "example@example.com"}
 ]
@@ -24,6 +25,10 @@ dev = [
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["mcp_extended_gitlab*"]
 
 [tool.black]
 line-length = 88
