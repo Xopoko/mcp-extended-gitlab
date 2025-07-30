@@ -6,7 +6,7 @@ A comprehensive Model Context Protocol (MCP) server that provides AI agents with
 [![GitLab API](https://img.shields.io/badge/GitLab%20API-v4-orange)](https://docs.gitlab.com/ee/api/)
 [![Python](https://img.shields.io/badge/Python-3.9%2B-green)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
-[![Docker](https://img.shields.io/badge/Docker-Ready-blue)](https://hub.docker.com/r/mmcardle/mcp-extended-gitlab)
+[![Docker](https://img.shields.io/badge/Docker-Ready-blue)](https://hub.docker.com/r/Xopoko/mcp-extended-gitlab)
 
 ## 🌟 Overview
 
@@ -44,7 +44,7 @@ MCP Extended GitLab enables AI agents to interact with GitLab programmatically t
       "args": [
         "run", "-i", "--rm",
         "-e", "GITLAB_PRIVATE_TOKEN=glpat-YOUR_TOKEN_HERE",
-        "ghcr.io/mmcardle/mcp-extended-gitlab:latest"
+        "ghcr.io/Xopoko/mcp-extended-gitlab"
       ]
     }
   }
@@ -75,7 +75,7 @@ Comprehensive documentation is available in the [docs](./docs/) directory:
 
 ```bash
 # One-liner installation
-claude mcp add gitlab-extended -- docker run -i --rm -e GITLAB_PRIVATE_TOKEN ghcr.io/yourusername/mcp-extended-gitlab
+claude mcp add gitlab-extended -- docker run -i --rm -e GITLAB_PRIVATE_TOKEN ghcr.io/Xopoko/mcp-extended-gitlab
 
 # Set your GitLab token
 claude mcp update gitlab-extended -e GITLAB_PRIVATE_TOKEN=your_gitlab_token
@@ -87,7 +87,7 @@ For production deployments or development:
 
 ```bash
 # Clone the repository
-git clone https://github.com/mmcardle/mcp-extended-gitlab.git
+git clone https://github.com/Xopoko/mcp-extended-gitlab.git
 cd mcp-extended-gitlab
 
 # Copy and configure environment variables
@@ -105,7 +105,7 @@ For installation in Claude applications (Claude Code CLI, Claude Desktop), see [
 ### From Source
 
 ```bash
-git clone https://github.com/mmcardle/mcp-extended-gitlab.git
+git clone https://github.com/Xopoko/mcp-extended-gitlab.git
 cd mcp-extended-gitlab
 pip install -e .
 ```
@@ -585,8 +585,8 @@ Please report security vulnerabilities through GitHub Security Advisories.
 
 ### Community
 
-- **Issues**: [GitHub Issues](https://github.com/mmcardle/mcp-extended-gitlab/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/mmcardle/mcp-extended-gitlab/discussions)
+- **Issues**: [GitHub Issues](https://github.com/Xopoko/mcp-extended-gitlab/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Xopoko/mcp-extended-gitlab/discussions)
 - **MCP Discord**: [Join the MCP community](https://discord.gg/mcp)
 
 ### Related Projects
