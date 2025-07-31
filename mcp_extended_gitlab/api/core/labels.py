@@ -68,7 +68,7 @@ def register(mcp: FastMCP):
         return await client.get(f"/projects/{project_id}/labels/{label_id}", params=params)
 
     @mcp.tool()
-    async def create_new_label(
+    async def create_label(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         name: str = Field(description="The name of the label"),
         color: str = Field(description="The color of the label given in 6-digit hex notation with leading '#' sign"),
@@ -185,7 +185,7 @@ def register(mcp: FastMCP):
         return await client.get(f"/groups/{group_id}/labels/{label_id}", params=params)
 
     @mcp.tool()
-    async def create_new_group_label(
+    async def create_group_label(
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
         name: str = Field(description="The name of the label"),
         color: str = Field(description="The color of the label given in 6-digit hex notation with leading '#' sign"),

@@ -95,7 +95,7 @@ def register(mcp: FastMCP):
         return await client.get(f"/projects/{project_id}/repository/files/{file_path}/blame", params=params)
 
     @mcp.tool()
-    async def create_new_file(
+    async def create_file(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         file_path: str = Field(description="URL-encoded full path to new file"),
         branch: str = Field(description="Name of the new branch to create"),

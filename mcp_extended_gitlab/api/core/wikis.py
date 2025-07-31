@@ -61,7 +61,7 @@ def register(mcp: FastMCP):
         return await client.get(f"/projects/{project_id}/wikis/{slug}", params=params)
 
     @mcp.tool()
-    async def create_new_wiki_page(
+    async def create_wiki_page(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         title: str = Field(description="The title of a wiki page"),
         content: str = Field(description="The content of a wiki page"),

@@ -63,7 +63,7 @@ def register(mcp: FastMCP):
         return await client.get(f"/projects/{project_id}/repository/tags/{tag_name}")
 
     @mcp.tool()
-    async def create_new_tag(
+    async def create_tag(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         tag_name: str = Field(description="The name of a tag"),
         ref: str = Field(description="Create tag using commit SHA, another tag name, or branch name"),
@@ -92,11 +92,11 @@ def register(mcp: FastMCP):
         return await client.delete(f"/projects/{project_id}/repository/tags/{tag_name}")
 
     @mcp.tool()
-    async def create_new_release(
+    async def create_tag_release(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         tag_name: str = Field(description="The name of a tag"),
         description: str = Field(description="Release notes with markdown support")) -> Dict[str, Any]:
-        """Create a new release."""
+        """Create a release for an existing tag."""
         client = await get_gitlab_client()
         data = {
             "tag_name": tag_name,

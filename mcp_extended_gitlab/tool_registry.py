@@ -193,11 +193,11 @@ def get_tools_by_category() -> Dict[str, List[str]]:
 TOOL_PRESETS = {
     "minimal": [
         # Essential project operations
-        "list_projects", "get_project", "create_project",
+        "list_projects", "get_single_project", "create_project",
         # Essential issue operations
-        "list_issues", "get_issue", "create_issue", "update_issue",
+        "list_issues", "get_single_project_issue", "create_issue", "update_issue",
         # Essential MR operations
-        "list_merge_requests", "get_merge_request", "create_merge_request",
+        "list_merge_requests", "get_single_merge_request", "create_merge_request",
         # Essential user operations
         "get_current_user", "list_users",
         # Essential search
@@ -206,85 +206,87 @@ TOOL_PRESETS = {
     
     "core": [
         # All project tools
-        "list_projects", "get_project", "create_project", "update_project", "delete_project",
-        "fork_project", "star_project", "unstar_project", "get_project_languages",
-        "list_project_members", "add_project_member", "update_project_member", "remove_project_member",
+        "list_projects", "get_single_project", "create_project", "update_project", "delete_project",
+        "fork_project", "star_project", "unstar_project", "project_languages",
+        "list_project_members", "add_project_member", "edit_project_member", "remove_project_member",
         
         # All issue tools
-        "list_issues", "get_issue", "create_issue", "update_issue", "delete_issue",
+        "list_issues", "get_single_project_issue", "create_issue", "update_issue", "delete_issue",
         "move_issue", "subscribe_to_issue", "unsubscribe_from_issue", "list_issue_links",
         
         # All MR tools
-        "list_merge_requests", "get_merge_request", "create_merge_request", "update_merge_request",
+        "list_merge_requests", "get_single_merge_request", "create_merge_request", "update_merge_request",
         "delete_merge_request", "accept_merge_request", "cancel_merge_when_pipeline_succeeds",
-        "rebase_merge_request", "approve_merge_request", "unapprove_merge_request",
+        "rebase_merge_request",
         
         # Repository tools
-        "list_repository_tree", "get_file_content", "get_file_blame", "compare_branches",
+        "list_repository_tree", "get_file_from_repository", "get_file_blame", "compare_branches_tags_commits",
         "list_repository_contributors",
         
         # Commit tools
-        "list_commits", "get_commit", "get_commit_diff", "get_commit_comments",
-        "create_commit_comment", "get_commit_statuses",
+        "list_repository_commits", "get_single_commit", "get_diff_of_commit", "get_comments_of_commit",
+        "post_comment_to_commit", "get_commit_statuses",
         
         # User/Group tools
         "get_current_user", "list_users", "get_user", "list_groups", "get_group",
         
         # Search
-        "search_globally", "search_in_project", "search_in_group"
+        "search_globally", "search_within_project", "search_within_group"
     ],
     
     "ci_cd": [
         # Pipeline tools
-        "list_pipelines", "get_pipeline", "create_pipeline", "retry_pipeline", "cancel_pipeline",
-        "delete_pipeline", "list_pipeline_jobs", "list_pipeline_bridges", "get_pipeline_test_report",
+        "list_project_pipelines", "get_single_pipeline", "create_pipeline", "retry_jobs_in_pipeline", "cancel_pipeline_jobs",
+        "delete_pipeline", "get_pipeline_test_report",
         
         # Job tools
         "list_project_jobs", "get_project_job", "cancel_project_job", "retry_project_job",
         "erase_project_job", "play_project_job",
         
         # Runner tools
-        "list_runners", "get_runner", "update_runner", "delete_runner", "list_runner_jobs",
-        "register_runner", "verify_runner_authentication",
+        "list_owned_runners", "list_all_runners", "get_runner_details", "update_runner_details", 
+        "delete_runner", "list_runner_jobs", "list_project_runners", "enable_runner_in_project",
+        "disable_runner_from_project", "list_group_runners",
         
         # Variable tools
         "list_project_variables", "get_project_variable", "create_project_variable",
         "update_project_variable", "delete_project_variable",
         
         # CI lint
-        "validate_ci_yaml", "validate_project_ci_configuration"
+        "get_lint_result"
     ],
     
     "devops": [
         # Environment tools
-        "list_environments", "get_environment", "create_environment", "update_environment",
+        "list_environments", "get_single_environment", "create_environment", "edit_existing_environment",
         "delete_environment", "stop_environment",
         
         # Deployment tools
-        "list_deployments", "get_deployment", "create_deployment", "update_deployment",
+        "list_project_deployments", "get_single_deployment", "create_deployment", "update_deployment",
+        "delete_deployment", "list_deployment_merge_requests", "approve_blocked_deployment",
+        "list_merge_requests_for_deployment",
         
         # Feature flag tools
-        "list_feature_flags", "get_feature_flag", "create_feature_flag", "update_feature_flag",
+        "list_feature_flags", "get_single_feature_flag", "create_feature_flag", "edit_feature_flag",
         "delete_feature_flag",
         
         # Package registry
-        "list_project_packages", "get_project_package", "delete_project_package",
-        "list_package_files", "delete_package_file"
+        "list_packages_within_group", "list_packages_within_project", "get_project_package", 
+        "delete_project_package", "list_package_files", "delete_package_file"
     ],
     
     "admin": [
         # License tools
-        "get_license", "add_license", "delete_license",
+        "retrieve_license_information", "add_new_license", "delete_license",
         
         # System hooks
-        "list_system_hooks", "add_system_hook", "test_system_hook", "delete_system_hook",
+        "list_system_hooks", "add_new_system_hook", "test_system_hook", "delete_system_hook",
         
         # Admin CI variables
         "list_admin_ci_variables", "get_admin_ci_variable", "create_admin_ci_variable",
         "update_admin_ci_variable", "delete_admin_ci_variable",
         
         # Flipper features
-        "list_flipper_features", "get_flipper_feature", "create_flipper_feature",
-        "update_flipper_feature", "delete_flipper_feature"
+        "list_all_features", "set_or_create_feature", "delete_feature"
     ]
 }
