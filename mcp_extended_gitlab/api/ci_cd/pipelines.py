@@ -105,7 +105,7 @@ def register(mcp: FastMCP):
         return await client.get(f"/projects/{project_id}/pipelines/{pipeline_id}/test_report_summary")
 
     @mcp.tool()
-    async def create_new_pipeline(
+    async def create_pipeline(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         ref: str = Field(description="The branch or tag to run the pipeline on"),
         variables: Optional[List[Dict[str,

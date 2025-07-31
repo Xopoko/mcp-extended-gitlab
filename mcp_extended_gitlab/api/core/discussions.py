@@ -61,7 +61,7 @@ def register(mcp: FastMCP):
         return await client.get(f"/projects/{project_id}/issues/{issue_iid}/discussions/{discussion_id}")
 
     @mcp.tool()
-    async def create_new_issue_thread(
+    async def create_issue_thread(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         issue_iid: str = Field(description="The IID of an issue"),
         body: str = Field(description="The content of the thread"),
@@ -147,7 +147,7 @@ def register(mcp: FastMCP):
         return await client.get(f"/projects/{project_id}/merge_requests/{merge_request_iid}/discussions/{discussion_id}")
 
     @mcp.tool()
-    async def create_new_merge_request_thread(
+    async def create_merge_request_thread(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         merge_request_iid: str = Field(description="The IID of a merge request"),
         body: str = Field(description="The content of the thread"),
@@ -254,7 +254,7 @@ def register(mcp: FastMCP):
         return await client.get(f"/projects/{project_id}/commits/{commit_id}/discussions/{discussion_id}")
 
     @mcp.tool()
-    async def create_new_commit_thread(
+    async def create_commit_thread(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         commit_id: str = Field(description="The ID of a commit"),
         body: str = Field(description="The content of the thread"),

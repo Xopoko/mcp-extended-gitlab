@@ -51,7 +51,7 @@ def register(mcp: FastMCP):
         return await client.get(f"/projects/{project_id}/environments", params=params)
 
     @mcp.tool()
-    async def create_new_environment(
+    async def create_environment(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         name: str = Field(description="The name of the environment"),
         external_url: Optional[str] = Field(default=None, description="Place to link to for this environment"),

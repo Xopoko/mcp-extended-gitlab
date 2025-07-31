@@ -63,7 +63,7 @@ def register(mcp: FastMCP):
         return await client.get(f"/projects/{project_id}/issues/{issue_iid}/notes/{note_id}")
 
     @mcp.tool()
-    async def create_new_issue_note(
+    async def create_issue_note(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         issue_iid: str = Field(description="The IID of an issue"),
         body: str = Field(description="The content of a note"),
@@ -136,7 +136,7 @@ def register(mcp: FastMCP):
         return await client.get(f"/projects/{project_id}/merge_requests/{merge_request_iid}/notes/{note_id}")
 
     @mcp.tool()
-    async def create_new_merge_request_note(
+    async def create_merge_request_note(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         merge_request_iid: str = Field(description="The IID of a merge request"),
         body: str = Field(description="The content of a note"),
@@ -204,7 +204,7 @@ def register(mcp: FastMCP):
         return await client.get(f"/projects/{project_id}/snippets/{snippet_id}/notes/{note_id}")
 
     @mcp.tool()
-    async def create_new_snippet_note(
+    async def create_snippet_note(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         snippet_id: str = Field(description="The ID of a snippet"),
         body: str = Field(description="The content of a note"),

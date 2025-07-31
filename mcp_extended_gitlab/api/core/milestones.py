@@ -72,7 +72,7 @@ def register(mcp: FastMCP):
         return await client.get(f"/projects/{project_id}/milestones/{milestone_id}")
 
     @mcp.tool()
-    async def create_new_milestone(
+    async def create_milestone(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         title: str = Field(description="The title of a milestone"),
         description: Optional[str] = Field(default=None, description="The description of the milestone"),
@@ -184,7 +184,7 @@ def register(mcp: FastMCP):
         return await client.get(f"/groups/{group_id}/milestones/{milestone_id}")
 
     @mcp.tool()
-    async def create_new_group_milestone(
+    async def create_group_milestone(
         group_id: str = Field(description="The ID or URL-encoded path of the group"),
         title: str = Field(description="The title of a milestone"),
         description: Optional[str] = Field(default=None, description="The description of the milestone"),

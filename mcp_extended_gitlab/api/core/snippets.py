@@ -85,7 +85,7 @@ def register(mcp: FastMCP):
         return await client.get(f"/snippets/{snippet_id}/raw")
 
     @mcp.tool()
-    async def create_new_snippet(
+    async def create_snippet(
         title: str = Field(description="Title of a snippet"),
         visibility: str = Field(description="Snippet's visibility level"),
         files: List[Dict[str, str]] = Field(description="An array of snippet files"),
@@ -153,7 +153,7 @@ def register(mcp: FastMCP):
         return await client.get(f"/projects/{project_id}/snippets/{snippet_id}")
 
     @mcp.tool()
-    async def create_new_project_snippet(
+    async def create_project_snippet(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         title: str = Field(description="Title of a snippet"),
         visibility: str = Field(description="Snippet's visibility level"),
