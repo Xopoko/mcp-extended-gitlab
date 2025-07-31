@@ -7,6 +7,8 @@ from urllib.parse import urljoin
 import httpx
 from pydantic import BaseModel
 
+from .utils import wrap_response
+
 
 class GitLabConfig(BaseModel):
     """GitLab configuration model."""
@@ -78,7 +80,9 @@ class GitLabClient:
             # Handle different response types
             content_type = response.headers.get("content-type", "")
             if "application/json" in content_type:
-                return response.json()
+                data = response.json()
+                # Wrap list responses in a dictionary for FastMCP compatibility
+                return wrap_response(data)
             else:
                 return {"content": response.text, "status_code": response.status_code}
                 

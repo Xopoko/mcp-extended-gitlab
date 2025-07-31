@@ -21,6 +21,7 @@ MCP Extended GitLab enables AI agents to interact with GitLab programmatically t
 - **⚡ Async Operations**: High-performance async HTTP client for efficient API calls
 - **🛡️ Error Handling**: Comprehensive error handling with detailed error messages
 - **📝 Type Safety**: Full Pydantic models for request/response validation
+- **📊 List Response Wrapping**: Automatic wrapping of array responses for FastMCP compatibility
 - **🎯 Domain-Driven Architecture**: Tools organized into focused modules across 8 logical domains
 - **📦 Modular Design**: Easy to maintain, extend, and understand codebase structure
 
@@ -248,6 +249,34 @@ Use the get_pipeline tool with project_id="my-app", pipeline_id="456"
 "Show container registry images for my-app"
 "Get DORA metrics for the last 30 days"
 ```
+
+## 📄 Response Format
+
+All tools in MCP Extended GitLab return responses in a consistent format to ensure compatibility with FastMCP:
+
+### List Operations
+When a GitLab API endpoint returns an array (e.g., list of projects, issues, etc.), the response is automatically wrapped in a dictionary:
+
+```json
+{
+  "items": [...],  // The original array from GitLab API
+  "count": 5       // Number of items in the array
+}
+```
+
+### Single Object Operations
+When a GitLab API endpoint returns a single object (e.g., get project, get issue, etc.), the response is passed through unchanged:
+
+```json
+{
+  "id": 123,
+  "name": "my-project",
+  "description": "Project description",
+  // ... other GitLab API fields
+}
+```
+
+This automatic wrapping ensures compatibility with FastMCP's structured content requirements while preserving all original GitLab API data.
 
 ## 📊 API Coverage Overview
 

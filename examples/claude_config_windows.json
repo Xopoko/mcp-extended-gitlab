@@ -1,0 +1,30 @@
+{
+  "gitlab-extended": {
+    "command": "uvx",
+    "args": [
+      "--from",
+      "git+https://github.com/Xopoko/mcp-extended-gitlab.git",
+      "mcp-extended-gitlab"
+    ],
+    "env": {
+      "GITLAB_PRIVATE_TOKEN": "YOUR_GITLAB_TOKEN",
+      "GITLAB_BASE_URL": "https://gitlab.example.com/api/v4",
+      "PYTHONIOENCODING": "utf-8",
+      "PYTHONUTF8": "1"
+    }
+  },
+  "gitlab-extended-minimal": {
+    "command": "uvx",
+    "args": [
+      "--from",
+      "git+https://github.com/Xopoko/mcp-extended-gitlab.git",
+      "mcp-extended-gitlab"
+    ],
+    "env": {
+      "GITLAB_PRIVATE_TOKEN": "glpat-**********",
+      "GITLAB_ENABLED_TOOLS": "minimal",
+      "PYTHONIOENCODING": "utf-8"
+    }
+  },
+  "_comment": "Windows users must include PYTHONIOENCODING=utf-8 to prevent Unicode errors"
+}

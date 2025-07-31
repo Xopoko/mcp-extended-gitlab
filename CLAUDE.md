@@ -67,6 +67,13 @@ export GITLAB_ENABLED_TOOLS='["list_projects","get_project","list_issues"]'
 
 This is an MCP (Model Context Protocol) server providing 478+ tools for GitLab's REST API, built with FastMCP. The codebase follows a domain-driven design.
 
+### Response Format
+
+To ensure FastMCP compatibility, the client automatically wraps list responses:
+- **List operations**: Arrays are wrapped as `{"items": [...], "count": n}`
+- **Single object operations**: Passed through unchanged
+- This is handled in `utils.py:wrap_response()` and applied in `client.py`
+
 ### Tool Filtering
 
 Due to the large number of tools (478+), the server supports filtering to reduce Claude's context usage:
