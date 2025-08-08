@@ -249,7 +249,7 @@ def register(mcp: FastMCP):
         return await client.get(f"/projects/{project_id}/merge_requests/{merge_request_iid}", params=params)
 
     @mcp.tool()
-    async def get_single_merge_request_participants(
+    async def get_merge_request_participants(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         merge_request_iid: str = Field(description="The internal ID of the merge request")) -> Dict[str, Any]:
         """Get list of merge request participants."""
@@ -265,7 +265,7 @@ def register(mcp: FastMCP):
         return await client.get(f"/projects/{project_id}/merge_requests/{merge_request_iid}/commits")
 
     @mcp.tool()
-    async def get_single_merge_request_reviewers(
+    async def get_merge_request_reviewers(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         merge_request_iid: str = Field(description="The internal ID of the merge request")) -> Dict[str, Any]:
         """Get list of merge request reviewers."""
@@ -428,7 +428,7 @@ def register(mcp: FastMCP):
         return await client.get(f"/projects/{project_id}/merge_requests/{merge_request_iid}/merge_ref")
 
     @mcp.tool()
-    async def cancel_merge_when_pipeline_succeeds(
+    async def cancel_merge_when_ci_succeeds(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         merge_request_iid: str = Field(description="The internal ID of the merge request")) -> Dict[str, Any]:
         """Cancel Merge When Pipeline Succeeds."""
@@ -456,7 +456,7 @@ def register(mcp: FastMCP):
         return await client.get(f"/projects/{project_id}/merge_requests/{merge_request_iid}/versions")
 
     @mcp.tool()
-    async def get_single_merge_request_diff_version(
+    async def get_merge_request_diff_version(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         merge_request_iid: str = Field(description="The internal ID of the merge request"),
         version_id: str = Field(description="The ID of the merge request diff version")) -> Dict[str, Any]:
@@ -533,7 +533,7 @@ def register(mcp: FastMCP):
         return await client.post(f"/projects/{project_id}/merge_requests/{merge_request_iid}/todo")
 
     @mcp.tool()
-    async def get_merge_request_issues_that_will_close(
+    async def list_merge_request_closed_issues(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         merge_request_iid: str = Field(description="The internal ID of the merge request")) -> Dict[str, Any]:
         """Get all the issues that would be closed by merging the provided merge request."""

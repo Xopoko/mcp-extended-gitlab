@@ -141,14 +141,4 @@ def register(mcp: FastMCP):
                 data[key] = value
         return await client.post(f"/projects/{project_id}/deployments/{deployment_id}/approval", json_data=data)
 
-    @mcp.tool()
-    async def list_merge_requests_for_deployment(
-        project_id: str = Field(description="The ID or URL-encoded path of the project"),
-        deployment_id: str = Field(description="The ID of the deployment"),
-        environment: Optional[str] = Field(default=None, description="The name of the environment")) -> Dict[str, Any]:
-        """List the merge requests associated with a deployment."""
-        client = await get_gitlab_client()
-        params = {}
-        if environment is not None:
-            params["environment"] = environment
-        return await client.get(f"/projects/{project_id}/deployments/{deployment_id}/merge_requests", params=params)
+    # Note: duplicate tool removed to avoid naming conflicts
