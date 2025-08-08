@@ -84,7 +84,7 @@ def register(mcp: FastMCP):
         return await client.post(f"/projects/{project_id}/issues/{issue_iid}/discussions", json_data=data)
 
     @mcp.tool()
-    async def add_note_to_existing_issue_thread(
+    async def add_note_to_issue_thread(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         issue_iid: str = Field(description="The IID of an issue"),
         discussion_id: str = Field(description="The ID of a thread"),
@@ -99,7 +99,7 @@ def register(mcp: FastMCP):
         return await client.post(f"/projects/{project_id}/issues/{issue_iid}/discussions/{discussion_id}/notes", json_data=data)
 
     @mcp.tool()
-    async def modify_existing_issue_thread_note(
+    async def modify_issue_thread_note(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         issue_iid: str = Field(description="The IID of an issue"),
         discussion_id: str = Field(description="The ID of a thread"),
@@ -138,7 +138,7 @@ def register(mcp: FastMCP):
         return await client.get(f"/projects/{project_id}/merge_requests/{merge_request_iid}/discussions", params=params)
 
     @mcp.tool()
-    async def get_single_merge_request_discussion(
+    async def get_merge_request_discussion(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         merge_request_iid: str = Field(description="The IID of a merge request"),
         discussion_id: str = Field(description="The ID of a discussion")) -> Dict[str, Any]:
@@ -188,7 +188,7 @@ def register(mcp: FastMCP):
         return await client.put(f"/projects/{project_id}/merge_requests/{merge_request_iid}/discussions/{discussion_id}", json_data=data)
 
     @mcp.tool()
-    async def add_note_to_existing_merge_request_thread(
+    async def add_note_to_merge_request_thread(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         merge_request_iid: str = Field(description="The IID of a merge request"),
         discussion_id: str = Field(description="The ID of a thread"),
@@ -278,7 +278,7 @@ def register(mcp: FastMCP):
         return await client.post(f"/projects/{project_id}/commits/{commit_id}/discussions", json_data=data)
 
     @mcp.tool()
-    async def add_note_to_existing_commit_thread(
+    async def add_note_to_commit_thread(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         commit_id: str = Field(description="The ID of a commit"),
         discussion_id: str = Field(description="The ID of a thread"),
@@ -293,7 +293,7 @@ def register(mcp: FastMCP):
         return await client.post(f"/projects/{project_id}/commits/{commit_id}/discussions/{discussion_id}/notes", json_data=data)
 
     @mcp.tool()
-    async def modify_existing_commit_thread_note(
+    async def modify_commit_thread_note(
         project_id: str = Field(description="The ID or URL-encoded path of the project"),
         commit_id: str = Field(description="The ID of a commit"),
         discussion_id: str = Field(description="The ID of a thread"),
