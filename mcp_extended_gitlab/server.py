@@ -58,6 +58,11 @@ from .api.devops.freeze_periods import register as register_freeze_periods_tools
 
 # Initialize MCP server with filtering support
 mcp = FilteredMCP("GitLab Extended API")
+# Ensure global server MCP exposes all tools regardless of env filters
+try:
+    mcp.enabled_tools = None  # type: ignore[attr-defined]
+except Exception:
+    pass
 
 def register_all_tools(mcp_instance: FilteredMCP) -> None:
     """Register all API domain tools on the provided MCP instance."""

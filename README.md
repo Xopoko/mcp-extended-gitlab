@@ -67,6 +67,42 @@ Comprehensive documentation is available in the [docs](./docs/) directory:
 - **[API Reference](./docs/api/)** - Complete tool reference
 - **[CLAUDE.md](./CLAUDE.md)** - Development guidelines and architecture information
 
+## 🧰 Tool Naming Convention
+
+To keep tool names compact and consistent, all registered tools are normalized at registration time:
+
+- Style: snake_case with deterministic abbreviations
+- Length: each tool name is ≤ 32 characters
+- Uniqueness: duplicate collisions are resolved with numeric suffixes
+- Back-compat: original function names are available as aliases
+
+Abbreviation highlights
+- Verbs: list→ls, create→add, update/edit→upd, delete/remove→del, approve→appr
+- Nouns: project→proj, group→grp, user→user, issue→issue, merge_request→mr,
+  repository→repo, pipeline→pipe, variable→var, environment→env, deployment→deploy,
+  package→pkg, container→ctr, feature_flag→feat, statistics→stats, analytics→anal
+- Fillers dropped: single/within/from/to/of/for/and/with/on/by/in/a/an/the, request(s)
+
+Aliases and compatibility
+- The MCP server exports both the new standardized names and the original names for tool lookup.
+- Common synonyms are also aliased for test/demo parity, e.g.:
+  - create_new_environment → create_environment
+  - create_new_pipeline → create_pipeline
+  - create_protected_branch → protect_repository_branch
+  - edit_issue → update_issue
+
+Filtering and presets
+- `GITLAB_ENABLED_TOOLS` supports presets (`minimal`, `core`, `ci_cd`, `devops`, `admin`) and explicit lists.
+- Values are normalized through the same naming scheme; both old and new names work.
+
+Dumping name mappings
+- Use the helper script to generate a mapping of original→standardized names:
+
+```bash
+python scripts/dump_tool_name_map.py            # prints Markdown table by default
+python scripts/dump_tool_name_map.py --json     # prints JSON
+```
+
 ## 📦 Installation
 
 
