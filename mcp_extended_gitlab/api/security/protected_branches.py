@@ -74,19 +74,19 @@ def register(mcp: FastMCP):
         allowed_to_merge_parsed = None
         allowed_to_unprotect_parsed = None
         
-        if allowed_to_push:
+        if isinstance(allowed_to_push, str):
             try:
                 allowed_to_push_parsed = json.loads(allowed_to_push)
             except json.JSONDecodeError:
                 pass
                 
-        if allowed_to_merge:
+        if isinstance(allowed_to_merge, str):
             try:
                 allowed_to_merge_parsed = json.loads(allowed_to_merge)
             except json.JSONDecodeError:
                 pass
                 
-        if allowed_to_unprotect:
+        if isinstance(allowed_to_unprotect, str):
             try:
                 allowed_to_unprotect_parsed = json.loads(allowed_to_unprotect)
             except json.JSONDecodeError:

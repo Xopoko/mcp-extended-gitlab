@@ -36,8 +36,9 @@ class GitLabClient:
             )
             
         self.headers = {
-            "Private-Token": self.config.private_token,
-            "Content-Type": "application/json"
+            "PRIVATE-TOKEN": self.config.private_token,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
         }
         
         self.client = httpx.AsyncClient(
@@ -45,6 +46,13 @@ class GitLabClient:
             headers=self.headers,
             timeout=self.config.timeout
         )
+
+    def _build_url(self, endpoint: str) -> str:
+        """Build a full URL from base_url and endpoint without losing path segments."""
+        if endpoint.startswith("http://") or endpoint.startswith("https://"):
+            return endpoint
+        ep = endpoint.lstrip("/")
+        return f"{self.config.base_url.rstrip('/')}/{ep}"
     
     async def __aenter__(self):
         """Async context manager entry."""
@@ -54,55 +62,21 @@ class GitLabClient:
         """Async context manager exit."""
         await self.client.aclose()
     
-    async def request(
-        self,
-        method: str,
-        endpoint: str,
-        params: Optional[Dict[str, Any]] = None,
-        json_data: Optional[Dict[str, Any]] = None,
-        data: Optional[Dict[str, Any]] = None,
-        files: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
-        """Make an authenticated request to GitLab API."""
-        url = endpoint if endpoint.startswith('http') else endpoint
-        
-        try:
-            response = await self.client.request(
-                method=method,
-                url=url,
-                params=params,
-                json=json_data,
-                data=data,
-                files=files
-            )
-            response.raise_for_status()
-            
-            # Handle different response types
-            content_type = response.headers.get("content-type", "")
-            if "application/json" in content_type:
-                data = response.json()
-                # Wrap list responses in a dictionary for FastMCP compatibility
-                return wrap_response(data)
-            else:
-                return {"content": response.text, "status_code": response.status_code}
-                
-        except httpx.HTTPStatusError as e:
-            error_detail = ""
-            try:
-                error_data = e.response.json()
-                error_detail = str(error_data)
-            except:
-                error_detail = e.response.text
-                
-            raise Exception(
-                f"GitLab API error {e.response.status_code}: {error_detail}"
-            )
-        except Exception as e:
-            raise Exception(f"Request failed: {str(e)}")
+    async def _handle_response(self, response: httpx.Response) -> Any:
+        """Return JSON data when available, {} for 204, else text payload."""
+        response.raise_for_status()
+        if response.status_code == 204:
+            return {}
+        content_type = response.headers.get("content-type", "")
+        if "application/json" in content_type:
+            return response.json()
+        return {"content": response.text, "status_code": response.status_code}
     
     async def get(self, endpoint: str, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """Make a GET request."""
-        return await self.request("GET", endpoint, params=params)
+        url = self._build_url(endpoint)
+        response = await self.client.get(url, params=params)
+        return await self._handle_response(response)
     
     async def post(
         self, 
@@ -112,7 +86,9 @@ class GitLabClient:
         files: Optional[Dict[str, Any]] = None
     ) -> Dict[str, Any]:
         """Make a POST request."""
-        return await self.request("POST", endpoint, json_data=json_data, data=data, files=files)
+        url = self._build_url(endpoint)
+        response = await self.client.post(url, json=json_data, data=data, files=files)
+        return await self._handle_response(response)
     
     async def put(
         self, 
@@ -121,12 +97,21 @@ class GitLabClient:
         data: Optional[Dict[str, Any]] = None
     ) -> Dict[str, Any]:
         """Make a PUT request."""
-        return await self.request("PUT", endpoint, json_data=json_data, data=data)
+        url = self._build_url(endpoint)
+        response = await self.client.put(url, json=json_data, data=data)
+        return await self._handle_response(response)
     
     async def delete(self, endpoint: str, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """Make a DELETE request."""
-        return await self.request("DELETE", endpoint, params=params)
+        url = self._build_url(endpoint)
+        response = await self.client.delete(url, params=params)
+        return await self._handle_response(response)
     
     async def head(self, endpoint: str, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """Make a HEAD request."""
-        return await self.request("HEAD", endpoint, params=params)
+        url = self._build_url(endpoint)
+        response = await self.client.head(url, params=params)
+        return await self._handle_response(response)
+
+    async def close(self) -> None:
+        await self.client.aclose()
